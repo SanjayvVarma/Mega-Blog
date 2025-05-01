@@ -18,6 +18,12 @@ app.use(express.static('public'));
 app.use(express.json({ limit: "20kb" }));
 app.use(express.urlencoded({ extended: true, limit: '20kb' }))
 
+app.use('/', (req, res) => {
+    return res.status(200).json({
+        success: true,
+        message: "Welcome to SK Blog API"
+    });
+});
 
 // routes
 
@@ -30,9 +36,6 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/blog", blogRouter);
 app.use("/api/v1/review", reviewRouter)
 
-
-app.use(errorMiddleware);
-
 app.use((req, res) => {
     return res.status(404).json({
         success: false,
@@ -40,11 +43,6 @@ app.use((req, res) => {
     });
 });
 
-app.use('/', (req, res) => {
-    return res.status(200).json({
-        success: true,
-        message: "Welcome to SK Blog API"
-    });
-});
+app.use(errorMiddleware);
 
 export default app;
