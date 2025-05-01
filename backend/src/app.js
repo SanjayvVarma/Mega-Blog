@@ -18,7 +18,7 @@ app.use(express.static('public'));
 app.use(express.json({ limit: "20kb" }));
 app.use(express.urlencoded({ extended: true, limit: '20kb' }))
 
-app.use('/', (req, res) => {
+app.get('/api/v1/', (req, res) => {
     return res.status(200).json({
         success: true,
         message: "Welcome to SK Blog API"
@@ -42,6 +42,7 @@ app.use((req, res) => {
         message: "Route not found"
     });
 });
+
 
 app.use(errorMiddleware);
 
