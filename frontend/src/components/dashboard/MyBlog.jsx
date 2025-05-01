@@ -16,7 +16,7 @@ const MyBlog = ({ setComponents }) => {
 
     try {
 
-      const res = await axios.get(`http://localhost:8080/api/v1/blog/user-blogs?page=${page}&limit=6`,
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/user-blogs?page=${page}&limit=6`,
         { withCredentials: true }
       )
 
@@ -56,7 +56,7 @@ const MyBlog = ({ setComponents }) => {
 
     if (result.isConfirmed) {
       try {
-        const res = await axios.delete(`http://localhost:8080/api/v1/blog/delete-blog/${id}`, {
+        const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/delete-blog/${id}`, {
           withCredentials: true
         });
 

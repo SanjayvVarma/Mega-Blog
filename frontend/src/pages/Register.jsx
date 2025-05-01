@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import LoadingBar from 'react-top-loading-bar';
 import { useRef } from 'react';
+import defaultAvatar from '../assets/defaultAvatar.avif'
 
 const Register = () => {
 
-  const defaultAvatar = "https://res.cloudinary.com/sanjaykvarma/image/upload/v1743391756/megaBlog/mmnfm0gyxnctvmjyflhm.avif";
+
   const educationOptions = ["SSC", "INTERMEDIATE", "GRADUATION", "POST GRADUATION", "PhD", "OTHER"];
 
   const [showPass, setShowPass] = useState(false)
@@ -115,7 +116,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/users/register",
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/register`,
         formData,
         { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }
       )

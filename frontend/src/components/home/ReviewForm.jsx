@@ -19,10 +19,10 @@ const ReviewForm = () => {
   const fetchReviews = async () => {
 
     try {
-      const res = await axios.get(`http://localhost:8080/api/v1/review/all-review?page=${page}&limit=3`,
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/review/all-review?page=${page}&limit=3`,
         { withCredentials: true }
       );
-      
+
       setReviews(res.data.data.reviews);
       setTotalPages(res.data.data.totalPages);
 
@@ -41,7 +41,7 @@ const ReviewForm = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8080/api/v1/review/create-review",
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/review/create-review`,
         { fullName, email, message, },
         { withCredentials: true }
       );
@@ -61,7 +61,7 @@ const ReviewForm = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/v1/review/delete-review/${id}`,
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/review/delete-review/${id}`,
         { withCredentials: true, }
       );
 

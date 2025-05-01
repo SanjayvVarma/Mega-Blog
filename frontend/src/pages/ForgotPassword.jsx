@@ -65,7 +65,7 @@ const ForgotPassword = () => {
 
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/v1/users/forgot-password',
+                `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/forgot-password`,
                 formData,
                 {
                     headers: { "Content-Type": "application/json", },

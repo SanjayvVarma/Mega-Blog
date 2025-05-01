@@ -15,7 +15,7 @@ const Authores = () => {
     try {
 
       const res = await axios.get(
-        "http://localhost:8080/api/v1/users/all-admin",
+        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-admin`,
         { withCredentials: true }
       )
 

@@ -21,7 +21,7 @@ const UpdateBlog = () => {
         const fetchBlog = async () => {
 
             try {
-                const res = await axios.get(`http://localhost:8080/api/v1/blog/single-blog/${id}`);
+                const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/single-blog/${id}`);
 
                 if (res.data.success) {
                     setBlog(res.data.data);
@@ -83,7 +83,7 @@ const UpdateBlog = () => {
 
         try {
             await axios.patch(
-                `http://localhost:8080/api/v1/blog/update-blog/${id}`,
+                `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/update-blog/${id}`,
                 formData,
                 {
                     headers: { 'Content-Type': 'multipart/form-data' },

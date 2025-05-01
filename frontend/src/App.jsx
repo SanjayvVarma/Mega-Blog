@@ -33,7 +33,7 @@ function App() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/v1/users/current-user", {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/current-user`, {
           withCredentials: true,
         });
 
@@ -61,7 +61,7 @@ function App() {
     const fetchBlogs = async () => {
 
       try {
-        const res = await axios.get(`http://localhost:8080/api/v1/blog/all-blogs?page=${page}&limit=12`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/all-blogs?page=${page}&limit=12`, {
           withCredentials: true,
         });
 
