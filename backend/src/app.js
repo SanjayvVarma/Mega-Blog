@@ -18,7 +18,7 @@ app.use(express.static('public'));
 app.use(express.json({ limit: "20kb" }));
 app.use(express.urlencoded({ extended: true, limit: '20kb' }))
 
-app.get('/api/v1/', (req, res) => {
+app.get('/', (req, res) => {
     return res.status(200).json({
         success: true,
         message: "Welcome to SK Blog API"
