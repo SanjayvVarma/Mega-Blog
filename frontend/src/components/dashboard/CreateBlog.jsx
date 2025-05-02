@@ -87,8 +87,9 @@ const CreateBlog = ({ setComponents }) => {
       }
 
     } catch (err) {
-      loadingBar.current.complete();
       toast.error(err?.response?.data?.message || 'Something went wrong');
+      loadingBar.current.complete();
+      setIsLoading(false)
     }
 
   };
