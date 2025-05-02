@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -8,6 +8,7 @@ import { setUser } from '../features/userSlice';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import loginBg from '../assets/loginBg.avif';
 import loginImg from '../assets/loginSideImg.webp'
+import LoadingBar from 'react-top-loading-bar';
 
 const LogIn = () => {
 
@@ -16,6 +17,9 @@ const LogIn = () => {
   const [role, setRole] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false)
+  const loadingBar = useRef()
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -23,6 +27,7 @@ const LogIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true)
 
     const loginData = { password, role };
 
@@ -41,6 +46,7 @@ const LogIn = () => {
 
       if (!response.data.success) {
         toast.error(response.data.message || "Login failed !");
+        setIsLoading(false)
         return;
       }
 
@@ -49,6 +55,7 @@ const LogIn = () => {
 
       toast.success(response.data.message || "Login successful!");
       navigate('/');
+      setIsLoading(false)
 
       setUsername('');
       setPassword('');
@@ -57,15 +64,23 @@ const LogIn = () => {
     } catch (error) {
       console.error("LOGIN ERROR:", error?.response?.data.message || error.message);
       toast.error(error.response?.data?.message || "Login failed!");
+      setIsLoading(false)
     }
   };
-
 
   return (
     <div
       className="flex items-center justify-center bg-gray-700 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${loginBg})` }}
     >
+      <LoadingBar color="#3b82f6" ref={loadingBar} height={4} />
+
+      {isLoading && (
+        <div className='fixed inset-0 backdrop-blur-sm bg-black/10 z-40 flex justify-center items-center'>
+          <div className='w-14 h-14 border-4 border-white border-t-green-500 rounded-full animate-spin'></div>
+        </div>
+      )}
+
       <div className="bg-gray-900 shadow-lg rounded-lg flex w-full overflow-hidden m-5 max-w-5xl border-2 border-red-600 shadow-lg">
 
         <div className="hidden md:block w-1/2">
