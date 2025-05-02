@@ -27,6 +27,7 @@ const LogIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    loadingBar.current.continuousStart()
     setIsLoading(true)
 
     const loginData = { password, role };
@@ -47,6 +48,7 @@ const LogIn = () => {
       if (!response.data.success) {
         toast.error(response.data.message || "Login failed !");
         setIsLoading(false)
+        loadingBar.current.complete();
         return;
       }
 
@@ -55,6 +57,7 @@ const LogIn = () => {
 
       toast.success(response.data.message || "Login successful!");
       navigate('/');
+      loadingBar.current.complete();
       setIsLoading(false)
 
       setUsername('');
@@ -62,9 +65,11 @@ const LogIn = () => {
       setRole('');
 
     } catch (error) {
-      console.error("LOGIN ERROR:", error?.response?.data.message || error.message);
+
       toast.error(error.response?.data?.message || "Login failed!");
       setIsLoading(false)
+      loadingBar.current.complete();
+      
     }
   };
 
