@@ -7,14 +7,16 @@ const router = Router();
 
 const uploadImages = upload.fields([
     { name: "mainImage", maxCount: 1 },
-    { name: "sectionImages", maxCount: 5 }
+    ...Array.from({ length: 10 }, (_, i) => (
+        { name: `sectionImages_${i}`, maxCount: 1 }
+    ))
 ])
 
 router.post("/create-blog", verifyJWT, verifyRole("Admin"), uploadImages, createBlog);
 router.patch("/update-blog/:id", verifyJWT, verifyRole("Admin"), uploadImages, updateBlog);
 router.delete("/delete-blog/:id", verifyJWT, verifyRole("Admin"), deleteBlog);
 router.get("/all-blogs", allBlog);
-router.get("/single-blog/:id",singleBlog);
+router.get("/single-blog/:id", singleBlog);
 router.get("/user-blogs", verifyJWT, userBlog)
 
 export default router;
