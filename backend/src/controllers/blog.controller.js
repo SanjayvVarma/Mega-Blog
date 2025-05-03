@@ -88,7 +88,6 @@ const updateBlog = asyncHandler(async (req, res) => {
 
     const mainImgLocalPath = req.files?.mainImage?.[0]?.path || null;
 
-
     if (mainImgLocalPath) {
 
         if (blog.mainImage) {
@@ -129,15 +128,17 @@ const updateBlog = asyncHandler(async (req, res) => {
 
             let updatedImage = blog.sections[idx]?.image || "";
 
-            if (sectionImages[idx]) {
+            const imageField = `sectionImages_${idx}`;
+            const sectionFile = req.files?.[imageField]?.[0];
+
+            if (sectionFile) {
                 if (updatedImage) {
                     const publicId = getPublicIdFromUrl(updatedImage);
-                    if (publicId) {
-                        await deleteFromCloudinary(publicId);
-                    }
+                    if (publicId) await deleteFromCloudinary(publicId);
                 }
-                const sectionImg = await uploadOnCloudinary(sectionImages[idx]?.path);
-                updatedImage = sectionImg?.url || updatedImage;
+
+                const uploaded = await uploadOnCloudinary(sectionFile.path);
+                updatedImage = uploaded?.url || updatedImage;
             }
 
             blog.sections[idx] = {
@@ -146,6 +147,9 @@ const updateBlog = asyncHandler(async (req, res) => {
                 image: updatedImage,
             };
         }
+
+        blog.sections = blog.sections.filter((_, idx) => updatedSections[idx]);
+
     }
 
     const isUpdateProvided = title || intro || category || sections || (published !== undefined) || req.files?.mainImage || req.files?.sectionImages;
