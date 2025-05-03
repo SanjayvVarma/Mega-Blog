@@ -3,7 +3,9 @@ import { HiX } from 'react-icons/hi';
 import axios from 'axios';
 import LoadingBar from 'react-top-loading-bar';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { updateBlog } from '../features/blogSlice';
 
 const UpdateBlog = () => {
 
@@ -12,6 +14,8 @@ const UpdateBlog = () => {
     const [mainImage, setMainImage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const loadingBar = useRef(null);
     const categories = ["Technology", "Health", "Lifestyle", "Education", "Business", "Sports", "Others"];
 
@@ -71,29 +75,42 @@ const UpdateBlog = () => {
         if (mainImage) {
             formData.append('mainImage', mainImage);
         }
+
         const sectionData = blog.sections.map(({ title, description }) => ({ title, description }));
 
         formData.append('sections', JSON.stringify(sectionData));
 
-        blog.sections.forEach((section) => {
+        blog.sections.forEach((section, index) => {
             if (section.imageFile) {
-                formData.append('sectionImages', section.imageFile);
+                formData.append(`sectionImages_${index}`, section.imageFile);
             }
         });
 
         try {
-            await axios.patch(
-                `${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/update-blog/${id}`,
+
+            const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/update-blog/${id}`,
                 formData,
                 {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true
                 }
             );
-            toast.success('Blog updated successfully!');
+
+            if (res.data.success) {
+                toast.success(res?.data.message || 'Blog updated successfully!');
+
+                setIsLoading(false);
+                loadingBar.current.complete();
+
+                if (res.data.data) {
+                    dispatch(updateBlog(res.data.data))
+                }
+                navigate('/blogs')
+
+            }
+
         } catch (err) {
-            toast.error('Failed to update the blog');
-        } finally {
+            toast.error(err?.response?.data?.message || 'Failed to update the blog');
             setIsLoading(false);
             loadingBar.current.complete();
         }
