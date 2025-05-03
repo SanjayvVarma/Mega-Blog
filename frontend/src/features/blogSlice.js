@@ -28,7 +28,7 @@ const blogSlice = createSlice({
         updateBlog: (state, action) => {
             state.blogData = state.blogData.map((blog) => (
 
-                blog.id === action.payload.id ? action.payload : blog
+                blog._id === action.payload._id ? action.payload : blog
 
             ))
         },
