@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaUser, FaPenFancy, FaBlog, FaStar, FaKey, FaSignOutAlt } from 'react-icons/fa';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import { clearUser } from "../../features/userSlice";
 
 const Sidebar = ({ components, setComponents }) => {
 
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch();
 
@@ -18,6 +19,7 @@ const Sidebar = ({ components, setComponents }) => {
 
   const handleLogOut = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/logout`,
@@ -25,20 +27,19 @@ const Sidebar = ({ components, setComponents }) => {
         { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
       )
 
-      if (!response.data.success) {
-        console.error("❌ Logout failed:", response.data.message);
-        toast.error(response.data.message || "Logout failed!");
-        return;
+      if (response.data.success) {
+
+        dispatch(logout());
+        dispatch(clearUser());
+        toast.success(response.data.message || "Logged out successfully!");
+        setIsLoading(false)
+        navigate("/");
+
       }
 
-      dispatch(logout());
-      dispatch(clearUser());
-      toast.success(response.data.message || "Logged out successfully!");
-      navigate("/");
-
     } catch (error) {
-      console.error("❌ Logout Error:", error.response?.data || error.message);
       toast.error(error.response?.data?.message || "An error occurred while logging out.");
+      setIsLoading(false)
     }
   };
 
@@ -59,6 +60,12 @@ const Sidebar = ({ components, setComponents }) => {
 
   return (
     <>
+      {isLoading && (
+        <div className='fixed inset-0 backdrop-blur-sm bg-black/10 z-40 flex justify-center items-center'>
+          <div className='w-14 h-14 border-4 border-white border-t-red-600 rounded-full animate-spin'></div>
+        </div>
+      )}
+
       {/* Topbar for Mobile */}
       <div className="md:hidden sticky top-[55px] z-30 bg-white/10 backdrop-blur-md border-b border-white/20 p-3 flex items-center gap-2 overflow-x-auto">
         <img

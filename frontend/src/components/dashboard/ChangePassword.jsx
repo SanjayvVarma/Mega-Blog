@@ -15,6 +15,7 @@ const ChangePassword = ({ setComponents }) => {
     const [oldPassword, setOldPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [comNewPassword, setComNewPassword] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     const isFormValid = oldPassword && newPassword && comNewPassword && newPassword === comNewPassword
 
@@ -53,26 +54,28 @@ const ChangePassword = ({ setComponents }) => {
 
     const changePasswordHandle = async (e) => {
         e.preventDefault();
+        setIsLoading(true)
 
         try {
 
-            const response = await axios.patch(
-                `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/change-password`,
+            const response = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/change-password`,
                 { oldPassword, newPassword },
                 { withCredentials: true, }
             )
 
             if (response.data.success) {
-                toast.success(response.data.message)
+                toast.success(response.data.message || "password changed")
                 setOldPassword('')
                 setNewPassword('')
                 setComNewPassword('')
+                setIsLoading(false)
                 setComponents("Profile")
             }
 
         } catch (error) {
 
             toast.error(error?.response?.data?.message || "Something went wrong");
+            setIsLoading(false)
 
         }
     };
@@ -83,7 +86,11 @@ const ChangePassword = ({ setComponents }) => {
             className="min-h-screen bg-cover bg-center flex justify-center items-center relative"
             style={{ backgroundImage: `url(${forgotPassImg})` }}
         >
-
+            {isLoading && (
+                <div className='fixed inset-0 backdrop-blur-sm bg-black/10 z-40 flex justify-center items-center'>
+                    <div className='w-14 h-14 border-4 border-white border-t-pink-600 rounded-full animate-spin'></div>
+                </div>
+            )}
             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
 
             <div className="relative z-10 bg-gray-500/10 backdrop-blur-lg p-20 max-w-3xl w-full rounded-xl shadow-2xl text-white flex flex-col items-center gap-5">
