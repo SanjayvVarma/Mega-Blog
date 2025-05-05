@@ -21,6 +21,7 @@ const Register = () => {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [about, setAbout] = useState('')
   const [answer, setAnswer] = useState('')
   const [password, setPassword] = useState('')
   const [comPassword, setComPassword] = useState('')
@@ -103,7 +104,7 @@ const Register = () => {
     formData.append("password", password);
     formData.append("education", education);
     formData.append("role", role);
-
+    formData.append("about", about);
 
     if (!avatar) {
       const response = await fetch(defaultAvatar);
@@ -140,6 +141,7 @@ const Register = () => {
       setComPassword('')
       setEducation('')
       setRole('')
+      setAbout('')
       setAvatar(null)
       setPreview(defaultAvatar)
 
@@ -312,6 +314,22 @@ const Register = () => {
                 </div>
 
               </div>
+
+              {/* about */}
+
+              <div className="">
+                <label className="block text-sm font-medium text-white m-2">About Me</label>
+                <textarea
+                  placeholder="Tell us about yourself"
+                  value={about}
+                  onChange={(e) => setAbout(e.target.value)}
+                  rows={4}
+                  maxLength={60}
+                  className="w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none placeholder:text-gray-400"
+                />
+                <small className="text-gray-300">{about.length}/60</small>
+              </div>
+
 
               {/* Submit Button */}
               <div className="mt-6 flex justify-center">
