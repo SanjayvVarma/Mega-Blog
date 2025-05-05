@@ -47,19 +47,26 @@ const Authores = () => {
               className="bg-gray-900 rounded-lg shadow-md p-6 w-[260px] hover:shadow-lg transition-transform duration-300 hover:scale-105"
             >
               <div className="flex flex-col items-center">
+
                 <img
                   src={author.avatar}
                   alt={author.fullName}
                   className="w-32 h-32 rounded-full object-cover border-3 border-green-500 shadow-md"
                 />
-                <h2 className="text-lg font-semibold mt-4 text-white text-center">
-                  {author.fullName}
-                </h2>
-                <p className="text-sm text-gray-400 flex items-center gap-2 mt-1">
+
+                <h2 className="text-lg font-semibold mt-4 text-white text-center">{author.fullName}</h2>
+
+                {author.about && (
+                  <div className="text-sm mt-1 text-white text-center bg-white/5 py-1 px-2">
+                    <p>{author.about}</p>
+                  </div>
+                )}
+
+                <p className="text-sm text-gray-400 flex items-center gap-2 mt-3">
                   <FaGraduationCap className="text-blue-400" />
                   {author.education}
                 </p>
-                <p className="text-sm text-gray-400 mt-1">📞 {author.phone}</p>
+
                 <p className="text-sm text-gray-400 mt-1">📧 {author.email}</p>
 
                 <div className="flex gap-4 mt-3 text-blue-400 text-xl">
