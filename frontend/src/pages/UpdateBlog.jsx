@@ -50,10 +50,6 @@ const UpdateBlog = () => {
         setBlog({ ...blog, sections: updatedSections });
     };
 
-    const handleImageChange = (e) => {
-        setMainImage(e.target.files[0]);
-    };
-
     const handleSectionImageChange = (index, e) => {
         const file = e.target.files[0];
         const updatedSections = [...blog.sections];
@@ -115,8 +111,6 @@ const UpdateBlog = () => {
             loadingBar.current.complete();
         }
     };
-
-    if (!blog) return <div>Loading...</div>;
 
     return (
         <div
@@ -192,7 +186,11 @@ const UpdateBlog = () => {
                         <div className="flex items-center justify-between flex-wrap gap-8 px-6 py-5 rounded-xl">
                             <label className="w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-500 text-gray-400 cursor-pointer rounded-lg overflow-hidden hover:border-blue-500 transition-all duration-300">
                                 {mainImage ? (
-                                    <img src={URL.createObjectURL(mainImage)} alt="Main" className="w-full h-full object-cover" />
+                                    <img
+                                        src={URL.createObjectURL(mainImage)}
+                                        alt="Main Image"
+                                        className="w-full h-full object-cover"
+                                    />
                                 ) : (
                                     <img
                                         src={blog.mainImage}
@@ -203,7 +201,7 @@ const UpdateBlog = () => {
                                 <input
                                     type="file"
                                     accept="image/*"
-                                    onChange={handleImageChange}
+                                    onChange={(e) => setMainImage(e.target.files[0])}
                                     className="hidden"
                                 />
                             </label>
