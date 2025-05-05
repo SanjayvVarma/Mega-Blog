@@ -22,6 +22,7 @@ import SingleBlog from './pages/SingleBlog'
 import UpdateBlog from './pages/UpdateBlog'
 import ForgotPassword from './pages/ForgotPassword'
 import PageNotFound from './pages/PageNotFound'
+import UpdateProfile from './pages/UpdateProfile'
 
 function App() {
 
@@ -110,6 +111,7 @@ function App() {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/blog/:id" element={<SingleBlog />} />
             <Route path="/update/:id" element={<UpdateBlog />} />
+            <Route path='/update-profile' element={<UpdateProfile />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div>
