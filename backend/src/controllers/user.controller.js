@@ -8,7 +8,7 @@ import { deleteFromCloudinary, getPublicIdFromUrl } from "../utils/deleteFiles.j
 
 const userRegister = asyncHandler(async (req, res) => {
 
-    const { fullName, email, password, phone, answer, education, role } = req.body
+    const { fullName, email, password, phone, about, answer, education, role } = req.body
 
     if (!fullName || !email || !password || !phone || !answer || !education || !role) {
         throw new ApiError(400, 'All fields required')
@@ -43,6 +43,7 @@ const userRegister = asyncHandler(async (req, res) => {
         email,
         password,
         phone,
+        about,
         answer,
         education,
         role,
@@ -231,9 +232,9 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 const updateUserDetails = asyncHandler(async (req, res) => {
     const id = req.user?._id;
-    const { fullName, email, phone, education, answer } = req.body;
+    const { fullName, email, phone, education, answer, about } = req.body;
 
-    if (!fullName && !email && !phone && !education && !answer) {
+    if (!fullName && !email && !phone && !education && !answer && !about) {
         throw new ApiError(400, "At least one field is required to update");
     }
 
@@ -245,7 +246,8 @@ const updateUserDetails = asyncHandler(async (req, res) => {
                 email,
                 phone,
                 education,
-                answer
+                answer,
+                about
             }
         },
         {
