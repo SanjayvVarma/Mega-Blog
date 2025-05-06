@@ -103,7 +103,7 @@ const LogIn = () => {
             <div className="mb-4">
               <label className="block text-sm font-medium">Email or Phone</label>
               <input
-                type={username.includes("@") ? "email" : "tel"}
+                type={username.includes("@") ? "email" : "text"}
                 placeholder="Enter your email or phone"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
