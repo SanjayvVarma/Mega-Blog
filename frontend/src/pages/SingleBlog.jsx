@@ -68,7 +68,7 @@ const SingleBlog = () => {
 
       if (res.data.success) {
         toast.success(res.data.message)
-        setComments(res.data.data)
+        setComments((prev) => [...prev, res.data.data])
         fetchComments()
         setNewComment('')
       }
