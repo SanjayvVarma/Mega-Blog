@@ -13,6 +13,7 @@ const SingleBlog = () => {
   const [singleBlog, setSingleBlog] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const isAuth = useSelector((state) => state.auth.isAuth)
   const user = useSelector((state) => state.user.user)
@@ -59,12 +60,16 @@ const SingleBlog = () => {
   }, [id])
 
   const handleAddComment = async () => {
+
+    setIsLoading(true)
     try {
 
       const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/comment/${id}`,
         { message: newComment },
         { withCredentials: true }
       )
+
+      setIsLoading(false)
 
       if (res.data.success) {
         toast.success(res.data.message)
@@ -74,11 +79,14 @@ const SingleBlog = () => {
       }
 
     } catch (error) {
+      setIsLoading(false)
       toast.error(error?.response?.data?.message || "add comment failed")
     }
   }
 
   const handleDeleteComment = async (commentId) => {
+
+    setIsLoading(true)
 
     try {
 
@@ -86,12 +94,15 @@ const SingleBlog = () => {
         { withCredentials: true }
       )
 
+      setIsLoading(false)
+
       if (res.data.success) {
         toast.success(res.data.message || "comment deleted")
         fetchComments()
       }
 
     } catch (error) {
+      setIsLoading(false)
       toast.error(error?.response?.data?.message || "delete comment failed")
     }
 
@@ -184,11 +195,16 @@ const SingleBlog = () => {
 
                     <button
                       onClick={handleAddComment}
-                      disabled={!newComment}
+                      disabled={!newComment || isLoading}
                       className={`flex items-center justify-center mt-1 w-12 h-12 rounded-full shadow-md transition duration-200 ${newComment ? "bg-green-500 hover:bg-green-700" : "bg-gray-500 cursor-not-allowed"}`}
                     >
-                      <MdSend className="w-6 h-6 text-black" />
+                      {isLoading ? (
+                        <div className="w-6 h-6 border-4 border-white border-t-green-700 rounded-full animate-spin"></div>
+                      ) : (
+                        <MdSend className="w-6 h-6 text-black" />
+                      )}
                     </button>
+
                   </div>
                 )
               }
@@ -229,7 +245,13 @@ const SingleBlog = () => {
                                   onClick={() => handleDeleteComment(comment._id)}
                                   className="mt-2 rounded-full p-1.5 bg-red-500 text-white hover:text-blue-300 transition duration-300 flex items-center gap-2 text-sm"
                                 >
-                                  <FaTrash />
+
+                                  {isLoading ? (
+                                    <div className="w-6 h-6 border-4 border-white border-t-green-700 rounded-full animate-spin"></div>
+                                  ) : (
+                                    <FaTrash />
+                                  )}
+
                                 </button>
                               )
                             }
