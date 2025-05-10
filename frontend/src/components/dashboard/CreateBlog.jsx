@@ -67,7 +67,8 @@ const CreateBlog = ({ setComponents }) => {
 
     try {
 
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/create-blog`, formData,
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/create-blog`, 
+        formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
           withCredentials: true,
