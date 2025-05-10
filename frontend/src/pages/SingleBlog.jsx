@@ -182,90 +182,93 @@ const SingleBlog = () => {
                 }
               </div>
 
-              {
-                (isAuth && singleBlog) && (
-                  <div className='flex gap-3 items-start mt-4'>
-                    <input
-                      type="text"
-                      placeholder='Enter your comment'
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
-                      className="flex-1 p-4 border border-gray-600 rounded-lg bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
-                    />
-
-                    <button
-                      onClick={handleAddComment}
-                      disabled={!newComment || isLoading}
-                      className={`flex items-center justify-center mt-1 w-12 h-12 rounded-full shadow-md transition duration-200 ${newComment ? "bg-green-500 hover:bg-green-700" : "bg-gray-500 cursor-not-allowed"}`}
-                    >
-                      {isLoading ? (
-                        <div className="w-6 h-6 border-4 border-white border-t-green-700 rounded-full animate-spin"></div>
-                      ) : (
-                        <MdSend className="w-6 h-6 text-black" />
-                      )}
-                    </button>
-
-                  </div>
-                )
-              }
-
-              <div className="max-h-[700px] bg-gray-600 p-5 rounded-xl overflow-y-auto pr-2 space-y-4 scrollbar-hide">
+              <div className='border border-gray-300 p-2 rounded-lg'>
+                <h1 className='text-center text-lg'>Comments</h1>
                 {
-                  comments.length === 0 ? (
-                    <div className="flex flex-col items-center text-center text-gray-400 mt-8">
-                      <FaCommentDots className="text-5xl mb-3 animate-bounce" />
-                      <p className="text-lg text-gray-200 italic">No comments yet. Be the first to comment!</p>
-                    </div>
+                  (isAuth && singleBlog) && (
+                    <div className='flex gap-3 items-start mt-4 mb-5'>
+                      <input
+                        type="text"
+                        placeholder='Enter your comment'
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        className="flex-1 p-4 border border-gray-600 rounded-lg bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+                      />
 
-                  ) : (
-                    comments.map((comment) => (
-                      <div
-                        key={comment._id}
-                        className="bg-gray-900 p-4 rounded-lg text-white shadow-md flex flex-col"
+                      <button
+                        onClick={handleAddComment}
+                        disabled={!newComment || isLoading}
+                        className={`flex items-center justify-center mt-1 w-12 h-12 rounded-full shadow-md transition duration-200 ${newComment ? "bg-green-500 hover:bg-green-700" : "bg-gray-500 cursor-not-allowed"}`}
                       >
+                        {isLoading ? (
+                          <div className="w-6 h-6 border-4 border-white border-t-green-700 rounded-full animate-spin"></div>
+                        ) : (
+                          <MdSend className="w-6 h-6 text-black" />
+                        )}
+                      </button>
 
-                        <div className="flex justify-between items-start">
-                          <p className="text-lg font-semibold">{comment.user.fullName}</p>
-
-                          <div className="text-right flex flex-col items-end">
-                            <div className="flex items-center text-sm text-gray-400 gap-2">
-                              <FaCalendarAlt className="text-indigo-400" />
-                              <span>
-                                {
-                                  new Date(comment.createdAt).toLocaleDateString("en-US", {
-                                    year: "numeric", month: "long", day: "numeric",
-                                  })
-                                }
-                              </span>
-                            </div>
-
-                            {
-                              (comment.user._id === user._id || singleBlog.createdBy._id === user._id) && (
-                                <button
-                                  onClick={() => handleDeleteComment(comment._id)}
-                                  className="mt-2 rounded-full p-1.5 bg-red-500 text-white hover:text-blue-300 transition duration-300 flex items-center gap-2 text-sm"
-                                >
-
-                                  {isLoading ? (
-                                    <div className="w-6 h-6 border-4 border-white border-t-green-700 rounded-full animate-spin"></div>
-                                  ) : (
-                                    <FaTrash />
-                                  )}
-
-                                </button>
-                              )
-                            }
-                          </div>
-                        </div>
-
-                        <p className="text-gray-200 text-base">{comment.message}</p>
-
-                      </div>
-                    ))
+                    </div>
                   )
                 }
-              </div>
 
+                <div className="max-h-[600px] bg-gray-600 p-5 rounded-xl overflow-y-auto pr-2 space-y-4 scrollbar-hide">
+                  {
+                    comments.length === 0 ? (
+                      <div className="flex flex-col items-center text-center text-gray-400 mt-8">
+                        <FaCommentDots className="text-5xl mb-3 animate-bounce" />
+                        <p className="text-lg text-gray-200 italic">No comments yet. Be the first to comment!</p>
+                      </div>
+
+                    ) : (
+                      comments.map((comment) => (
+                        <div
+                          key={comment._id}
+                          className="bg-gray-900 p-4 rounded-lg text-white shadow-md flex flex-col"
+                        >
+
+                          <div className="flex justify-between items-start">
+                            <p className="text-lg font-semibold">{comment.user.fullName}</p>
+
+                            <div className="text-right flex flex-col items-end">
+                              <div className="flex items-center text-sm text-gray-400 gap-2">
+                                <FaCalendarAlt className="text-indigo-400" />
+                                <span>
+                                  {
+                                    new Date(comment.createdAt).toLocaleDateString("en-US", {
+                                      year: "numeric", month: "long", day: "numeric",
+                                    })
+                                  }
+                                </span>
+                              </div>
+
+                              {
+                                (comment.user._id === user._id || singleBlog.createdBy._id === user._id) && (
+                                  <button
+                                    onClick={() => handleDeleteComment(comment._id)}
+                                    className="mt-2 rounded-full p-1.5 bg-red-500 text-white hover:text-blue-300 transition duration-300 flex items-center gap-2 text-sm"
+                                  >
+
+                                    {isLoading ? (
+                                      <div className="w-6 h-6 border-4 border-white border-t-green-700 rounded-full animate-spin"></div>
+                                    ) : (
+                                      <FaTrash />
+                                    )}
+
+                                  </button>
+                                )
+                              }
+                            </div>
+                          </div>
+
+                          <p className="text-gray-200 text-base">{comment.message}</p>
+
+                        </div>
+                      ))
+                    )
+                  }
+                </div>
+
+              </div>
             </div>
 
             <div className="mt-8 text-center">
