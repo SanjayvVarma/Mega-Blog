@@ -27,7 +27,13 @@ const createBlog = asyncHandler(async (req, res) => {
 
     const processedSections = []
 
-    const sectionImages = req.files?.sectionImages || [];
+    const sectionImages = [];
+    for (let i = 0; i < 10; i++) {
+        if (req.files[`sectionImages_${i}`]?.[0]) {
+            sectionImages.push(req.files[`sectionImages_${i}`][0]);
+        }
+    }
+
 
     const parsedSection = JSON.parse(sections || '[]')
 

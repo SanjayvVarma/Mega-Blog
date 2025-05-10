@@ -61,13 +61,15 @@ const CreateBlog = ({ setComponents }) => {
     const sectionData = sections.map(({ title, description }) => ({ title, description }));
     formData.append('sections', JSON.stringify(sectionData));
 
-    sections.forEach((section) => {
-      if (section.image) formData.append('sectionImages', section.image);
+    sections.forEach((section, index) => {
+      if (section.image) {
+        formData.append(`sectionImages_${index}`, section.image);
+      }
     });
 
     try {
 
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/create-blog`, 
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/create-blog`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
