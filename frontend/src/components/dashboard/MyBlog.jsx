@@ -11,14 +11,19 @@ const MyBlog = ({ setComponents }) => {
   const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const fetchUserBlog = async () => {
+
+    setIsLoading(true)
 
     try {
 
       const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/user-blogs?page=${page}&limit=6`,
         { withCredentials: true }
       )
+
+      setIsLoading(false)
 
       if (res.data.success) {
 
@@ -29,9 +34,8 @@ const MyBlog = ({ setComponents }) => {
       }
 
     } catch (error) {
-
       toast.error(error?.response?.data?.message || "Failed to fetch user blog");
-
+      setIsLoading(false)
     }
 
   }
@@ -41,6 +45,8 @@ const MyBlog = ({ setComponents }) => {
   }, [page,])
 
   const deleteBlog = async (id) => {
+
+    setIsLoading(true)
 
     const result = await Swal.fire({
       title: 'Are you sure?',
@@ -60,6 +66,8 @@ const MyBlog = ({ setComponents }) => {
           withCredentials: true
         });
 
+        setIsLoading(false)
+
         if (res.data.success) {
           Swal.fire({
             icon: 'success',
@@ -74,6 +82,7 @@ const MyBlog = ({ setComponents }) => {
           setUserBlogs((prevBlogs) => prevBlogs.filter(blog => blog._id !== id));
         }
       } catch (error) {
+        setIsLoading(false)
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -83,6 +92,7 @@ const MyBlog = ({ setComponents }) => {
         });
       }
     }
+    setIsLoading(false)
   }
 
 
@@ -94,6 +104,11 @@ const MyBlog = ({ setComponents }) => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-500">My Blogs</h1>
+      {isLoading && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/10 z-40 flex items-center justify-center">
+          <div className="w-14 h-14 border-4 border-red-700 border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+      )}
 
       <div className="mb-6 flex justify-center">
         <input
@@ -106,6 +121,7 @@ const MyBlog = ({ setComponents }) => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
         {filteredBlogs && filteredBlogs.length > 0 ? (
           filteredBlogs.map((blog) => (
             <div
