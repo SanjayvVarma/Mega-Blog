@@ -123,13 +123,10 @@ const Profile = () => {
 
                 {user.about && (
                     <div className="w-full max-w-lg mx-auto bg-white/5 p-4 rounded-md text-white">
-                        <div className="flex items-center gap-2 mb-2 border-b border-white/10 pb-1">
-                            <FaInfoCircle className="text-blue-300 text-sm" />
-                            <h3 className="text-base font-semibold">About</h3>
+                        <div className="text-[16px] flex gap-2 items-center text-gray-200 leading-snug">
+                            <FaInfoCircle className="text-blue-300 text-[16px]" />
+                            <span>{user.about}</span>
                         </div>
-                        <p className="text-[15px] text-gray-200 leading-snug">
-                            {user.about}
-                        </p>
                     </div>
                 )}
 
