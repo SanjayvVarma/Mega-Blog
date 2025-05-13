@@ -5,9 +5,9 @@ import asyncHandler from "../utils/asyncHandler.js";
 
 const createReview = asyncHandler(async (req, res) => {
 
-    const { fullName, email, message } = req.body;
+    const { fullName, email, message, rating } = req.body;
 
-    if (!fullName || !email || !message) {
+    if (!fullName || !email || !message || !rating) {
 
         throw new ApiError(400, "All Fields are required")
 
@@ -17,6 +17,7 @@ const createReview = asyncHandler(async (req, res) => {
         fullName,
         email,
         message,
+        rating,
         createdBy: req.user._id,
     });
 
@@ -39,10 +40,23 @@ const getAllReview = asyncHandler(async (req, res) => {
 
     const totalReview = await Review.countDocuments()
 
+    const avgResult = await Review.aggregate([
+        {
+            $group: {
+                _id: null,
+                avgRating: { $avg: "$rating" }
+            }
+        }
+    ])
+
+    const averageRating = avgResult[0]?.avgRating || 0;
+
     const allReviews = {
         reviews,
         totalPages: Math.ceil(totalReview / limit),
-        currentPage: page
+        currentPage: page,
+        totalReview,
+        averageRating: Number(averageRating.toFixed(1))
     }
 
     return res.status(200).json(
