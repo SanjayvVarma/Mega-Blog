@@ -19,7 +19,7 @@ const Home = () => {
                     <TrandingBlog />
                     <LatestBlog />
                     <Authores />
-                    <ReviewForm />
+                    <ReviewForm user={user} />
                 </div>
             ) : (
                 <div
