@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema(
 
         about: {
             type: String,
-            maxLength: [60, "About section must not exceed 30 characters"]
+            maxLength: [70, "About section must not exceed 30 characters"]
         },
 
         answer: {
