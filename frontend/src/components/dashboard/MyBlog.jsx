@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 
-const MyBlog = ({ setComponents }) => {
+const MyBlog = () => {
 
   const [userBlogs, setUserBlogs] = useState([])
   const [page, setPage] = useState(1)
