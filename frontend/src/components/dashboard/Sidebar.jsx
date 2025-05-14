@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaUser, FaPenFancy, FaBlog, FaStar, FaKey, FaSignOutAlt, FaTrash } from 'react-icons/fa';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { logout } from "../../features/authSlice";
 import { clearUser } from "../../features/userSlice";
+import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const Sidebar = ({ components, setComponents }) => {
@@ -62,7 +62,7 @@ const Sidebar = ({ components, setComponents }) => {
         const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/delete-user/${user._id}`,
           { withCredentials: true }
         )
-        
+
         setIsLoading(false)
 
         if (res.data.success) {
