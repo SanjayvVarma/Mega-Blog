@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FaUser, FaPenFancy, FaBlog, FaStar, FaKey, FaSignOutAlt } from 'react-icons/fa';
+import { FaUser, FaPenFancy, FaBlog, FaStar, FaKey, FaSignOutAlt, FaTrash } from 'react-icons/fa';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { logout } from "../../features/authSlice";
 import { clearUser } from "../../features/userSlice";
+import Swal from 'sweetalert2';
 
 const Sidebar = ({ components, setComponents }) => {
 
@@ -15,7 +16,6 @@ const Sidebar = ({ components, setComponents }) => {
 
   const user = useSelector((state) => state.user.user);
   const token = useSelector((state) => state.auth.token);
-
 
   const handleLogOut = async (e) => {
     e.preventDefault()
@@ -28,13 +28,11 @@ const Sidebar = ({ components, setComponents }) => {
       )
 
       if (response.data.success) {
-
         dispatch(logout());
         dispatch(clearUser());
         toast.success(response.data.message || "Logged out successfully!");
         setIsLoading(false)
         navigate("/");
-
       }
 
     } catch (error) {
@@ -42,6 +40,46 @@ const Sidebar = ({ components, setComponents }) => {
       setIsLoading(false)
     }
   };
+
+  const handleDeleteProfile = async () => {
+
+    setIsLoading(true)
+
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This action will permanently delete your profile!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      background: '#1f2937',
+      color: '#fff',
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/delete-user/${user._id}`,
+          { withCredentials: true }
+        )
+        
+        setIsLoading(false)
+
+        if (res.data.success) {
+          dispatch(logout());
+          dispatch(clearUser());
+          toast.success(res.data.message || "profile deleted")
+          navigate('/')
+        }
+
+      } catch (error) {
+        toast.error(error?.response?.data?.message || "user delete failed")
+        setIsLoading(false)
+      }
+    }
+
+    setIsLoading(false)
+  }
 
   const navItems = [
     { label: 'My Profile', value: 'Profile', icon: <FaUser />, bgColor: 'bg-blue-900' },
@@ -87,6 +125,16 @@ const Sidebar = ({ components, setComponents }) => {
             </button>
           ))
         }
+
+        {user.role === "Reader" && (
+          <button
+            onClick={handleDeleteProfile}
+            className="px-3 py-1 text-sm rounded-full whitespace-nowrap transition text-white bg-red-700 hover:bg-red-600"
+          >
+            DeleteProfile
+          </button>
+        )}
+
         <button
           onClick={handleLogOut}
           className="px-3 py-1 text-sm rounded-full whitespace-nowrap transition bg-red-500 text-white hover:bg-red-600"
@@ -122,6 +170,17 @@ const Sidebar = ({ components, setComponents }) => {
               <span>{item.label}</span>
             </button>
           ))}
+
+          {user.role === "Reader" && (
+            <button
+              onClick={handleDeleteProfile}
+              className="flex items-center gap-3 w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 bg-red-700 hover:bg-red-600"
+            >
+              <span className="text-sm"><FaTrash /></span>
+              <span>Delete Profile</span>
+            </button>
+          )}
+
           <button
             onClick={handleLogOut}
             className="flex items-center gap-3 w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 bg-red-500 hover:bg-red-600"
