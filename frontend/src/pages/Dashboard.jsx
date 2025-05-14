@@ -19,33 +19,34 @@ const Dashboard = () => {
       <Sidebar components={components} setComponents={setComponents} />
 
       <div className="flex-1 bg-[#1a1a1d] overflow-y-auto min-h-[calc(100vh-64px)]">
-        {user.role === "Admin" ? (
-          components === "Profile" ? (
-            <Profile />
-          ) : components === "CreateBlog" ? (
-            <CreateBlog setComponents={setComponents} />
-          ) : components === "Reviews" ? (
-            <Reviews />
-          ) : components === "MyBlog" ? (
-            <MyBlog setComponents={setComponents}/>
-          ) : components === "ChangePassword" ? (
-            <ChangePassword setComponents={setComponents} />
+        {
+          user.role === "Admin" ? (
+            components === "Profile" ? (
+              <Profile />
+            ) : components === "CreateBlog" ? (
+              <CreateBlog setComponents={setComponents} />
+            ) : components === "Reviews" ? (
+              <Reviews />
+            ) : components === "MyBlog" ? (
+              <MyBlog />
+            ) : components === "ChangePassword" ? (
+              <ChangePassword setComponents={setComponents} />
+            ) : (
+              <div className='text-center text-blue-500 font-semibold text-xl'>
+                <p>Component Not Found</p>
+              </div>
+            )
           ) : (
-            <div className='text-center text-blue-500 font-semibold text-xl'>
-              <p>Component Not Found</p>
-            </div>
+            components === "Profile" ? (
+              <Profile />
+            ) : components === "ChangePassword" ? (
+              <ChangePassword />
+            ) : (
+              <div className='text-center text-blue-500 font-semibold text-xl'>
+                <p>Component Not Found</p>
+              </div>
+            )
           )
-        ) : (
-          components === "Profile" ? (
-            <Profile />
-          ) : components === "ChangePassword" ? (
-            <ChangePassword />
-          ) : (
-            <div className='text-center text-blue-500 font-semibold text-xl'>
-              <p>Component Not Found</p>
-            </div>
-          )
-        )
         }
       </div>
     </div>
