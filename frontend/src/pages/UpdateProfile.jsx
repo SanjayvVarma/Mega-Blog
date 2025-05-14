@@ -36,6 +36,12 @@ const UpdateProfile = () => {
     const updateProfileHandler = async () => {
         setIsLoading(true);
 
+        if (!answer) {
+            toast.error("Security Answer is required");
+            setIsLoading(false);
+            return;
+        }
+
         try {
             const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/update-details`,
                 { fullName, email, phone, about, answer, education, },
