@@ -149,10 +149,10 @@ const UpdateProfile = () => {
                             value={about}
                             onChange={(e) => setAbout(e.target.value)}
                             rows={2}
-                            maxLength={60}
+                            maxLength={70}
                             className="w-full p-3 bg-transparent text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none placeholder:text-gray-400"
                         />
-                        <small className="text-gray-300">{about.length}/60</small>
+                        <small className="text-gray-300">{about.length}/70</small>
                     </div>
 
                     <button
