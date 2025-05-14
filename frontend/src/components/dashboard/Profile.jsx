@@ -122,7 +122,7 @@ const Profile = () => {
                 )}
 
                 {user.about && (
-                    <div className="w-full max-w-lg mx-auto bg-white/5 p-4 rounded-md text-white">
+                    <div className="w-full max-w-xl mx-auto bg-white/5 p-4 rounded-md text-white">
                         <div className="text-[16px] flex gap-2 items-center text-gray-200 leading-snug">
                             <FaInfoCircle className="text-blue-300 text-[16px]" />
                             <span>{user.about}</span>
