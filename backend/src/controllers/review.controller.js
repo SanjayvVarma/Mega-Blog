@@ -29,10 +29,10 @@ const createReview = asyncHandler(async (req, res) => {
 const getAllReview = asyncHandler(async (req, res) => {
 
     const page = parseInt(req.query.page) || 1
-    const limit = parseInt(req.query.limit) || 5
+    const limit = parseInt(req.query.limit) || 300
     const skip = (page - 1) * limit
 
-    const reviews = await Review.find().skip(skip).limit(limit)
+    const reviews = await Review.find().skip(skip).limit(limit).sort({ createdAt: -1 });
 
     if (!reviews || reviews.length === 0) {
         throw new ApiError(404, "No Review Found")
