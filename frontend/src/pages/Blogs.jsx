@@ -74,23 +74,8 @@ const Blogs = ({ page, setPage }) => {
             </div>
 
           ))
-        ) : isAuth ? (
+        ) : isAuth && (
           <h1 className='text-5xl py-32 text-white'>NO BLOG</h1>
-        ) : (
-          <div className="w-full flex flex-col items-center justify-center py-20 space-y-6 bg-gray-900 text-white">
-            <ClimbingBoxLoader color="#3B82F6" size={20} />
-
-            <h1 className="text-2xl md:text-3xl font-bold text-center">
-              Please Login to Read Blogs
-            </h1>
-
-            <Link
-              to="/login"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 shadow-lg"
-            >
-              Log In to Explore
-            </Link>
-          </div>
         )}
       </div>
 
