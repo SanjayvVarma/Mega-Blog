@@ -8,8 +8,6 @@ app.on('error', (error) => {
     throw error;
 })
 
-
 app.listen(process.env.PORT || 4000, () => {
     console.log("Server is running at port ", process.env.PORT || 4000);
-
 })

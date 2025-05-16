@@ -1,6 +1,6 @@
 import { Router } from "express";
 import upload from "../middlewares/multer.middleware.js";
-import { verifyJWT, verifyRole } from "../middlewares/auth.meddleware.js";
+import { verifyJWT } from "../middlewares/auth.meddleware.js";
 import { getAllusers, getCurrentUser, userLogin, userLogout, userRegister, forgotPassword, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAdmin } from "../controllers/user.controller.js";
 
 const router = Router();

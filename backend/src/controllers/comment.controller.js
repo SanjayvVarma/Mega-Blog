@@ -1,8 +1,8 @@
-import Comment from "../models/comment.model.js";
+import Blog from "../models/blog.model.js";
 import ApiError from "../utils/ApiError.js";
+import Comment from "../models/comment.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import Blog from "../models/blog.model.js"
 
 const addComment = asyncHandler(async (req, res) => {
     const { blogId } = req.params;
@@ -74,6 +74,4 @@ const deleteComment = asyncHandler(async (req, res) => {
     );
 });
 
-
-
-export { addComment, allComment, deleteComment }
+export { addComment, allComment, deleteComment };

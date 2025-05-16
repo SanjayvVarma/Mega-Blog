@@ -17,6 +17,6 @@ router.patch("/update-blog/:id", verifyJWT, verifyRole("Admin"), uploadImages, u
 router.delete("/delete-blog/:id", verifyJWT, verifyRole("Admin"), deleteBlog);
 router.get("/all-blogs", allBlog);
 router.get("/single-blog/:id", singleBlog);
-router.get("/user-blogs", verifyJWT, userBlog)
+router.get("/user-blogs", verifyJWT, userBlog);
 
 export default router;

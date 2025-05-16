@@ -1,5 +1,5 @@
-import Review from "../models/review.model.js";
 import ApiError from "../utils/ApiError.js";
+import Review from "../models/review.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
@@ -8,9 +8,7 @@ const createReview = asyncHandler(async (req, res) => {
     const { fullName, email, message, rating } = req.body;
 
     if (!fullName || !email || !message || !rating) {
-
         throw new ApiError(400, "All Fields are required")
-
     }
 
     const review = await Review.create({
@@ -78,4 +76,4 @@ const deleteReview = asyncHandler(async (req, res) => {
     )
 });
 
-export { createReview, getAllReview, deleteReview }
+export { createReview, getAllReview, deleteReview };

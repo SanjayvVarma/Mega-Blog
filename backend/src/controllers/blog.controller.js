@@ -34,7 +34,6 @@ const createBlog = asyncHandler(async (req, res) => {
         }
     }
 
-
     const parsedSection = JSON.parse(sections || '[]')
 
     for (let idx = 0; idx < Math.max(parsedSection.length, sectionImages.length); idx++) {
@@ -53,7 +52,6 @@ const createBlog = asyncHandler(async (req, res) => {
             image: imageUrl
         });
     }
-
 
     const blog = await Blog.create({
         title,
@@ -270,6 +268,7 @@ const userBlog = asyncHandler(async (req, res) => {
     const userBlogs = await Blog.find({ createdBy })
         .skip(skip)
         .limit(limit)
+        .sort({ createdAt: -1 });
 
     if (userBlogs.length === 0) {
         throw new ApiError(404, "No blogs found");
