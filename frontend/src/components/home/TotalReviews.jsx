@@ -100,23 +100,23 @@ function TotalReviews() {
 
             {viewReview && (
                 <div className="fixed h-screen inset-0 backdrop-blur bg-opacity-60 flex items-center justify-center z-50 m-2">
-                    <div className="bg-gray-900 p-6 rounded-xl w-full max-w-2xl shadow-lg relative">
+                    <div className="bg-white/20 p-6 rounded-xl w-full max-w-2xl shadow-lg relative">
                         <button
                             onClick={() => setViewReview(false)}
-                            className="absolute top-2 right-3 text-white text-2xl font-bold hover:text-red-400"
+                            className="absolute top-4 right-10 text-white text-3xl font-bold hover:text-red-400"
                         >
                             &times;
                         </button>
 
                         <h3 className="text-xl font-bold text-white mb-4 text-center">
-                            ⭐❤️ User Reviews 💬📝
+                            ⭐User Reviews❤️
                         </h3>
 
                         <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 scrollbar-hide">
                             {reviews.map((review) => (
                                 <div
                                     key={review._id}
-                                    className="bg-gray-800 p-4 rounded-md shadow relative"
+                                    className="bg-gradient-to-br from-[#252555] via-[#252548] to-[#171731] p-4 rounded-md shadow relative"
                                 >
                                     <div className="flex justify-between items-center mb-2">
                                         <span className="font-semibold text-lg text-blue-300">
