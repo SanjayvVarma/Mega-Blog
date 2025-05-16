@@ -28,11 +28,7 @@ const createReview = asyncHandler(async (req, res) => {
 
 const getAllReview = asyncHandler(async (req, res) => {
 
-    const page = parseInt(req.query.page) || 1
-    const limit = parseInt(req.query.limit) || 300
-    const skip = (page - 1) * limit
-
-    const reviews = await Review.find().skip(skip).limit(limit).sort({ createdAt: -1 });
+    const reviews = await Review.find().sort({ createdAt: -1 });
 
     if (!reviews || reviews.length === 0) {
         throw new ApiError(404, "No Review Found")
@@ -53,8 +49,6 @@ const getAllReview = asyncHandler(async (req, res) => {
 
     const allReviews = {
         reviews,
-        totalPages: Math.ceil(totalReview / limit),
-        currentPage: page,
         totalReview,
         averageRating: Number(averageRating.toFixed(1))
     }
@@ -63,7 +57,6 @@ const getAllReview = asyncHandler(async (req, res) => {
         new ApiResponse(200, allReviews, true, "All reviews fetched successfully")
     )
 });
-
 
 const deleteReview = asyncHandler(async (req, res) => {
     const { id } = req.params;

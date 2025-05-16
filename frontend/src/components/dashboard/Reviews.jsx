@@ -1,16 +1,14 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react'
-import { FaArrowLeft, FaArrowRight, FaCalendarAlt, FaRegStar, FaStar, FaStarHalfAlt, FaTrash } from 'react-icons/fa';
+import { FaCalendarAlt, FaRegStar, FaStar, FaStarHalfAlt, FaTrash } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const Reviews = () => {
 
   const [reviews, setReviews] = useState([]);
-  const [totalPages, setTotalPages] = useState(1);
   const [averageRating, setAverageRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
-  const [page, setPage] = useState(1);
 
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.user.user);
@@ -25,7 +23,6 @@ const Reviews = () => {
 
       if (res.data.success) {
         setReviews(res.data.data.reviews);
-        setTotalPages(res.data.data.totalPages);
         setAverageRating(res.data.data.averageRating);
         setTotalReviews(res.data.data.totalReview);
       }
@@ -37,7 +34,7 @@ const Reviews = () => {
 
   useEffect(() => {
     fetchReviews();
-  }, [page]);
+  }, []);
 
   const handleDelete = async (id) => {
 
