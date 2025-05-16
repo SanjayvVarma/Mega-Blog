@@ -16,7 +16,7 @@ const Navbar = () => {
   const user = useSelector((state) => state.user.user)
 
   return (
-    <div className="bg-[#04152D] text-white shadow-md py-2 px-10 flex justify-between items-center z-10 relative border-b border-blue-700">
+    <div className="bg-gradient-to-br from-[#2b2b7f] via-[#1b1b32] to-[#591091] text-white shadow-md py-2 px-10 flex justify-between items-center z-10 relative border-b border-blue-600">
 
       <Link className="relative text-2xl font-extrabold text-green-400 flex items-center">
         <span className="relative z-10 left-2 bottom-1.5">SK</span>
@@ -60,7 +60,7 @@ const Navbar = () => {
             <NavLink
               to='/'
               className={({ isActive }) =>
-                `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-600" : "text-white"
+                `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-500" : "text-white"
                 } hover:text-blue-400 font-bold`
               }
               onClick={handleToggleIcon}
@@ -74,7 +74,7 @@ const Navbar = () => {
               <NavLink
                 to='/blogs'
                 className={({ isActive }) =>
-                  `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-600" : "text-white"
+                  `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-500" : "text-white"
                   } hover:text-blue-400 font-bold`
                 }
                 onClick={handleToggleIcon}
@@ -87,7 +87,7 @@ const Navbar = () => {
             <NavLink
               to='/authors'
               className={({ isActive }) =>
-                `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-600" : "text-white"
+                `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-500" : "text-white"
                 } hover:text-blue-400 font-bold`
               }
               onClick={handleToggleIcon}
@@ -100,7 +100,7 @@ const Navbar = () => {
             <NavLink
               to='/about'
               className={({ isActive }) =>
-                `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-600" : "text-white"
+                `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-500" : "text-white"
                 } hover:text-blue-400 font-bold`
               }
               onClick={handleToggleIcon}
@@ -113,7 +113,7 @@ const Navbar = () => {
             <NavLink
               to='/contact'
               className={({ isActive }) =>
-                `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-600" : "text-white"
+                `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-500" : "text-white"
                 } hover:text-blue-400 font-bold`
               }
               onClick={handleToggleIcon}

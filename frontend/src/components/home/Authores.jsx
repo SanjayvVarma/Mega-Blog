@@ -34,7 +34,7 @@ const Authores = () => {
   }, [isAuth])
 
   return (
-    <div className="py-10 px-5 bg-gray-800">
+    <div className="py-10 px-5 bg-gradient-to-br from-[#554425] via-[#252548] to-[#312b17]">
       <h2 className="text-3xl font-bold text-center text-pink-600 mb-8">
         🌟 Our Popular Authors
       </h2>

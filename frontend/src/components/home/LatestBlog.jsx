@@ -23,7 +23,7 @@ const LatestBlog = () => {
     .slice(0, 7);
 
   return (
-    <div className="py-12 px-4 md:px-10 bg-gray-950">
+    <div className="py-12 px-4 md:px-10 bg-gradient-to-br from-[#552538] via-[#252548] to-[#311722]">
       <h2 className="text-3xl font-bold text-center text-green-400 mb-8">🆕 Latest Blogs</h2>
 
       {loading ? (

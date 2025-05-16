@@ -36,7 +36,7 @@ const AllAdmin = () => {
     }, [isAuth])
 
     return (
-        <div className="py-10 px-5 bg-gray-800">
+        <div className="py-10 px-5 bg-gradient-to-br from-[#252555] via-[#252548] to-[#271731]">
 
             <div className="flex flex-wrap justify-center gap-6">
                 {authores && authores.length > 0 ? (

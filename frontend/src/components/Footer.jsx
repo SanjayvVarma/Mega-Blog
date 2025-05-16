@@ -4,7 +4,7 @@ import { TfiEmail } from "react-icons/tfi";
 
 const Footer = () => {
     return (
-        <footer className="bg-gray-900 text-gray-300 py-10">
+        <footer className="bg-gradient-to-br from-[#4f5525] via-[#252548] to-[#2f3117] text-gray-300 py-10">
             <div className="max-w-7xl mx-auto px-6 lg:px-12">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
 

@@ -46,7 +46,7 @@ const ReviewForm = ({ user }) => {
   };
 
   return (
-    <div className="bg-gray-900 p-5 border-b border-gray-700 shadow-3xl">
+    <div className="bg-gradient-to-br from-[#552525] via-[#252548] to-[#311717] p-5 border-b border-gray-700 shadow-3xl">
       <h3 className="text-3xl font-bold text-yellow-500 text-center mb-8">✍️ Add Your Review</h3>
       <div className="bg-gray-800 p-8 rounded-2xl shadow-lg max-w-6xl mx-auto hover:shadow-2xl transition duration-300">
         <div>

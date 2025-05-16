@@ -20,7 +20,7 @@ const Blogs = ({ page, setPage }) => {
   )
 
   return (
-    <div className="py-12 px-6 bg-gray-800 min-h-screen">
+    <div className="py-12 px-6 bg-gradient-to-br from-[#252555] via-[#161628] to-[#252555] min-h-screen">
       <div className="mb-6 flex justify-center">
         <input
           type="text"

@@ -13,7 +13,7 @@ const TrendingBlog = () => {
     const trendingBlogs = blogs?.slice(0, 7);
 
     return (
-        <div className="bg-gray-800 py-10 px-5">
+        <div className="bg-gradient-to-br from-[#387138] via-[#0d1c0f] to-[#268339] py-10 px-5">
             <h2 className="text-3xl font-bold text-blue-400 text-center mb-8">🔥 Trending Blogs</h2>
 
             {
