@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useState } from 'react';
+import LoaderSpin from '../LoaderSpin';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { logout } from "../../features/authSlice";
@@ -98,11 +99,7 @@ const Sidebar = ({ components, setComponents }) => {
 
   return (
     <>
-      {isLoading && (
-        <div className='fixed inset-0 backdrop-blur-sm bg-black/10 z-40 flex justify-center items-center'>
-          <div className='w-14 h-14 border-4 border-white border-t-red-600 rounded-full animate-spin'></div>
-        </div>
-      )}
+      {isLoading && <LoaderSpin text="Logging Out" message="Ending your session, please wait..." />}
 
       <div className="md:hidden sticky top-[55px] z-30 bg-white/10 backdrop-blur-md border-b border-white/20 p-3 flex items-center gap-2 overflow-x-auto">
         <img
