@@ -6,6 +6,7 @@ import loginBg from '../assets/loginBg.avif';
 import { login } from '../features/authSlice';
 import LoadingBar from 'react-top-loading-bar';
 import { setUser } from '../features/userSlice';
+import LoaderSpin from '../components/LoaderSpin';
 import loginImg from '../assets/loginSideImg.webp';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
@@ -73,11 +74,7 @@ const LogIn = () => {
     >
       <LoadingBar color="#3b82f6" ref={loadingBar} height={4} />
 
-      {isLoading && (
-        <div className='fixed inset-0 backdrop-blur-sm bg-black/10 z-40 flex justify-center items-center'>
-          <div className='w-14 h-14 border-4 border-white border-t-green-500 rounded-full animate-spin'></div>
-        </div>
-      )}
+      {isLoading && <LoaderSpin text="Logging In" message="Verifying credentials, please wait..." />}
 
       <div className="bg-gray-900 shadow-lg rounded-lg flex w-full overflow-hidden m-5 max-w-5xl border-2 border-red-600 shadow-lg">
 
