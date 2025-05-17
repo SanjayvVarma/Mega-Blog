@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import Sidebar from '../components/dashboard/Sidebar'
-import Profile from '../components/dashboard/Profile'
-import CreateBlog from '../components/dashboard/CreateBlog'
-import Reviews from '../components/dashboard/Reviews'
-import MyBlog from '../components/dashboard/MyBlog'
-import ChangePassword from '../components/dashboard/ChangePassword'
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import MyBlog from '../components/dashboard/MyBlog';
+import Profile from '../components/dashboard/Profile';
+import Reviews from '../components/dashboard/Reviews';
+import Sidebar from '../components/dashboard/Sidebar';
+import CreateBlog from '../components/dashboard/CreateBlog';
+import ChangePassword from '../components/dashboard/ChangePassword';
 
 const Dashboard = () => {
 
-  const [components, setComponents] = useState('Profile')
+  const [components, setComponents] = useState('Profile');
 
-  const user = useSelector((state) => state.user.user)
+  const user = useSelector((state) => state.user.user);
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-[#0e0e10] text-white border-b-2 border-blue-500">
@@ -54,4 +54,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Dashboard;

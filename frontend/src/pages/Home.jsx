@@ -1,16 +1,18 @@
-import React from 'react'
-import Hero from '../components/home/Hero';
-import TrandingBlog from '../components/home/TrandingBlog';
-import LatestBlog from '../components/home/LatestBlog';
-import Authores from '../components/home/Authores';
-import { useSelector } from 'react-redux';
+
 import { Link } from 'react-router-dom';
+import bgUrl from '../assets/homeBg.jpg';
+import { useSelector } from 'react-redux';
+import Hero from '../components/home/Hero';
+import Authores from '../components/home/Authores';
 import ReviewForm from '../components/home/ReviewForm';
-import bgUrl from '../assets/homeBg.jpg'
+import LatestBlog from '../components/home/LatestBlog';
+import TrandingBlog from '../components/home/TrandingBlog';
 
 const Home = () => {
-    const isAuth = useSelector((state) => state.auth.isAuth)
-    const user = useSelector((state) => state.user.user)
+
+    const isAuth = useSelector((state) => state.auth.isAuth);
+    const user = useSelector((state) => state.user.user);
+
     return (
         <div>
             {isAuth && user ? (

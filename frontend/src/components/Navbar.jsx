@@ -1,19 +1,19 @@
+import { useState } from 'react';
 import { HiX } from 'react-icons/hi';
 import { FaBars } from 'react-icons/fa';
-import React, { useState } from 'react';
-import { Link, NavLink, } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Link, NavLink, } from 'react-router-dom';
 
 const Navbar = () => {
 
   const [toggleIcon, setToggleIcon] = useState(false);
 
+  const isAuth = useSelector((state) => state.auth.isAuth)
+  const user = useSelector((state) => state.user.user)
+
   const handleToggleIcon = () => {
     setToggleIcon(!toggleIcon)
   };
-
-  const isAuth = useSelector((state) => state.auth.isAuth)
-  const user = useSelector((state) => state.user.user)
 
   return (
     <div className="bg-gradient-to-br from-[#2b2b7f] via-[#1b1b32] to-[#591091] text-white shadow-md py-2 px-10 flex justify-between items-center z-10 relative border-b border-blue-600">

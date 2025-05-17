@@ -1,22 +1,21 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 const ForgotPassword = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showComPassword, setShowComPassword] = useState(false);
-    const [passValidator, setPassValidator] = useState('')
-    const [passMatch, setPassMatch] = useState('')
+    const [passValidator, setPassValidator] = useState('');
+    const [passMatch, setPassMatch] = useState('');
+    const [username, setUsername] = useState('');
+    const [answer, setAnswer] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [comNewPassword, setComNewPassword] = useState('');
 
-    const [username, setUsername] = useState('')
-    const [answer, setAnswer] = useState('')
-    const [newPassword, setNewPassword] = useState('')
-    const [comNewPassword, setComNewPassword] = useState('')
-    const navigate = useNavigate()
-
+    const navigate = useNavigate();
     const isFormValid = username && answer && newPassword && comNewPassword && newPassword === comNewPassword
 
     const passwordValidator = (e) => {
@@ -64,8 +63,7 @@ const ForgotPassword = () => {
         }
 
         try {
-            const response = await axios.post(
-                `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/forgot-password`,
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/forgot-password`,
                 formData,
                 {
                     headers: { "Content-Type": "application/json", },
@@ -73,24 +71,17 @@ const ForgotPassword = () => {
                 }
             )
 
-            if (!response.data.success) {
-                toast.error(response?.data.message || "Failed to reset password.")
-                return
+            if (response.data.success) {
+                toast.success(response.data.message || "Password reset successful!");
+                navigate('/login')
+                setUsername('');
+                setAnswer('');
+                setNewPassword('');
+                setComNewPassword('');
             }
 
-            toast.success(response.data.message || "Password reset successful!")
-
-            navigate('/login')
-
-            setUsername('');
-            setAnswer('');
-            setNewPassword('');
-            setComNewPassword('');
-
         } catch (error) {
-            console.error("Forgot Password Error:", error);
-
-            toast.error(error?.response?.data.message || "Something went wrong !")
+            toast.error(error?.response?.data.message || "Something went wrong !");
         }
     };
 
@@ -98,7 +89,6 @@ const ForgotPassword = () => {
         <div className="flex items-center justify-center bg-gray-700">
             <div className="bg-gray-900 shadow-lg rounded-lg flex w-full max-w-4xl overflow-hidden m-5">
 
-                {/* Left Side - Image */}
                 <div className="hidden md:block w-1/2">
                     <img
                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuV_oZ2ZEdQGDzDbc2WcBAODVOP_xNFnz7A&s"
@@ -107,11 +97,11 @@ const ForgotPassword = () => {
                     />
                 </div>
 
-                {/* Right Side - Form */}
                 <div className="w-full md:w-1/2 p-6 bg-[#04152D] text-white">
                     <h2 className="text-2xl font-bold text-center mb-5 text-blue-400">Forgot Password</h2>
 
                     <form onSubmit={handleForgotPassword}>
+
                         <div className="mb-3">
                             <label className="block text-sm font-medium">Email or Phone</label>
                             <input
@@ -184,6 +174,7 @@ const ForgotPassword = () => {
                         >
                             Reset Password
                         </button>
+
                     </form>
 
                     <div className="mt-4 text-center">
@@ -196,6 +187,5 @@ const ForgotPassword = () => {
         </div>
     );
 };
-
 
 export default ForgotPassword;

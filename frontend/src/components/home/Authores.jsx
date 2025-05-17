@@ -1,8 +1,8 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { FaFacebook, FaGraduationCap, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { FaFacebook, FaGraduationCap, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 const Authores = () => {
 
@@ -14,8 +14,7 @@ const Authores = () => {
 
     try {
 
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-admin`,
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-admin`,
         { withCredentials: true }
       )
 
@@ -35,9 +34,7 @@ const Authores = () => {
 
   return (
     <div className="py-10 px-5 bg-gradient-to-br from-[#554425] via-[#252548] to-[#312b17]">
-      <h2 className="text-3xl font-bold text-center text-pink-600 mb-8">
-        🌟 Our Popular Authors
-      </h2>
+      <h2 className="text-3xl font-bold text-center text-pink-600 mb-8">🌟 Our Popular Authors</h2>
 
       <div className="flex flex-wrap justify-center gap-6">
         {authores && authores.length > 0 ? (
@@ -47,13 +44,11 @@ const Authores = () => {
               className="bg-gray-900 rounded-lg shadow-md p-6 w-[260px] hover:shadow-lg transition-transform duration-300 hover:scale-105"
             >
               <div className="flex flex-col items-center">
-
                 <img
                   src={author.avatar}
                   alt={author.fullName}
                   className="w-32 h-32 rounded-full object-cover border-3 border-green-500 shadow-md"
                 />
-
                 <h2 className="text-lg font-semibold mt-4 text-white text-center">{author.fullName}</h2>
 
                 {author.about && (
@@ -85,7 +80,6 @@ const Authores = () => {
         )}
       </div>
     </div>
-
   );
 };
 

@@ -1,14 +1,14 @@
 import axios from 'axios';
-import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { login } from '../features/authSlice';
-import { setUser } from '../features/userSlice';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import loginBg from '../assets/loginBg.avif';
-import loginImg from '../assets/loginSideImg.webp'
+import { login } from '../features/authSlice';
 import LoadingBar from 'react-top-loading-bar';
+import { setUser } from '../features/userSlice';
+import loginImg from '../assets/loginSideImg.webp';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LogIn = () => {
 
@@ -16,9 +16,8 @@ const LogIn = () => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false)
-  const loadingBar = useRef()
+  const [isLoading, setIsLoading] = useState(false);
+  const loadingBar = useRef();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -39,37 +38,31 @@ const LogIn = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/login`,
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/login`,
         loginData,
-        { withCredentials: true, headers: { "Content-Type": "application/json" } }
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" }
+        }
       );
 
-      if (!response.data.success) {
-        toast.error(response.data.message || "Login failed !");
-        setIsLoading(false)
-        loadingBar.current.complete();
-        return;
+      loadingBar.current.complete();
+      setIsLoading(false);
+
+      if (response.data.success) {
+        dispatch(login(response.data.data.accessToken));
+        dispatch(setUser(response.data.data.user));
+        toast.success(response.data.message || "Login successful!");
+        navigate('/');
+        setUsername('');
+        setPassword('');
+        setRole('');
       }
 
-      dispatch(login(response.data.data.accessToken));
-      dispatch(setUser(response.data.data.user));
-
-      toast.success(response.data.message || "Login successful!");
-      navigate('/');
-      loadingBar.current.complete();
-      setIsLoading(false)
-
-      setUsername('');
-      setPassword('');
-      setRole('');
-
     } catch (error) {
-
       toast.error(error.response?.data?.message || "Login failed!");
-      setIsLoading(false)
+      setIsLoading(false);
       loadingBar.current.complete();
-      
     }
   };
 
@@ -148,8 +141,7 @@ const LogIn = () => {
             <button
               type="submit"
               disabled={!isFormValid}
-              className={`w-full py-3 text-white font-semibold rounded-md transition duration-200 ${isFormValid ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-500 cursor-not-allowed"
-                }`}
+              className={`w-full py-3 text-white font-semibold rounded-md transition duration-200 ${isFormValid ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-500 cursor-not-allowed"}`}
             >
               Login
             </button>
@@ -174,6 +166,5 @@ const LogIn = () => {
     </div>
   );
 };
-
 
 export default LogIn;

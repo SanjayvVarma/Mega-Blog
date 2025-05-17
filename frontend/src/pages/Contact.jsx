@@ -1,15 +1,12 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 import { TfiEmail } from "react-icons/tfi";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaTwitter, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Contact = () => {
   return (
     <div className="bg-gray-700 py-4 px-15">
       <div className="bg-gray-900 rounded-2xl text-white min-h-screen flex flex-col items-center p-5">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-400 mb-4">
-          Get in Touch
-        </h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-400 mb-4">Get in Touch</h1>
 
         <p className="text-gray-300 text-lg text-center max-w-5xl mb-4">
           We'd love to hear from you! Whether you have a question, feedback, or just want to say hello,
@@ -34,7 +31,6 @@ const Contact = () => {
                 <p className="text-lg">136 Main Road, Sarangpur, Mp</p>
               </div>
             </div>
-
 
             <h2 className="text-2xl font-semibold text-blue-400 mt-6">Follow Us</h2>
             <div className="flex space-x-4">
@@ -68,7 +64,6 @@ const Contact = () => {
             </p>
           </div>
 
-
           <div className="md:w-1/2 bg-gray-700 p-8 rounded-2xl shadow-lg">
             <form>
 
@@ -90,7 +85,6 @@ const Contact = () => {
                   />
                 </div>
               </div>
-
 
               <div className="mb-4">
                 <label className="block text-gray-300 text-lg mb-2">Message</label>
@@ -116,4 +110,3 @@ const Contact = () => {
 };
 
 export default Contact;
-

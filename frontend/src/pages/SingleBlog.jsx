@@ -1,22 +1,22 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { MdSend } from 'react-icons/md';
-import { Link, useParams } from 'react-router-dom'
-import { ClimbingBoxLoader } from 'react-spinners'
+import axios from 'axios';
 import { toast } from 'react-toastify';
+import { MdSend } from 'react-icons/md';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { ClimbingBoxLoader } from 'react-spinners';
+import { Link, useParams } from 'react-router-dom';
 import { FaCalendarAlt, FaCommentDots, FaTrash } from 'react-icons/fa';
 
 const SingleBlog = () => {
 
-  const { id } = useParams()
+  const { id } = useParams();
   const [singleBlog, setSingleBlog] = useState(null);
   const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const [newComment, setNewComment] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const isAuth = useSelector((state) => state.auth.isAuth)
-  const user = useSelector((state) => state.user.user)
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const user = useSelector((state) => state.user.user);
 
   const fetchSingleBlog = async () => {
 
@@ -32,11 +32,9 @@ const SingleBlog = () => {
       }
 
     } catch (error) {
-
       toast.error(error?.response?.data?.message || 'Failed to fetch blog')
-
     }
-  }
+  };
 
   const fetchComments = async () => {
 
@@ -53,17 +51,16 @@ const SingleBlog = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message)
     }
-  }
+  };
 
   useEffect(() => {
     fetchSingleBlog()
   }, [id])
 
   const handleAddComment = async () => {
-
     setIsLoading(true)
-    try {
 
+    try {
       const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/comment/${id}`,
         { message: newComment },
         { withCredentials: true }
@@ -82,14 +79,12 @@ const SingleBlog = () => {
       setIsLoading(false)
       toast.error(error?.response?.data?.message || "add comment failed")
     }
-  }
+  };
 
   const handleDeleteComment = async (commentId) => {
-
     setIsLoading(true)
 
     try {
-
       const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/comment/${id}/comment/${commentId}`,
         { withCredentials: true }
       )
@@ -106,9 +101,9 @@ const SingleBlog = () => {
       toast.error(error?.response?.data?.message || "delete comment failed")
     }
 
-  }
+  };
 
-   const getTimeAgo = (dateString) => {
+  const getTimeAgo = (dateString) => {
     const now = new Date();
     const past = new Date(dateString);
     const diff = Math.floor((now - past) / 1000);

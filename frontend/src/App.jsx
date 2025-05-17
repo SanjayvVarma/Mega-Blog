@@ -1,35 +1,35 @@
-import './App.css'
-import Navbar from './components/Navbar'
-import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import LogIn from './pages/LogIn'
-import Register from './pages/Register'
-import About from './pages/About'
-import Footer from './components/Footer'
-import { toast, ToastContainer } from 'react-toastify'
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { login } from './features/authSlice'
-import { setUser } from './features/userSlice'
-import { setBlogs, setPages } from './features/blogSlice'
-import Dashboard from './pages/Dashboard'
-import Blogs from './pages/Blogs'
-import AllAdmin from './pages/AllAdmin'
-import Contact from './pages/Contact'
-import Privacy from './pages/Privacy'
-import SingleBlog from './pages/SingleBlog'
-import UpdateBlog from './pages/UpdateBlog'
-import ForgotPassword from './pages/ForgotPassword'
-import PageNotFound from './pages/PageNotFound'
-import UpdateProfile from './pages/UpdateProfile'
+import './App.css';
+import axios from 'axios';
+import Home from './pages/Home';
+import About from './pages/About';
+import LogIn from './pages/LogIn';
+import Blogs from './pages/Blogs';
+import Contact from './pages/Contact';
+import Privacy from './pages/Privacy';
+import Register from './pages/Register';
+import AllAdmin from './pages/AllAdmin';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Dashboard from './pages/Dashboard';
+import { useEffect, useState } from 'react';
+import SingleBlog from './pages/SingleBlog';
+import UpdateBlog from './pages/UpdateBlog';
+import { login } from './features/authSlice';
+import { setUser } from './features/userSlice';
+import PageNotFound from './pages/PageNotFound';
+import { Routes, Route } from 'react-router-dom';
+import UpdateProfile from './pages/UpdateProfile';
+import ForgotPassword from './pages/ForgotPassword';
+import { toast, ToastContainer } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { setBlogs, setPages } from './features/blogSlice';
 
 function App() {
 
   const [page, setPage] = useState(1);
 
-  const dispatch = useDispatch()
-  const isAuth = useSelector((state) => state.auth.isAuth)
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.auth.isAuth);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -45,9 +45,6 @@ function App() {
           toast.error(res.data.message || "Not logged in");
         }
       } catch (err) {
-
-        console.log("Fetch user failed:", err);
-
         if (err?.response?.status !== 401) {
           toast.error(err?.response?.data.message || "Something went wrong");
         }
@@ -67,20 +64,12 @@ function App() {
         });
 
         if (res.data.success) {
-
           dispatch(setBlogs(res.data.data.blogs));
           dispatch(setPages(res.data.data.totalPages))
-
-        } else {
-
-          toast.error(res.data.message || "Could not load blogs");
-
         }
 
       } catch (err) {
-
         toast.error(err?.response?.data.message || "Something went wrong while fetching blogs");
-
       }
     };
 

@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import ClipLoader from 'react-spinners/ClipLoader';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import ClipLoader from 'react-spinners/ClipLoader';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 const LatestBlog = () => {
-    const blogs = useSelector((state) => state.blogs.blogData);;
+
+  const blogs = useSelector((state) => state.blogs.blogData);;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,9 +19,7 @@ const LatestBlog = () => {
     }
   }, [blogs]);
 
-  const latestBlogs = [...(blogs || [])]
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 7);
+  const latestBlogs = [...(blogs || [])].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 7);
 
   return (
     <div className="py-12 px-4 md:px-10 bg-gradient-to-br from-[#552538] via-[#252548] to-[#311722]">
@@ -49,7 +48,6 @@ const LatestBlog = () => {
             <SwiperSlide key={blog._id}>
               <Link to={`/blog/${blog._id}`}>
                 <div className="bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 h-full">
-
                   <img
                     src={blog.mainImage}
                     alt={blog.title}
@@ -72,11 +70,11 @@ const LatestBlog = () => {
                         </div>
                       </div>
                     )}
+                    
                     <span className="inline-block mt-3 text-blue-500 hover:underline">
                       Read More →
                     </span>
                   </div>
-
                 </div>
               </Link>
             </SwiperSlide>

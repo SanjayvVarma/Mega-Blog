@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { FaTwitter, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 import { TfiEmail } from "react-icons/tfi";
+import { FaTwitter, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Footer = () => {
     return (

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import { useState } from 'react';
+import { Camera } from 'lucide-react';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import { setUser } from '../../features/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaEnvelope, FaPhoneAlt, FaGraduationCap, FaUserShield, FaUserAlt, FaInfoCircle } from 'react-icons/fa';
-import { Camera } from 'lucide-react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { setUser } from '../../features/userSlice';
-import { Link } from 'react-router-dom';
 
 const Profile = () => {
 
@@ -83,7 +83,6 @@ const Profile = () => {
             className="min-h-screen bg-cover bg-center flex justify-center items-center relative"
             style={{ backgroundImage: `url(${user.avatar})` }}
         >
-
             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
 
             <div className="relative z-10 bg-white/10 backdrop-blur-lg p-8 md:p-10 max-w-3xl w-full rounded-2xl shadow-2xl m-4 text-white flex flex-col items-center gap-4 md:gap-4">
@@ -160,4 +159,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

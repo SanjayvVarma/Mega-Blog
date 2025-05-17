@@ -1,7 +1,7 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const Privacy = () => {
+
     return (
         <div className="bg-gray-700 text-white py-4 flex justify-center">
             <div className="max-w-6xl w-full bg-gray-900 p-3 rounded-2xl">

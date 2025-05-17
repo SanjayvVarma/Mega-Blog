@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import { useState } from 'react'
+import { toast } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import forgotPassImg from '../../assets/passwordForgot.png'
-import axios from 'axios';
-import { toast } from 'react-toastify';
 
 const ChangePassword = ({ setComponents }) => {
 
@@ -11,7 +11,6 @@ const ChangePassword = ({ setComponents }) => {
     const [showComPassword, setShowComPassword] = useState(false);
     const [passValidator, setPassValidator] = useState('')
     const [passMatch, setPassMatch] = useState('')
-
     const [oldPassword, setOldPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [comNewPassword, setComNewPassword] = useState('')
@@ -80,7 +79,6 @@ const ChangePassword = ({ setComponents }) => {
         }
     };
 
-
     return (
         <div
             className="min-h-screen bg-cover bg-center flex justify-center items-center relative"
@@ -98,11 +96,7 @@ const ChangePassword = ({ setComponents }) => {
                 <div className="w-full flex flex-col gap-2">
                     <h2 className="text-2xl font-bold text-center mb-5 text-blue-400">Change Password</h2>
 
-                    <form
-                        onSubmit={changePasswordHandle}
-                        className='flex flex-col gap-8'
-                    >
-
+                    <form onSubmit={changePasswordHandle} className='flex flex-col gap-8' >
                         <div className="relative">
                             <label className="block text-sm font-medium">Old Password</label>
                             <input

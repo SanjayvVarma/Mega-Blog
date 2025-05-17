@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import TotalReviews from "./TotalReviews";
+import { useEffect, useState } from "react";
 
 const ReviewForm = ({ user }) => {
 
@@ -106,8 +106,7 @@ const ReviewForm = ({ user }) => {
                   onClick={() => setRating(star)}
                   onMouseEnter={() => setHoveredRating(star)}
                   onMouseLeave={() => setHoveredRating(0)}
-                  className={`text-3xl transition transform hover:scale-125 ${(hoveredRating || rating) >= star ? "text-yellow-400" : "text-gray-500"
-                    }`}
+                  className={`text-3xl transition transform hover:scale-125 ${(hoveredRating || rating) >= star ? "text-yellow-400" : "text-gray-500"}`}
                 >
                   ★
                 </button>

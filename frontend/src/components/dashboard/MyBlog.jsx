@@ -1,9 +1,9 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import Swal from 'sweetalert2'
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const MyBlog = () => {
 
@@ -26,23 +26,19 @@ const MyBlog = () => {
       setIsLoading(false)
 
       if (res.data.success) {
-
         setUserBlogs(res.data.data.userBlogs)
-
         setTotalPage(res.data.data.totalPages)
-
       }
 
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to fetch user blog");
       setIsLoading(false)
     }
-
   }
 
   useEffect(() => {
     fetchUserBlog()
-  }, [page,])
+  }, [page])
 
   const deleteBlog = async (id) => {
 
@@ -78,9 +74,9 @@ const MyBlog = () => {
             background: '#1f2937',
             color: '#fff'
           });
-
           setUserBlogs((prevBlogs) => prevBlogs.filter(blog => blog._id !== id));
         }
+
       } catch (error) {
         setIsLoading(false)
         Swal.fire({
@@ -95,7 +91,6 @@ const MyBlog = () => {
     setIsLoading(false)
   }
 
-
   const filteredBlogs = userBlogs.filter((blog) =>
     blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     blog.intro.toLowerCase().includes(searchTerm.toLowerCase())
@@ -104,6 +99,7 @@ const MyBlog = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-500">My Blogs</h1>
+
       {isLoading && (
         <div className="fixed inset-0 backdrop-blur-sm bg-black/10 z-40 flex items-center justify-center">
           <div className="w-14 h-14 border-4 border-red-700 border-t-blue-500 rounded-full animate-spin"></div>
@@ -124,16 +120,14 @@ const MyBlog = () => {
 
         {filteredBlogs && filteredBlogs.length > 0 ? (
           filteredBlogs.map((blog) => (
-            <div
-              key={blog._id}
-              className="bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-blue-700 transition duration-300"
-            >
+            <div key={blog._id} className="bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-blue-700 transition duration-300" >
               <Link to={`/blog/${blog._id}`}>
                 <img
                   src={blog.mainImage}
                   alt={blog.title}
                   className="w-full h-48 object-cover"
-                /></Link>
+                />
+              </Link>
               <div className="p-4 space-y-2">
                 <Link to={`/blog/${blog._id}`}>
                   <span className="inline-block bg-indigo-600 text-white text-xs px-3 py-1 rounded-full">
@@ -143,11 +137,7 @@ const MyBlog = () => {
                   <p className="text-gray-400 text-sm line-clamp-3">{blog.intro}</p>
                   <div className='flex justify-between'>
                     <p className="text-xs text-white py-3">
-                      {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
+                      {new Date(blog.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", })}
                     </p>
                     <p className="text-sm text-white py-3">{blog.views || 0} 👁️</p>
                   </div>

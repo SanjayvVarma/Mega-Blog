@@ -27,17 +27,13 @@ const blogSlice = createSlice({
 
         updateBlog: (state, action) => {
             state.blogData = state.blogData.map((blog) => (
-
                 blog._id === action.payload._id ? action.payload : blog
-
             ))
         },
 
         deleteBlog: (state, action) => {
             state.blogData = state.blogData.filter((blog) => (
-
                 blog._id !== action.payload
-
             ))
         },
 

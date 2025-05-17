@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { HiX } from 'react-icons/hi';
 import { toast } from 'react-toastify';
-import createBlogImg from '../../assets/createBlogImg.jpg'
-import LoadingBar from 'react-top-loading-bar';
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import LoadingBar from 'react-top-loading-bar';
 import { addBlog } from '../../features/blogSlice';
+import createBlogImg from '../../assets/createBlogImg.jpg';
 
 const CreateBlog = ({ setComponents }) => {
 
@@ -77,16 +77,13 @@ const CreateBlog = ({ setComponents }) => {
         }
       );
 
-
       loadingBar.current.complete();
       setIsLoading(false)
 
       if (res.data.success) {
-
         toast.success(res.data.message || 'Blog created successfully!');
         dispatch(addBlog(res.data.data));
         setComponents('MyBlog')
-
       }
 
     } catch (err) {
@@ -94,7 +91,6 @@ const CreateBlog = ({ setComponents }) => {
       loadingBar.current.complete();
       setIsLoading(false)
     }
-
   };
 
   return (
@@ -116,7 +112,6 @@ const CreateBlog = ({ setComponents }) => {
         </div>
       )}
 
-
       <div className="absolute inset-0 bg-black/70 backdrop-blur-lg z-0"></div>
 
       <div className="relative border border-white my-3 z-10 w-full max-w-4xl mx-auto p-6 backdrop-blur-lg text-white rounded-xl shadow-lg">
@@ -124,7 +119,6 @@ const CreateBlog = ({ setComponents }) => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
 
-          {/* Category */}
           <div>
             <label className="block mb-2 text-lg">Category</label>
             <select
@@ -140,7 +134,6 @@ const CreateBlog = ({ setComponents }) => {
             </select>
           </div>
 
-          {/* Title */}
           <div>
             <label className="block mb-2 text-lg">Blog Title</label>
             <input
@@ -153,7 +146,6 @@ const CreateBlog = ({ setComponents }) => {
             />
           </div>
 
-          {/* Intro */}
           <div>
             <label className="block mb-2 text-lg">Blog Intro</label>
             <textarea
@@ -166,13 +158,10 @@ const CreateBlog = ({ setComponents }) => {
             ></textarea>
           </div>
 
-
-          {/* Main Image */}
           <div>
             <label className="block mb-2 text-lg text-white">Blog Main Image</label>
 
             <div className="flex items-center justify-between flex-wrap gap-8 px-6 py-5 rounded-xl">
-              {/* Upload Box */}
               <label className="w-40 h-40 flex items-center justify-center border-2 border-dashed border-gray-500 text-gray-400 cursor-pointer rounded-lg overflow-hidden hover:border-blue-500 transition-all duration-300">
                 {mainImage ? (
                   <img src={URL.createObjectURL(mainImage)} alt="Main" className="w-full h-full object-cover" />
@@ -188,7 +177,6 @@ const CreateBlog = ({ setComponents }) => {
                 />
               </label>
 
-              {/* Message Box */}
               <div className="border border-gray-400 rounded-lg p-5 max-w-md">
                 <p className="text-gray-200 text-sm leading-relaxed">
                   Upload a high-quality main image that captures the essence of your blog post.
@@ -201,10 +189,8 @@ const CreateBlog = ({ setComponents }) => {
             </div>
           </div>
 
-
-
           <hr />
-          {/* Sections */}
+
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold my-4 text-center">Sections</h2>
             {sections.map((section, index) => (
@@ -267,7 +253,6 @@ const CreateBlog = ({ setComponents }) => {
             </button>
           </div>
 
-          {/* Publish Checkbox */}
           <div className="flex items-center space-x-2">
             <input
               type="checkbox"
@@ -278,15 +263,11 @@ const CreateBlog = ({ setComponents }) => {
             <label htmlFor="published" className="text-sm">Publish this blog immediately</label>
           </div>
 
-          {/* Submit */}
           <div className="pt-4 text-center">
             <button
               type="submit"
               disabled={!isSelectAllField}
-              className={`py-3 px-6 text-white font-semibold rounded-md transition duration-200 ${isSelectAllField
-                ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-gray-500 cursor-not-allowed"
-                }`}
+              className={`py-3 px-6 text-white font-semibold rounded-md transition duration-200 ${isSelectAllField ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-500 cursor-not-allowed"}`}
             >
               Submit Blog
             </button>
@@ -299,4 +280,3 @@ const CreateBlog = ({ setComponents }) => {
 };
 
 export default CreateBlog;
-

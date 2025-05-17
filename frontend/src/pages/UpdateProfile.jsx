@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { setUser } from '../features/userSlice';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { setUser } from '../features/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const UpdateProfile = () => {
 
@@ -17,7 +17,7 @@ const UpdateProfile = () => {
 
     const user = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const educationOptions = ["SSC", "INTERMEDIATE", "GRADUATION", "POST GRADUATION", "PhD", "OTHER"];
 
@@ -31,7 +31,6 @@ const UpdateProfile = () => {
             setEducation(user.education || '');
         }
     }, [user]);
-
 
     const updateProfileHandler = async () => {
         setIsLoading(true);
@@ -60,7 +59,6 @@ const UpdateProfile = () => {
             setIsLoading(false);
         }
     };
-
 
     return (
         <div

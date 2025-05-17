@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 
 function TotalReviews() {
+
     const [reviews, setReviews] = useState([]);
     const [averageRating, setAverageRating] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
@@ -14,8 +15,7 @@ function TotalReviews() {
 
     const fetchReviews = async () => {
         try {
-            const res = await axios.get(
-                `${import.meta.env.VITE_API_BASE_URL}/api/v1/review/all-review`,
+            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/review/all-review`,
                 { withCredentials: true }
             );
 
@@ -24,6 +24,7 @@ function TotalReviews() {
                 setAverageRating(res.data.data.averageRating);
                 setTotalReviews(res.data.data.totalReview);
             }
+
         } catch (error) {
             toast.error(error?.response?.data?.message || "Failed to fetch reviews");
         }
@@ -108,28 +109,19 @@ function TotalReviews() {
                             &times;
                         </button>
 
-                        <h3 className="text-xl font-bold text-white mb-4 text-center">
-                            ⭐User Reviews❤️
-                        </h3>
+                        <h3 className="text-xl font-bold text-white mb-4 text-center"> ⭐User Reviews❤️ </h3>
 
                         <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 scrollbar-hide">
                             {reviews.map((review) => (
-                                <div
-                                    key={review._id}
-                                    className="bg-gradient-to-br from-[#252555] via-[#252548] to-[#171731] p-4 rounded-md shadow relative"
-                                >
+                                <div key={review._id} className="bg-gradient-to-br from-[#252555] via-[#252548] to-[#171731] p-4 rounded-md shadow relative">
                                     <div className="flex justify-between items-center mb-2">
-                                        <span className="font-semibold text-lg text-blue-300">
-                                            {review.fullName}
-                                        </span>
+                                        <span className="font-semibold text-lg text-blue-300">{review.fullName}</span>
                                         <div className="flex justify-between items-center text-xs text-gray-400">
                                             <span>{getTimeAgo(review.createdAt)}</span>
                                         </div>
                                     </div>
 
-                                    <p className="text-gray-300 text-[16px] italic mb-1">
-                                        "{review.message}"
-                                    </p>
+                                    <p className="text-gray-300 text-[16px] italic mb-1"> "{review.message}" </p>
 
                                     <div className="flex justify-between items-center text-xs text-gray-400">
                                         <div className="flex text-yellow-400 text-sm mt-2">
@@ -157,4 +149,3 @@ function TotalReviews() {
 }
 
 export default TotalReviews;
-

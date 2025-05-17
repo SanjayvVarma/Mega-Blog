@@ -1,15 +1,15 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { BeatLoader } from 'react-spinners';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 const TrendingBlog = () => {
-      const blogs = useSelector((state) => state.blogs.blogData);;
+
+    const blogs = useSelector((state) => state.blogs.blogData);;
     const trendingBlogs = blogs?.slice(0, 7);
 
     return (
@@ -43,9 +43,7 @@ const TrendingBlog = () => {
                                         />
                                         <div className="p-4">
                                             <h4 className="text-sm text-yellow-400 mb-1 uppercase">{blog.category}</h4>
-                                            <h3 className="text-lg font-semibold text-white mb-2 line-clamp-2">
-                                                {blog.title}
-                                            </h3>
+                                            <h3 className="text-lg font-semibold text-white mb-2 line-clamp-2">{blog.title}</h3>
                                             <p className="text-gray-400 text-sm line-clamp-3">{blog.intro}</p>
 
                                             {blog.author && (
@@ -59,9 +57,7 @@ const TrendingBlog = () => {
                                                 </div>
                                             )}
 
-                                            <span className="inline-block mt-3 text-blue-500 hover:underline">
-                                                Read More →
-                                            </span>
+                                            <span className="inline-block mt-3 text-blue-500 hover:underline">Read More →</span>
                                         </div>
                                     </Link>
                                 </div>
@@ -79,4 +75,3 @@ const TrendingBlog = () => {
 };
 
 export default TrendingBlog;
-

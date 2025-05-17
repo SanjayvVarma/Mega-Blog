@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react'
-import { FaCalendarAlt, FaRegStar, FaStar, FaStarHalfAlt, FaTrash } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { FaCalendarAlt, FaRegStar, FaStar, FaStarHalfAlt, FaTrash } from 'react-icons/fa';
 
 const Reviews = () => {
 
@@ -106,14 +106,12 @@ const Reviews = () => {
           <p className="text-gray-300 text-sm">{totalReviews} review{totalReviews > 1 && "s"}</p>
         </div>
       )}
+
       <div className="overflow-y-auto max-h-[600px] scrollbar-hide p-2">
         {reviews && reviews.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {reviews.map((review) => (
-              <div
-                key={review._id}
-                className="relative group bg-gradient-to-br from-[#252555] via-[#252548] to-[#171731] border border-gray-700 rounded-2xl p-6 text-white flex flex-col justify-between min-h-[280px] shadow-xl transition-transform duration-300 transform hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
-              >
+              <div key={review._id} className="relative group bg-gradient-to-br from-[#252555] via-[#252548] to-[#171731] border border-gray-700 rounded-2xl p-6 text-white flex flex-col justify-between min-h-[280px] shadow-xl transition-transform duration-300 transform hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)]" >
                 <div className="absolute -inset-[1px] rounded-2xl border border-transparent group-hover:border-indigo-500 transition-all duration-300 pointer-events-none blur-[1px]"></div>
 
                 <div className="flex justify-between items-start">
@@ -163,4 +161,4 @@ const Reviews = () => {
   );
 }
 
-export default Reviews
+export default Reviews;

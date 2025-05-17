@@ -1,41 +1,37 @@
 import axios from 'axios';
 import { Camera } from 'lucide-react';
-import React, { useState } from 'react'
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
-import { useRef } from 'react';
-import defaultAvatar from '../assets/defaultAvatar.avif'
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import defaultAvatar from '../assets/defaultAvatar.avif';
 
 const Register = () => {
 
-
   const educationOptions = ["SSC", "INTERMEDIATE", "GRADUATION", "POST GRADUATION", "PhD", "OTHER"];
 
-  const [showPass, setShowPass] = useState(false)
-  const [showComPass, setShowComPass] = useState(false)
-  const [passMess, setPassMess] = useState('')
-  const [passValidateErr, setpassValidateErr] = useState('')
-
-  const [fullName, setFullName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [about, setAbout] = useState('')
-  const [answer, setAnswer] = useState('')
-  const [password, setPassword] = useState('')
-  const [comPassword, setComPassword] = useState('')
-  const [education, setEducation] = useState('')
-  const [role, setRole] = useState('')
-  const [avatar, setAvatar] = useState(null)
+  const [showPass, setShowPass] = useState(false);
+  const [showComPass, setShowComPass] = useState(false);
+  const [passMess, setPassMess] = useState('');
+  const [passValidateErr, setpassValidateErr] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [about, setAbout] = useState('');
+  const [answer, setAnswer] = useState('');
+  const [password, setPassword] = useState('');
+  const [comPassword, setComPassword] = useState('');
+  const [education, setEducation] = useState('');
+  const [role, setRole] = useState('');
+  const [avatar, setAvatar] = useState(null);
   const [preview, setPreview] = useState(defaultAvatar);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadingBar = useRef(null);
-  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  const isFormValid = fullName && email && phone && answer && password && comPassword && education && role && password === comPassword
+  const isFormValid = fullName && email && phone && answer && password && comPassword && education && role && password === comPassword;
 
   const handlePasswordValidateErr = (e) => {
     const newPassword = e.target.value;
@@ -54,27 +50,24 @@ const Register = () => {
       return;
     }
 
-  }
+  };
 
   const handleAvatarChange = (e) => {
 
     const file = e.target.files[0]
 
     if (file) {
-
       const reader = new FileReader()
       reader.onloadend = () => {
         setPreview(reader.result)
         setAvatar(file)
       }
       reader.readAsDataURL(file)
-
     }
-
-  }
+  };
 
   const handlePassMatch = (e) => {
-    const comfirmPassword = e.target.value
+    const comfirmPassword = e.target.value;
     setComPassword(comfirmPassword)
 
     if (password && comfirmPassword) {
@@ -87,7 +80,7 @@ const Register = () => {
     } else {
       setComPassword('')
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -114,12 +107,13 @@ const Register = () => {
       formData.append("avatar", avatar);
     }
 
-
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/v1/users/register`,
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/register`,
         formData,
-        { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" }
+        }
       )
 
       loadingBar.current.complete();
@@ -130,7 +124,6 @@ const Register = () => {
       }
 
       toast.success(response.data.message)
-
       navigate('/login')
 
       setFullName('')
@@ -150,7 +143,7 @@ const Register = () => {
       setIsLoading(false)
       toast.error(error.response?.data?.message || "User Register Failed");
     }
-  }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-700">
@@ -164,13 +157,11 @@ const Register = () => {
 
       <div className="bg-gray-900 shadow-lg rounded-lg flex flex-col w-full max-w-4xl overflow-hidden py-8 px-6 m-5">
 
-        {/* Heading */}
         <h1 className="text-2xl font-bold text-center mb-6 text-blue-400">USER REGISTRATION</h1>
 
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col items-center text-white">
 
-            {/* Avatar Upload */}
             <div className="w-24 h-24 relative mb-6">
               <img
                 src={preview}
@@ -179,15 +170,18 @@ const Register = () => {
               />
               <label className="absolute bottom-1 right-1 bg-blue-600 text-white p-2 rounded-full shadow-md cursor-pointer hover:bg-blue-700 transition">
                 <Camera size={18} />
-                <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleAvatarChange}
+                />
               </label>
             </div>
 
-            {/* Input Fields */}
             <div className="w-full">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                {/* Full Name */}
                 <div>
                   <label className="block text-sm font-medium">Full Name</label>
                   <input
@@ -200,7 +194,6 @@ const Register = () => {
                   />
                 </div>
 
-                {/* Email */}
                 <div>
                   <label className="block text-sm font-medium">Email</label>
                   <input
@@ -213,7 +206,6 @@ const Register = () => {
                   />
                 </div>
 
-                {/* Phone */}
                 <div>
                   <label className="block text-sm font-medium">Phone</label>
                   <input
@@ -227,7 +219,6 @@ const Register = () => {
                   />
                 </div>
 
-                {/* Security Answer */}
                 <div>
                   <label className="block text-sm font-medium">Security Answer</label>
                   <input
@@ -240,7 +231,6 @@ const Register = () => {
                   />
                 </div>
 
-                {/* Education */}
                 <div>
                   <label className="block text-sm font-medium">Select Education</label>
                   <select
@@ -257,7 +247,6 @@ const Register = () => {
                   </select>
                 </div>
 
-                {/* Select Role */}
                 <div>
                   <label className="block text-sm font-medium">Select Role</label>
                   <select
@@ -271,7 +260,6 @@ const Register = () => {
                   </select>
                 </div>
 
-                {/* Password */}
                 <div className='relative'>
                   <label className="block text-sm font-medium">Password</label>
                   <input
@@ -292,7 +280,6 @@ const Register = () => {
                   </button>
                 </div>
 
-                {/* Confirm Password */}
                 <div className='relative'>
                   <label className="block text-sm font-medium">Confirm Password</label>
                   <input
@@ -315,8 +302,6 @@ const Register = () => {
 
               </div>
 
-              {/* about */}
-
               <div className="">
                 <label className="block text-sm font-medium text-white m-2">About Me</label>
                 <textarea
@@ -330,8 +315,6 @@ const Register = () => {
                 <small className="text-gray-300">{about.length}/70</small>
               </div>
 
-
-              {/* Submit Button */}
               <div className="mt-6 flex justify-center">
                 <button
                   type="submit"
@@ -349,7 +332,6 @@ const Register = () => {
       </div>
     </div>
   );
-
 }
 
 export default Register;
