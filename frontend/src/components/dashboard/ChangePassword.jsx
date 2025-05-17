@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { useState } from 'react'
 import { toast } from 'react-toastify';
+import LoaderSpin from '../LoaderSpin';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import forgotPassImg from '../../assets/passwordForgot.png'
+import forgotPassImg from '../../assets/passwordForgot.png';
 
 const ChangePassword = ({ setComponents }) => {
 
@@ -84,11 +85,8 @@ const ChangePassword = ({ setComponents }) => {
             className="min-h-screen bg-cover bg-center flex justify-center items-center relative"
             style={{ backgroundImage: `url(${forgotPassImg})` }}
         >
-            {isLoading && (
-                <div className='fixed inset-0 backdrop-blur-sm bg-black/10 z-40 flex justify-center items-center'>
-                    <div className='w-14 h-14 border-4 border-white border-t-pink-600 rounded-full animate-spin'></div>
-                </div>
-            )}
+            {isLoading && <LoaderSpin text="Changing Password" message="Please wait while we update your password...." />}
+
             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
 
             <div className="relative z-10 bg-gray-500/10 backdrop-blur-lg p-20 max-w-3xl w-full rounded-xl shadow-2xl text-white flex flex-col items-center gap-5">
