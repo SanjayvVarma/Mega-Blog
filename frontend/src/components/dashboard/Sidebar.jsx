@@ -12,6 +12,7 @@ import { FaUser, FaPenFancy, FaBlog, FaStar, FaKey, FaSignOutAlt, FaTrash } from
 const Sidebar = ({ components, setComponents }) => {
 
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingAction, setLoadingAction] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -19,7 +20,7 @@ const Sidebar = ({ components, setComponents }) => {
   const token = useSelector((state) => state.auth.token);
 
   const handleLogOut = async (e) => {
-
+    setLoadingAction("logout")
     setIsLoading(true)
 
     try {
@@ -34,16 +35,18 @@ const Sidebar = ({ components, setComponents }) => {
         toast.success(response.data.message || "Logged out successfully!");
         setIsLoading(false)
         navigate("/");
+        setLoadingAction("")
       }
 
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred while logging out.");
       setIsLoading(false)
+      setLoadingAction("")
     }
   };
 
   const handleDeleteProfile = async () => {
-
+    setLoadingAction("delete")
     setIsLoading(true)
 
     const result = await Swal.fire({
@@ -71,15 +74,20 @@ const Sidebar = ({ components, setComponents }) => {
           dispatch(clearUser());
           toast.success(res.data.message || "profile deleted")
           navigate('/')
+          setLoadingAction("")
         }
 
       } catch (error) {
         toast.error(error?.response?.data?.message || "user delete failed")
         setIsLoading(false)
+        setLoadingAction("")
+
       }
     }
 
     setIsLoading(false)
+    setLoadingAction("")
+
   };
 
   const navItems = [
@@ -99,7 +107,24 @@ const Sidebar = ({ components, setComponents }) => {
 
   return (
     <>
-      {isLoading && <LoaderSpin text="Logging Out" message="Ending your session, please wait..." />}
+      {isLoading && (
+        <LoaderSpin
+          text={
+            loadingAction === "logout"
+              ? "Logging Out"
+              : loadingAction === "delete"
+                ? "Deleting Profile"
+                : "Loading..."
+          }
+          message={
+            loadingAction === "logout"
+              ? "Ending your session, please wait..."
+              : loadingAction === "delete"
+                ? "We're erasing your account, please wait..."
+                : "Please wait..."
+          }
+        />
+      )}
 
       <div className="md:hidden sticky top-[55px] z-30 bg-white/10 backdrop-blur-md border-b border-white/20 p-3 flex items-center gap-2 overflow-x-auto">
         <img
