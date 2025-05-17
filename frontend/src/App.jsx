@@ -17,6 +17,7 @@ import UpdateBlog from './pages/UpdateBlog';
 import { login } from './features/authSlice';
 import { setUser } from './features/userSlice';
 import PageNotFound from './pages/PageNotFound';
+import LoaderSpin from './components/LoaderSpin';
 import { Routes, Route } from 'react-router-dom';
 import UpdateProfile from './pages/UpdateProfile';
 import ForgotPassword from './pages/ForgotPassword';
@@ -27,6 +28,7 @@ import { setBlogs, setPages } from './features/blogSlice';
 function App() {
 
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false)
 
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -57,11 +59,14 @@ function App() {
   useEffect(() => {
 
     const fetchBlogs = async () => {
+      setIsLoading(true);
 
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/all-blogs?page=${page}&limit=12`, {
-          withCredentials: true,
-        });
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/all-blogs?page=${page}&limit=12`,
+          { withCredentials: true }
+        );
+
+        setIsLoading(false)
 
         if (res.data.success) {
           dispatch(setBlogs(res.data.data.blogs));
@@ -70,6 +75,7 @@ function App() {
 
       } catch (err) {
         toast.error(err?.response?.data.message || "Something went wrong while fetching blogs");
+        setIsLoading(false);
       }
     };
 
@@ -82,6 +88,7 @@ function App() {
 
   return (
     <>
+      {isLoading && <LoaderSpin text="Blog Loading" message="Please wait while we fetch your blog..." />}
       <div className='relative'>
         <div className="fixed top-0 left-0 w-full bg-gray-900 text-white shadow-md z-50">
           <Navbar />
