@@ -9,10 +9,10 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
 
                     <div>
-                        <Link to="/" className="relative text-3xl font-extrabold text-green-400 flex items-center">
-                            <span className="relative z-10 left-5 bottom-1.5">SK</span>
-                            <span className="relative text-4xl mx-2">💖</span>
-                            <span className="relative z-10 text-blue-400 right-8 top-2">BLOG</span>
+                        <Link to='/' className="relative flex items-center h-11 w-24 rounded-full text-xl font-extrabold bg-gradient-to-r from-[#145603] via-[#125f59] to-[#860830] p-1 borderAnimation border-2">
+                            <span className="relative z-10 left-6 bottom-3 text-green-500">SK</span>
+                            <span className="absolute left-1/2 transform -translate-x-1/2 text-4xl animate-bounce">💖</span>
+                            <span className="relative z-10 text-blue-300 right-3 top-2" >BLOG</span>
                         </Link>
                         <p className="mt-6 text-8 text-gray-400">
                             Insights, stories, and tips for tech enthusiasts and developers.
