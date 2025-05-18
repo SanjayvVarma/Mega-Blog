@@ -1,10 +1,10 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import LoaderSpin from '../LoaderSpin';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import LoaderSpin from '../LoaderSpin';
 
 const MyBlog = () => {
 
@@ -102,9 +102,7 @@ const MyBlog = () => {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-500">My Blogs</h1>
 
-      {isLoading && (
-        <LoaderSpin />
-      )}
+      {isLoading && (<LoaderSpin />)}
 
       <div className="mb-6 flex justify-center">
         <input

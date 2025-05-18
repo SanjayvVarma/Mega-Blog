@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import LoaderSpin from '../LoaderSpin';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { FaCalendarAlt, FaRegStar, FaStar, FaStarHalfAlt, FaTrash } from 'react-icons/fa';
@@ -9,6 +10,8 @@ const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
+  const [isLoading, setIsLoading] = useState(false)
+
 
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.user.user);
@@ -82,6 +85,9 @@ const Reviews = () => {
   return (
     <div className="flex-1 bg-gray-950 p-8 rounded-2xl shadow-xl">
       <h3 className="text-2xl font-bold text-white mb-4">Reviews</h3>
+      {isLoading && (
+        <LoaderSpin text="Retrieving Feedback" message="Please wait while we load user reviews." />
+      )}
 
       {totalReviews > 0 && (
         <div className="flex items-center justify-between bg-gradient-to-br from-[#3232c0] via-[#1a1a2e] to-[#1313e7] text-white mb-2 p-5 rounded-xl shadow-md">
