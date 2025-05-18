@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import LoaderSpin from '../LoaderSpin';
 
 const MyBlog = () => {
 
@@ -93,7 +94,8 @@ const MyBlog = () => {
 
   const filteredBlogs = userBlogs.filter((blog) =>
     blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    blog.intro.toLowerCase().includes(searchTerm.toLowerCase())
+    blog.intro.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    blog.category.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   return (
@@ -101,9 +103,7 @@ const MyBlog = () => {
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-500">My Blogs</h1>
 
       {isLoading && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-black/10 z-40 flex items-center justify-center">
-          <div className="w-14 h-14 border-4 border-red-700 border-t-blue-500 rounded-full animate-spin"></div>
-        </div>
+        <LoaderSpin />
       )}
 
       <div className="mb-6 flex justify-center">
