@@ -77,24 +77,31 @@ function TotalReviews() {
         });
     };
 
+    const formatCount = (num) => {
+        if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
+        if (num >= 1_000_000) return (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+        if (num >= 1_000) return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
+        return num.toString();
+    };
+
     return (
         <div>
             {totalReviews > 0 && (
                 <div
                     onClick={() => setViewReview(true)}
-                    className="flex items-center justify-between bg-blue-950 text-white mb-8 p-5 rounded-xl shadow-md cursor-pointer"
+                    className="flex items-center justify-between bg-blue-950 text-white mb-8 py-4 px-1 rounded-xl shadow-md cursor-pointer"
                 >
-                    <div className="flex items-center gap-3 text-2xl font-semibold">
+                    <div className="flex items-center gap-2 text-xl font-semibold">
                         <div className="flex text-yellow-400 gap-0.5">
                             {renderStars(averageRating)}
                         </div>
-                        <span className="text-white text-lg">
+                        <span className="text-white text-sm font-bold">
                             {averageRating.toFixed(1)} / 5
                         </span>
                     </div>
 
                     <p className="text-gray-200 text-sm">
-                        {totalReviews} review{totalReviews > 1 && "s"}
+                        {formatCount(totalReviews)} reviews
                     </p>
                 </div>
             )}
