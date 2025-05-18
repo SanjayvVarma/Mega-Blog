@@ -17,12 +17,14 @@ const Reviews = () => {
   const user = useSelector((state) => state.user.user);
 
   const fetchReviews = async () => {
-
+    setIsLoading(true)
     try {
 
       const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/review/all-review`,
         { withCredentials: true }
       );
+
+      setIsLoading(false)
 
       if (res.data.success) {
         setReviews(res.data.data.reviews);
@@ -32,6 +34,7 @@ const Reviews = () => {
 
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to fetch reviews");
+      setIsLoading(false)
     }
   };
 
