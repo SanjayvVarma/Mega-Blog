@@ -61,8 +61,6 @@ const Sidebar = ({ components, setComponents }) => {
   };
 
   const handleDeleteProfile = async () => {
-    setLoadingAction("delete")
-    setIsLoading(true)
 
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -77,6 +75,9 @@ const Sidebar = ({ components, setComponents }) => {
     });
 
     if (result.isConfirmed) {
+      setLoadingAction("delete")
+      setIsLoading(true)
+
       try {
         const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/delete-user/${user._id}`,
           { withCredentials: true }
@@ -99,9 +100,6 @@ const Sidebar = ({ components, setComponents }) => {
 
       }
     }
-
-    setIsLoading(false)
-    setLoadingAction("")
 
   };
 

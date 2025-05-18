@@ -43,8 +43,6 @@ const MyBlog = () => {
 
   const deleteBlog = async (id) => {
 
-    setIsLoading(true)
-
     const result = await Swal.fire({
       title: 'Are you sure?',
       text: "This blog will be deleted permanently!",
@@ -58,6 +56,8 @@ const MyBlog = () => {
     });
 
     if (result.isConfirmed) {
+      setIsLoading(true)
+
       try {
         const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/delete-blog/${id}`, {
           withCredentials: true
@@ -89,7 +89,6 @@ const MyBlog = () => {
         });
       }
     }
-    setIsLoading(false)
   }
 
   const filteredBlogs = userBlogs.filter((blog) =>
