@@ -18,10 +18,10 @@ const Navbar = () => {
   return (
     <div className="bg-gradient-to-br from-[#2b2b7f] via-[#1b1b32] to-[#591091] text-white shadow-md py-2 px-10 flex justify-between items-center z-10 relative border-b border-blue-600">
 
-      <Link className="relative text-2xl font-extrabold text-green-400 flex items-center">
-        <span className="relative z-10 left-2 bottom-1.5">SK</span>
-        <span className="absolute left-1/2 transform -translate-x-1/2 text-4xl">💖</span>
-        <span className="relative z-10 text-blue-400 left-4 top-1.5" >BLOG</span>
+      <Link className="relative flex items-center h-11 rounded-full text-xl font-extrabold bg-gradient-to-r from-[#145603] via-[#125f59] to-[#860830] p-1 borderAnimation border-2">
+        <span className="relative z-10 left-6 bottom-3 text-green-500">SK</span>
+        <span className="absolute left-1/2 transform -translate-x-1/2 text-4xl animate-bounce">💖</span>
+        <span className="relative z-10 text-blue-300 right-3 top-2" >BLOG</span>
       </Link>
 
       <div className="flex items-center gap-5 md:hidden">
