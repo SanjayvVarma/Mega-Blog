@@ -1,4 +1,5 @@
 import axios from "axios";
+import LoaderSpin from "../LoaderSpin";
 import { toast } from "react-toastify";
 import TotalReviews from "./TotalReviews";
 import { useEffect, useState } from "react";
@@ -10,6 +11,7 @@ const ReviewForm = ({ user }) => {
   const [message, setMessage] = useState("");
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -49,6 +51,7 @@ const ReviewForm = ({ user }) => {
     <div className="bg-gradient-to-br from-[#552525] via-[#252548] to-[#311717] p-5 border-b border-gray-700 shadow-3xl">
       <h3 className="text-3xl font-bold text-yellow-500 text-center mb-8">✍️ Add Your Review</h3>
       <div className="bg-gray-800 p-8 rounded-2xl shadow-lg max-w-6xl mx-auto hover:shadow-2xl transition duration-300">
+        {isLoading && (<LoaderSpin text="Sharing Your Thoughts" message="We're adding your opinion to the conversation..." />)}
         <div>
           <TotalReviews />
         </div>
