@@ -20,28 +20,43 @@ const Sidebar = ({ components, setComponents }) => {
   const token = useSelector((state) => state.auth.token);
 
   const handleLogOut = async (e) => {
-    setLoadingAction("logout")
-    setIsLoading(true)
+    const result = await Swal.fire({
+      title: "Ready to Logout?",
+      text: "You will need to sign in again to continue.",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Yes, logout',
+      cancelButtonText: 'Cancel',
+      background: '#1f2937',
+      color: '#fff',
+    });
 
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/logout`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
-      )
+    if (result.isConfirmed) {
+      setLoadingAction("logout")
+      setIsLoading(true)
 
-      if (response.data.success) {
-        dispatch(logout());
-        dispatch(clearUser());
-        toast.success(response.data.message || "Logged out successfully!");
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/logout`,
+          {},
+          { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
+        )
+
+        if (response.data.success) {
+          dispatch(logout());
+          dispatch(clearUser());
+          toast.success(response.data.message || "Logged out successfully!");
+          setIsLoading(false)
+          navigate("/");
+          setLoadingAction("")
+        }
+
+      } catch (error) {
+        toast.error(error.response?.data?.message || "An error occurred while logging out.");
         setIsLoading(false)
-        navigate("/");
         setLoadingAction("")
       }
-
-    } catch (error) {
-      toast.error(error.response?.data?.message || "An error occurred while logging out.");
-      setIsLoading(false)
-      setLoadingAction("")
     }
   };
 
