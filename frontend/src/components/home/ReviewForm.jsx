@@ -22,13 +22,15 @@ const ReviewForm = ({ user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true)
     try {
 
       const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/review/create-review`,
         { fullName, email, message, rating },
         { withCredentials: true }
       );
+
+      setIsLoading(false)
 
       if (res.data.success) {
         toast.success(res.data.message || "Review submitted successfully");
