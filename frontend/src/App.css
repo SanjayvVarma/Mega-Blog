@@ -2,6 +2,10 @@
 @import 'swiper/css/navigation';
 @import 'swiper/css/pagination';
 
+* {
+  font-family: sans-serif;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   width: 6px;
 }
