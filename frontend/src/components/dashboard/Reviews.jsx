@@ -10,8 +10,8 @@ const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
-  const [isLoading, setIsLoading] = useState(false)
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.user.user);
@@ -43,12 +43,14 @@ const Reviews = () => {
   }, []);
 
   const handleDelete = async (id) => {
+    setIsDeleteLoading(true)
 
     try {
-
       const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/review/delete-review/${id}`,
         { withCredentials: true }
       );
+
+      setIsDeleteLoading(false)
 
       if (res.data.success) {
         toast.success(res.data.message || "Review deleted successfully");
@@ -56,6 +58,7 @@ const Reviews = () => {
       }
 
     } catch (error) {
+      setIsDeleteLoading(false)
       toast.error(error?.response?.data?.message || "Failed to delete review");
     }
   };
@@ -117,6 +120,7 @@ const Reviews = () => {
       )}
 
       <div className="overflow-y-auto max-h-[600px] scrollbar-hide p-2">
+        {isDeleteLoading && <LoaderSpin />}
         {reviews && reviews.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {reviews.map((review) => (
