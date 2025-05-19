@@ -20,7 +20,7 @@ const Navbar = () => {
 
       <Link to='/' className="relative flex items-center h-11 rounded-full text-lg md:text-xl font-extrabold bg-gradient-to-r from-[#145603] via-[#125f59] to-[#860830] p-1 borderAnimation border-2">
         <span className="relative z-10 left-6 bottom-3 text-green-500">SK</span>
-        <span className="absolute left-1/2 transform -translate-x-1/2 text-4xl animate-bounce">💖</span>
+        <span className="absolute left-1/2 transform -translate-x-1/2 text-3xl md:text-4xl animate-bounce">💖</span>
         <span className="relative z-10 text-blue-300 right-3 top-2" >BLOG</span>
       </Link>
 
