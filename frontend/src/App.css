@@ -50,3 +50,42 @@
 .borderAnimation {
   animation: borderColorChange 3s linear infinite;
 }
+
+@keyframes heart-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  8% {
+    transform: rotate(360deg);
+  }
+
+  16%,
+  32%,
+  48%,
+  64%,
+  80% {
+    transform: translateY(-10px);
+  }
+
+  24%,
+  40%,
+  56%,
+  72%,
+  88% {
+    transform: translateY(0);
+  }
+
+  92% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.heart-animate {
+  animation: heart-animation 6s ease-in-out infinite;
+  display: inline-block;
+}
