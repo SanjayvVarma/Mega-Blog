@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import LoaderSpin from '../LoaderSpin';
 
 function TotalReviews() {
 
@@ -10,6 +11,7 @@ function TotalReviews() {
     const [averageRating, setAverageRating] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
     const [viewReview, setViewReview] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
     const user = useSelector((state) => state.user.user);
 
@@ -31,12 +33,13 @@ function TotalReviews() {
     };
 
     const handleDelete = async (id) => {
-
+        setIsLoading(true)
         try {
-
             const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/review/delete-review/${id}`,
                 { withCredentials: true }
             );
+
+            setIsLoading(false)
 
             if (res.data.success) {
                 toast.success(res.data.message || "Review deleted successfully");
@@ -45,6 +48,7 @@ function TotalReviews() {
 
         } catch (error) {
             toast.error(error?.response?.data?.message || "Failed to delete review");
+            setIsLoading(false)
         }
     };
 
@@ -105,7 +109,7 @@ function TotalReviews() {
                     </p>
                 </div>
             )}
-
+            {isLoading && <LoaderSpin text='Deleting' />}
             {viewReview && (
                 <div className="fixed h-screen inset-0 backdrop-blur bg-opacity-60 flex items-center justify-center z-50 m-2">
                     <div className="bg-white/20 p-6 rounded-xl w-full max-w-2xl shadow-lg relative">
