@@ -26,20 +26,24 @@
     border-color: blue;
   }
 
-  25% {
+  20% {
     border-color: red;
   }
 
-  50% {
+  40% {
     border-color: yellow;
   }
 
-  75% {
+  60% {
     border-color: green;
   }
 
+  80% {
+    border-color: cyan;
+  }
+
   100% {
-    border-color: blue;
+    border-color: rgb(48, 48, 182);
   }
 }
 
