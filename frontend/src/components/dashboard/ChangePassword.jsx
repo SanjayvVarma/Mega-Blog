@@ -85,7 +85,9 @@ const ChangePassword = ({ setComponents }) => {
             className="min-h-screen bg-cover bg-center flex justify-center items-center relative"
             style={{ backgroundImage: `url(${forgotPassImg})` }}
         >
-            {isLoading && <LoaderSpin text="Changing Password" message="Please wait while we update your password...." />}
+            {isLoading &&
+                <LoaderSpin text="Changing Password" message="Please wait while we update your password...." />
+            }
 
             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
 
