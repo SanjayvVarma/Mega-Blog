@@ -31,7 +31,7 @@ const blogSlice = createSlice({
             ))
         },
 
-        deleteBlog: (state, action) => {
+        deleteBlogs: (state, action) => {
             state.blogData = state.blogData.filter((blog) => (
                 blog._id !== action.payload
             ))
@@ -48,6 +48,6 @@ const blogSlice = createSlice({
     }
 });
 
-export const { setPages, setBlogs, addBlog, updateBlog, deleteBlog, setLoading, setError } = blogSlice.actions;
+export const { setPages, setBlogs, addBlog, updateBlog, deleteBlogs, setLoading, setError } = blogSlice.actions;
 
 export default blogSlice.reducer;
