@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { HiX } from 'react-icons/hi';
 import { toast } from 'react-toastify';
+import LoaderSpin from '../LoaderSpin';
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import LoadingBar from 'react-top-loading-bar';
 import { addBlog } from '../../features/blogSlice';
 import createBlogImg from '../../assets/createBlogImg.jpg';
-import LoaderSpin from '../LoaderSpin';
 
 const CreateBlog = ({ setComponents }) => {
 

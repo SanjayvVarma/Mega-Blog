@@ -6,6 +6,7 @@ import LoadingBar from 'react-top-loading-bar';
 import { updateBlog } from '../features/blogSlice';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import LoaderSpin from '../components/LoaderSpin';
 
 const UpdateBlog = () => {
 
@@ -127,15 +128,7 @@ const UpdateBlog = () => {
                     <LoadingBar color="#3b82f6" ref={loadingBar} height={4} />
 
                     {isLoading && (
-                        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex flex-col gap-4 items-center justify-center z-50 text-white">
-                            <div className="w-12 h-12 border-4 border-white border-t-blue-500 rounded-full animate-spin"></div>
-                            <div className="flex gap-1 text-lg font-semibold">
-                                <span>Updating blog</span>
-                                <span className="animate-pulse">.</span>
-                                <span className="animate-pulse animation-delay-200">.</span>
-                                <span className="animate-pulse animation-delay-400">.</span>
-                            </div>
-                        </div>
+                        <LoaderSpin text="Updating Your Blog" message="Hang tight! We’re saving your latest changes..." />
                     )}
 
                     <div className="absolute inset-0 bg-black/70 backdrop-blur-lg z-0"></div>

@@ -3,8 +3,11 @@ import Swal from 'sweetalert2';
 import LoaderSpin from '../LoaderSpin';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { deleteBlogs } from '../../features/blogSlice';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+
 
 const MyBlog = () => {
 
@@ -13,6 +16,8 @@ const MyBlog = () => {
   const [totalPage, setTotalPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+
+  const dispatch = useDispatch()
 
   const fetchUserBlog = async () => {
 
@@ -75,7 +80,9 @@ const MyBlog = () => {
             background: '#1f2937',
             color: '#fff'
           });
+
           setUserBlogs((prevBlogs) => prevBlogs.filter(blog => blog._id !== id));
+          dispatch(deleteBlogs(id))
         }
 
       } catch (error) {
