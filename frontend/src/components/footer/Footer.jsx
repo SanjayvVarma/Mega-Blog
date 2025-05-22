@@ -1,8 +1,35 @@
+import axios from 'axios';
+import { useState } from "react";
+import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import { TfiEmail } from "react-icons/tfi";
 import { FaTwitter, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Footer = () => {
+
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/subscribe`,
+                { fullName, email },
+                { withCredentials: true }
+            );
+
+            if (res.data.success) {
+                toast.success(res.data.message || "Verification email sent. Please check your inbox.")
+                setFullName("")
+                setEmail("")
+            }
+
+        } catch (error) {
+            toast.error(error?.response?.data?.message || "Something went wrong")
+        }
+    }
+
     return (
         <footer className="bg-gradient-to-br from-[#4f5525] via-[#252548] to-[#2f3117] text-gray-300 py-10">
             <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -43,17 +70,17 @@ const Footer = () => {
 
                     <div>
                         <h3 className="text-lg font-semibold text-white">Get blog articles via email</h3>
-                        <form className="mt-3 space-y-3">
+                        <form onSubmit={handleSubmit} className="mt-3 space-y-3">
                             <input
                                 type="text"
-                                name="name"
-                                placeholder="Your Name"
+                                onChange={(e) => setFullName(e.target.value)}
+                                placeholder="Your FullName"
                                 className="w-full px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:ring focus:ring-green-500 outline-none"
                                 required
                             />
                             <input
                                 type="email"
-                                name="email"
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Your Email"
                                 className="w-full px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-600 focus:ring focus:ring-green-500 outline-none"
                                 required

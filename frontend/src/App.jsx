@@ -9,13 +9,13 @@ import Privacy from './pages/Privacy';
 import Register from './pages/Register';
 import AllAdmin from './pages/AllAdmin';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
 import { useEffect, useState } from 'react';
 import SingleBlog from './pages/SingleBlog';
 import UpdateBlog from './pages/UpdateBlog';
 import { login } from './features/authSlice';
 import { setUser } from './features/userSlice';
+import Footer from './components/footer/Footer';
 import PageNotFound from './pages/PageNotFound';
 import LoaderSpin from './components/LoaderSpin';
 import { Routes, Route } from 'react-router-dom';
@@ -24,6 +24,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import { toast, ToastContainer } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBlogs, setPages } from './features/blogSlice';
+import VerifySubscribe from './components/footer/VerifySubscribe';
 
 function App() {
 
@@ -89,30 +90,36 @@ function App() {
   return (
     <>
       {isLoading && <LoaderSpin text="Blog Loading" message="Please wait while we fetch your blog..." />}
-      <div className='relative'>
-        <div className="fixed top-0 left-0 w-full bg-gray-900 text-white shadow-md z-50">
-          <Navbar />
-        </div>
-        <div className="pt-12 md:pt-16">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<LogIn />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/blogs" element={<Blogs page={page} setPage={setPage} />} />
-            <Route path="/authors" element={<AllAdmin />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/blog/:id" element={<SingleBlog />} />
-            <Route path="/update/:id" element={<UpdateBlog />} />
-            <Route path='/update-profile' element={<UpdateProfile />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </div>
-        <Footer />
-      </div>
+
+      <Routes>
+        <Route path="/verify" element={<VerifySubscribe />} />
+        <Route path="/*" element={
+          <div className='relative'>
+            <div className="fixed top-0 left-0 w-full bg-gray-900 text-white shadow-md z-50">
+              <Navbar />
+            </div>
+            <div className="pt-12 md:pt-16">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<LogIn />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/blogs" element={<Blogs page={page} setPage={setPage} />} />
+                <Route path="/authors" element={<AllAdmin />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/blog/:id" element={<SingleBlog />} />
+                <Route path="/update/:id" element={<UpdateBlog />} />
+                <Route path='/update-profile' element={<UpdateProfile />} />
+                <Route path="*" element={<PageNotFound />} />
+              </Routes>
+            </div>
+            <Footer />
+          </div>
+        } />
+      </Routes>
       <ToastContainer position="top-center" autoClose='2500' />
     </>
   )
