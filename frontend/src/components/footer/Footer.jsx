@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from 'react-toastify';
 import LoaderSpin from '../LoaderSpin';
 import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import { TfiEmail } from "react-icons/tfi";
 import { FaTwitter, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 
@@ -11,6 +12,8 @@ const Footer = () => {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    const isAuth = useSelector((state) => state.auth.isAuth);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -57,7 +60,7 @@ const Footer = () => {
                             <li><Link to="/" className="hover:text-blue-300 transition">Home</Link></li>
                             <li><Link to="/about" className="hover:text-blue-300 transition">About</Link></li>
                             <li><Link to="/contact" className="hover:text-blue-300 transition">Contact</Link></li>
-                            <li><Link to="/blogs" className="hover:text-blue-300 transition">blogs</Link></li>
+                            {isAuth && <li><Link to="/blogs" className="hover:text-blue-300 transition">blogs</Link></li>}
                             <li><Link to="/privacy" className="hover:text-blue-300 transition">privacy</Link></li>
                         </ul>
                     </div>

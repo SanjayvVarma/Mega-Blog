@@ -8,6 +8,7 @@ import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
 import Register from './pages/Register';
 import AllAdmin from './pages/AllAdmin';
+import Scroll from './components/Scroll';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import { useEffect, useState } from 'react';
@@ -90,7 +91,7 @@ function App() {
   return (
     <>
       {isLoading && <LoaderSpin text="Blog Loading" message="Please wait while we fetch your blog..." />}
-
+      <Scroll />
       <Routes>
         <Route path="/verify" element={<VerifySubscribe />} />
         <Route path="/*" element={
