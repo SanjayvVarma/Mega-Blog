@@ -6,6 +6,7 @@ import Reviews from '../components/dashboard/Reviews';
 import Sidebar from '../components/dashboard/Sidebar';
 import CreateBlog from '../components/dashboard/CreateBlog';
 import ChangePassword from '../components/dashboard/ChangePassword';
+import Subscriber from '../components/dashboard/Subscriber';
 
 const Dashboard = () => {
 
@@ -31,6 +32,8 @@ const Dashboard = () => {
               <MyBlog />
             ) : components === "ChangePassword" ? (
               <ChangePassword setComponents={setComponents} />
+            ) : components === "Subscriber" ? (
+              <Subscriber />
             ) : (
               <div className='text-center text-blue-500 font-semibold text-xl'>
                 <p>Component Not Found</p>

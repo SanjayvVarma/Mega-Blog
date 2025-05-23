@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from "../../features/authSlice";
 import { clearUser } from "../../features/userSlice";
 import { useDispatch, useSelector } from 'react-redux';
-import { FaUser, FaPenFancy, FaBlog, FaStar, FaKey, FaSignOutAlt, FaTrash } from 'react-icons/fa';
+import { FaUser, FaPenFancy, FaBlog, FaStar, FaKey, FaSignOutAlt, FaTrash, FaUsers } from 'react-icons/fa';
 
 const Sidebar = ({ components, setComponents }) => {
 
@@ -104,11 +104,12 @@ const Sidebar = ({ components, setComponents }) => {
   };
 
   const navItems = [
-    { label: 'My Profile', value: 'Profile', icon: <FaUser />, bgColor: 'bg-blue-900' },
-    { label: 'My Blogs', value: 'MyBlog', icon: <FaBlog />, bgColor: 'bg-purple-900' },
-    { label: 'Create Blog', value: 'CreateBlog', icon: <FaPenFancy />, bgColor: 'bg-green-900' },
-    { label: 'Reviews', value: 'Reviews', icon: <FaStar />, bgColor: 'bg-pink-900' },
-    { label: 'Change Password', value: 'ChangePassword', icon: <FaKey />, bgColor: 'bg-blue-900' },
+    { label: 'My Profile', value: 'Profile', icon: <FaUser />, bgColor: 'bg-blue-600' },
+    { label: 'My Blogs', value: 'MyBlog', icon: <FaBlog />, bgColor: 'bg-purple-600' },
+    { label: 'Create Blog', value: 'CreateBlog', icon: <FaPenFancy />, bgColor: 'bg-green-600' },
+    { label: 'Reviews', value: 'Reviews', icon: <FaStar />, bgColor: 'bg-pink-600' },
+    { label: 'Subscriber', value: 'Subscriber', icon: <FaUsers />, bgColor: 'bg-yellow-600' },
+    { label: 'Change Password', value: 'ChangePassword', icon: <FaKey />, bgColor: 'bg-red-600' }
   ];
 
   const filteredNavItems = navItems.filter(item => {
