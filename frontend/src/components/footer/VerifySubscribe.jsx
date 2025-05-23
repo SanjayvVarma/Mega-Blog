@@ -51,8 +51,8 @@ const VerifySubscribe = () => {
                     <span className="absolute left-1/2 transform -translate-x-1/2 text-4xl heart-animate">💞</span>
                     <span className="relative z-10 text-blue-200 right-3 top-2 drop-shadow-md" >BLOG</span>
                 </p>
-                <div className="relative flex items-center h-11 rounded-xl p-1 font-extrabold bg-gradient-to-r from-blue-900 via-cyan-600 to-blue-900 borderAnimation border-2 font-semibold tracking-wide font-serif">
-                    <h1 className="text-xl font-semibold text-white animate-bounce">WELCOME TO MEGA SKBLOG</h1>
+                <div className="relative flex items-center h-11 rounded-xl p-1 font-extrabold bg-gradient-to-r from-blue-900 via-cyan-600 to-blue-900 borderAnimation border-2 tracking-wide font-serif">
+                    <h1 className="text-[16px] p-3 md:text-xl font-semibold text-white md:animate-bounce">WELCOME TO MEGA SKBLOG</h1>
                 </div>
             </div>
 
