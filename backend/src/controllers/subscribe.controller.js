@@ -67,6 +67,15 @@ const verifySubscription = asyncHandler(async (req, res) => {
 
 const viewSubscribe = asyncHandler(async (req, res) => {
 
+    const subscribers = await Subscribe.find({ isVerified: true }).sort({ createdAt: -1 });
+
+    if (subscribers.length === 0) {
+        throw new ApiError(404, "No verified subscribers found");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, subscribers, true, "Fetched verified subscribers")
+    );
 });
 
 const deleteSubscribe = asyncHandler(async (req, res) => {
