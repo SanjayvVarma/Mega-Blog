@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { MdSend } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { getTimeAgo } from '../utils/timeDate';
 import { ClimbingBoxLoader } from 'react-spinners';
 import { Link, useParams } from 'react-router-dom';
 import { FaCalendarAlt, FaCommentDots, FaTrash } from 'react-icons/fa';
@@ -101,22 +102,6 @@ const SingleBlog = () => {
       toast.error(error?.response?.data?.message || "delete comment failed")
     }
 
-  };
-
-  const getTimeAgo = (dateString) => {
-    const now = new Date();
-    const past = new Date(dateString);
-    const diff = Math.floor((now - past) / 1000);
-
-    if (diff < 60) return `${diff} second${diff !== 1 ? 's' : ''} ago`;
-    if (diff < 3600) return `${Math.floor(diff / 60)} minute${diff < 120 ? '' : 's'} ago`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)} hour${diff < 7200 ? '' : 's'} ago`;
-    if (diff < 604800) return `${Math.floor(diff / 86400)} day${diff < 172800 ? '' : 's'} ago`;
-    if (diff < 1209600) return `1 week ago`;
-
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric", month: "long", day: "numeric"
-    });
   };
 
   return (

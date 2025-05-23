@@ -1,9 +1,10 @@
 import axios from 'axios';
+import LoaderSpin from '../LoaderSpin';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { getTimeAgo } from '../../utils/timeDate';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
-import LoaderSpin from '../LoaderSpin';
 
 function TotalReviews() {
 
@@ -62,22 +63,6 @@ function TotalReviews() {
             if (rating >= value) return <FaStar key={i} />;
             else if (rating >= value - 0.5) return <FaStarHalfAlt key={i} />;
             else return <FaRegStar key={i} />;
-        });
-    };
-
-    const getTimeAgo = (dateString) => {
-        const now = new Date();
-        const past = new Date(dateString);
-        const diff = Math.floor((now - past) / 1000);
-
-        if (diff < 60) return `${diff} sec ago`;
-        if (diff < 3600) return `${Math.floor(diff / 60)} min ago`;
-        if (diff < 86400) return `${Math.floor(diff / 3600)} hr ago`;
-        if (diff < 604800) return `${Math.floor(diff / 86400)} day ago`;
-        if (diff < 1209600) return `1 week ago`;
-
-        return new Date(dateString).toLocaleDateString("en-US", {
-            year: "numeric", month: "long", day: "numeric"
         });
     };
 
