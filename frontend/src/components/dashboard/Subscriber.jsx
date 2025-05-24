@@ -29,11 +29,32 @@ const Subscriber = () => {
             setIsLoading(false)
             toast.error(error?.response?.data?.message || "Subscriber fetch faild due to some error")
         }
-    }
+    };
+
+    const deleteSubHandler = async (id) => {
+        setIsLoading(true)
+
+        try {
+
+            const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/subscribe/delete-sub/${id}`,
+                { withCredentials: true }
+            )
+            setIsLoading(false)
+
+            if (res.data.success) {
+                toast.success(res.data.message || "Subscriber delete successfully")
+                fetchSubscriber()
+            }
+
+        } catch (error) {
+            setIsLoading(false)
+            toast.error(error?.response?.data?.message || "Something went wrong")
+        }
+    };
 
     useEffect(() => {
         fetchSubscriber()
-    }, [])
+    }, []);
 
     return (
         <div className="relative h-full min-h-screen bg-gray-900 px-4 sm:px-8">
@@ -83,7 +104,10 @@ const Subscriber = () => {
                                                     <span>{getTimeAgo(sub.createdAt)}</span>
                                                 </div>
 
-                                                <button className="px-3 py-2 bg-red-600 hover:bg-red-800 text-white text-xs rounded-md flex items-center gap-1 shadow-sm transition-all duration-200"  >
+                                                <button
+                                                    onClick={() => deleteSubHandler(sub._id)}
+                                                    className="px-3 py-2 bg-red-600 hover:bg-red-800 text-white text-xs rounded-md flex items-center gap-1 shadow-sm transition-all duration-200"
+                                                >
                                                     <FaTrash /> Delete
                                                 </button>
                                             </div>

@@ -5,8 +5,8 @@ import Profile from '../components/dashboard/Profile';
 import Reviews from '../components/dashboard/Reviews';
 import Sidebar from '../components/dashboard/Sidebar';
 import CreateBlog from '../components/dashboard/CreateBlog';
-import ChangePassword from '../components/dashboard/ChangePassword';
 import Subscriber from '../components/dashboard/Subscriber';
+import ChangePassword from '../components/dashboard/ChangePassword';
 
 const Dashboard = () => {
 
