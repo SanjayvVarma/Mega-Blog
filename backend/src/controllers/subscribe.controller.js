@@ -80,6 +80,18 @@ const viewSubscribe = asyncHandler(async (req, res) => {
 
 const deleteSubscribe = asyncHandler(async (req, res) => {
 
+    const { id } = req.params;
+
+    const deleteSubscriber = await Subscribe.findByIdAndDelete(id)
+
+    if (!deleteSubscriber) {
+        throw new ApiError(404, "Subscriber not found")
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, null, true, "Subscription deleted successfully")
+    )
+
 });
 
 export { createSubscription, verifySubscription, viewSubscribe, deleteSubscribe };
