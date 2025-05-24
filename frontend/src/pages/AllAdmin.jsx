@@ -1,42 +1,43 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { ClimbingBoxLoader } from 'react-spinners';
+import LoaderSpin from '../components/LoaderSpin';
 import { FaFacebook, FaGraduationCap, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 const AllAdmin = () => {
 
     const [authores, setAuthores] = useState([]);
-
-    const isAuth = useSelector((state) => state.auth.isAuth);
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchAuthor = async () => {
+        setIsLoading(true);
 
         try {
 
             const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-admin`,
                 { withCredentials: true }
             )
+            setIsLoading(false)
 
             if (res.data.success) {
                 setAuthores(res.data.data)
             }
 
         } catch (error) {
-            toast.error(error.res.data.message || "No Admin available")
+            toast.error(error.response?.data?.message || "No Admin available")
+            setIsLoading(false)
         }
 
     };
 
     useEffect(() => {
         fetchAuthor()
-    }, [isAuth]);
+    }, []);
 
     return (
         <div className="py-10 px-5 bg-gradient-to-br from-[#252555] via-[#252548] to-[#271731]">
-
+            {isLoading && <LoaderSpin text='Fetching All Admins' />}
             <div className="flex flex-wrap justify-center gap-6">
                 {authores && authores.length > 0 ? (
                     authores.map((author) => (
@@ -63,26 +64,26 @@ const AllAdmin = () => {
                                 <p className="text-sm text-gray-400 mt-1">📧 {author.email}</p>
 
                                 <div className="flex gap-4 mt-3 text-blue-400 text-xl">
-                                    <FaFacebook className="hover:text-blue-600 cursor-pointer" />
-                                    <FaInstagram className="hover:text-pink-500 cursor-pointer" />
-                                    <FaYoutube className="hover:text-red-600 cursor-pointer" />
-                                    <FaTwitter className="hover:text-sky-500 cursor-pointer" />
+                                    <Link to="/">
+                                        <FaFacebook className="hover:text-blue-600 cursor-pointer" />
+                                    </Link>
+                                    <Link to="/">
+                                        <FaInstagram className="hover:text-pink-500 cursor-pointer" />
+                                    </Link>
+                                    <Link to="/">
+                                        <FaYoutube className="hover:text-red-600 cursor-pointer" />
+                                    </Link>
+                                    <Link to="/">
+                                        <FaTwitter className="hover:text-sky-500 cursor-pointer" />
+                                    </Link>
                                 </div>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <div className="w-full flex flex-col items-center justify-center py-20 space-y-6 bg-gray-900 text-white">
-                        <ClimbingBoxLoader color="#3B82F6" size={20} />
-                        <h1 className="text-2xl md:text-3xl font-bold text-center">You are not login</h1>
-                        <Link
-                            to="/login"
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 shadow-lg"
-                        >
-                            Log In to Explore
-                        </Link>
-                    </div>
+                    <p className="text-white text-center text-lg mt-10">No Admins Available</p>
                 )}
+
             </div>
         </div>
 
