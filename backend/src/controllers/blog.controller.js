@@ -73,7 +73,7 @@ const createBlog = asyncHandler(async (req, res) => {
 
 const updateBlog = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { title, intro, category, sections, published } = req.body;
+    const { title, intro, category, sections } = req.body;
 
     const blog = await Blog.findById(id);
 
@@ -88,7 +88,6 @@ const updateBlog = asyncHandler(async (req, res) => {
     if (title) blog.title = title
     if (intro) blog.intro = intro
     if (category) blog.category = category
-    if (published !== undefined) blog.published = published
 
     const mainImgLocalPath = req.files?.mainImage?.[0]?.path || null;
 
@@ -166,6 +165,33 @@ const updateBlog = asyncHandler(async (req, res) => {
 
     return res.status(200).json(
         new ApiResponse(200, updatedBlog, true, "Blog updated successfully")
+    )
+});
+
+const publishBlog = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { published } = req.body;
+
+    if (typeof published !== 'boolean') {
+        throw new ApiError(400, "Invalid 'published' value. Must be true or false.");
+    }
+
+    const blog = await Blog.findById(id);
+
+    if (!blog) {
+        throw new ApiError(404, "blog not found")
+    }
+
+    if (blog.createdBy.toString() !== req.user._id.toString()) {
+        throw new ApiError(403, "You can only publish/unpublish your own blog");
+    }
+
+    if (published !== undefined) blog.published = published
+
+    const updatedBlog = await blog.save()
+
+    return res.status(200).json(
+        new ApiResponse(200, updatedBlog, true, `Blog ${published ? "published" : "unpublished"} successfully`)
     )
 });
 
@@ -285,4 +311,4 @@ const userBlog = asyncHandler(async (req, res) => {
     )
 });
 
-export { createBlog, updateBlog, deleteBlog, allBlog, singleBlog, userBlog };
+export { createBlog, updateBlog, deleteBlog, allBlog, singleBlog, userBlog, publishBlog };
