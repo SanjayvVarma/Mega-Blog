@@ -155,7 +155,7 @@ const updateBlog = asyncHandler(async (req, res) => {
 
     }
 
-    const isUpdateProvided = title || intro || category || sections || (published !== undefined) || req.files?.mainImage || req.files?.sectionImages;
+    const isUpdateProvided = title || intro || category || sections || req.files?.mainImage || req.files?.sectionImages;
 
     if (!isUpdateProvided) {
         throw new ApiError(400, "No updates provided");
