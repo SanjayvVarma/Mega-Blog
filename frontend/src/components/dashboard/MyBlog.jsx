@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { deleteBlogs } from '../../features/blogSlice';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { deleteBlogs, updateBlog } from '../../features/blogSlice';
 
 
 const MyBlog = () => {
@@ -45,6 +45,39 @@ const MyBlog = () => {
   useEffect(() => {
     fetchUserBlog()
   }, [page])
+
+  const togglePublish = async (id, currentPublished) => {
+    setIsLoading(true)
+
+    setUserBlogs(prev =>
+      prev.map(blog =>
+        blog._id === id ? { ...blog, published: !currentPublished } : blog
+      )
+    );
+
+    try {
+      const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/publish-blog/${id}`,
+        { published: !currentPublished },
+        { withCredentials: true }
+      )
+
+      setIsLoading(false)
+
+      if (res.data.success) {
+        toast.success(res.data.message || "Publish status updated")
+        dispatch(updateBlog(res.data.data))
+      }
+
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to update publish status");
+      setIsLoading(false)
+      setUserBlogs(prev =>
+        prev.map(blog =>
+          blog._id === id ? { ...blog, published: currentPublished } : blog
+        )
+      );
+    }
+  }
 
   const deleteBlog = async (id) => {
 
@@ -146,6 +179,22 @@ const MyBlog = () => {
                     <p className="text-sm text-white py-3">{blog.views || 0} 👁️</p>
                   </div>
                 </Link>
+
+                <div className='flex bg-gray-700 rounded-lg justify-between py-1 px-8'>
+                  <p className={`${!blog.published ? 'text-red-400' : 'text-gray-300'}`}>Unpublish</p>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={blog.published}
+                      onChange={() => togglePublish(blog._id, blog.published)}
+                      className="sr-only peer"
+                    />
+                    <div className="w-11 h-5 bg-gray-950 rounded-full peer-focus:ring-1 peer-focus:ring-blue-400 peer-checked:bg-blue-600 transition-colors duration-300"></div>
+                    <div className="absolute left-0.5 top-0.6 w-4 h-4 bg-white rounded-full shadow-md transition-transform duration-300 peer-checked:translate-x-6"></div>
+                  </label>
+                  <p className={`${blog.published ? 'text-green-500' : 'text-gray-300'}`}>Publish</p>
+                </div>
+
                 <div className="flex justify-between mt-4">
                   <Link
                     to={`/update/${blog._id}`}

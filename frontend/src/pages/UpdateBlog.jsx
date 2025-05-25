@@ -3,10 +3,10 @@ import { HiX } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import LoadingBar from 'react-top-loading-bar';
+import LoaderSpin from '../components/LoaderSpin';
 import { updateBlog } from '../features/blogSlice';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import LoaderSpin from '../components/LoaderSpin';
 
 const UpdateBlog = () => {
 
@@ -75,7 +75,6 @@ const UpdateBlog = () => {
         formData.append('title', blog.title);
         formData.append('intro', blog.intro);
         formData.append('category', blog.category);
-        formData.append('published', blog.published);
 
         if (mainImage) {
             formData.append('mainImage', mainImage);
@@ -285,17 +284,7 @@ const UpdateBlog = () => {
                                     + Add Section
                                 </button>
                             </div>
-
-                            <div className="flex items-center space-x-2">
-                                <input
-                                    type="checkbox"
-                                    id="published"
-                                    checked={blog.published}
-                                    onChange={() => setBlog({ ...blog, published: !blog.published })}
-                                />
-                                <label htmlFor="published" className="text-lg">Publish Blog</label>
-                            </div>
-
+                            
                             <div className="flex justify-center gap-8">
                                 <button
                                     type="submit"
