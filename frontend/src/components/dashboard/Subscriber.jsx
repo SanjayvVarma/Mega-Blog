@@ -22,7 +22,6 @@ const Subscriber = () => {
 
             if (res.data.success) {
                 setSubscribers(res.data.data)
-                toast.success(res.data.message)
             }
 
         } catch (error) {
