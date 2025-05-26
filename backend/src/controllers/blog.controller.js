@@ -1,7 +1,9 @@
 import Blog from "../models/blog.model.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import { sendBlogEmail } from "../utils/email.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import Subscribe from "../models/subscribe.model.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
 import { deleteFromCloudinary, getPublicIdFromUrl } from "../utils/deleteFiles.js";
 
@@ -189,6 +191,16 @@ const publishBlog = asyncHandler(async (req, res) => {
     if (published !== undefined) blog.published = published
 
     const updatedBlog = await blog.save()
+
+    if (published) {
+        const blogLink = `${process.env.CORS_ORIGIN}/blog/${updatedBlog._id}`;
+
+        const subscribers = await Subscribe.find({}, { email: 1, _id: 0 })
+
+        const emails = subscribers.map((sub) => sub.email)
+
+        await sendBlogEmail(emails, updatedBlog.title, updatedBlog.intro, blogLink)
+    }
 
     return res.status(200).json(
         new ApiResponse(200, updatedBlog, true, `Blog ${published ? "published" : "unpublished"} successfully`)

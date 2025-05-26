@@ -12,8 +12,6 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-
-
 const sendVerificationLink = asyncHandler(async (fullName, email, token) => {
 
     const url = `${process.env.CORS_ORIGIN}/verify?token=${token}`;
@@ -76,4 +74,32 @@ const sendConfirmationEmail = async (fullName, email) => {
     await transporter.sendMail(mailOptions);
 };
 
-export { sendVerificationLink, sendConfirmationEmail };
+const sendBlogEmail = async (email, title, intro, blogLink) => {
+
+    const mailOptions = {
+        from: `"MEGA SKBLOG Team" <${process.env.MAIL_USER}>`,
+        to: email,
+        subject: `New Blog Published - ${title}`,
+        html: `
+            <div style="font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; padding: 30px;">
+                <div style="max-width: 600px; margin: auto; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05); padding: 20px;">
+                <h2 style="color: #4f46e5;">🎉 A New Blog Has Just Been Published!</h2>
+                <h3 style="color: #222;">${title}</h3>
+                <p style="line-height: 1.6;">${intro}</p>
+                <a href="${blogLink}" 
+                     target="_blank"
+                     style="display: inline-block; margin-top: 20px; padding: 12px 20px; background-color: #4f46e5; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                     👉 Read Full Blog
+                 </a>
+                <p style="margin-top: 30px; font-size: 12px; color: #777;">
+                        You’re receiving this email because you subscribed to blog updates from <strong>MEGA SKBLOG</strong>.
+                 </p>
+                 </div>
+             </div>
+            `,
+    };
+
+    await transporter.sendMail(mailOptions);
+};
+
+export { sendVerificationLink, sendConfirmationEmail, sendBlogEmail };
