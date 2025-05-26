@@ -6,8 +6,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { deleteBlogs, updateBlog } from '../../features/blogSlice';
-
+import { deleteBlogs, triggerRefreshBlogs, updateBlog } from '../../features/blogSlice';
 
 const MyBlog = () => {
 
@@ -40,11 +39,11 @@ const MyBlog = () => {
       toast.error(error?.response?.data?.message || "Failed to fetch user blog");
       setIsLoading(false)
     }
-  }
+  };
 
   useEffect(() => {
     fetchUserBlog()
-  }, [page])
+  }, [page]);
 
   const togglePublish = async (id, currentPublished) => {
     setIsLoading(true)
@@ -66,6 +65,7 @@ const MyBlog = () => {
       if (res.data.success) {
         toast.success(res.data.message || "Publish status updated")
         dispatch(updateBlog(res.data.data))
+        dispatch(triggerRefreshBlogs())
       }
 
     } catch (error) {
@@ -77,7 +77,7 @@ const MyBlog = () => {
         )
       );
     }
-  }
+  };
 
   const deleteBlog = async (id) => {
 
@@ -129,13 +129,13 @@ const MyBlog = () => {
         });
       }
     }
-  }
+  };
 
   const filteredBlogs = userBlogs.filter((blog) =>
     blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     blog.intro.toLowerCase().includes(searchTerm.toLowerCase()) ||
     blog.category.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  );
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">

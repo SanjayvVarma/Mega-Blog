@@ -15,7 +15,6 @@ const CreateBlog = ({ setComponents }) => {
   const [category, setCategory] = useState('');
   const [mainImage, setMainImage] = useState(null);
   const [sections, setSections] = useState([{ title: '', description: '', image: null }]);
-  const [published, setPublished] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const loadingBar = useRef()
   const dispatch = useDispatch()
@@ -56,7 +55,6 @@ const CreateBlog = ({ setComponents }) => {
     formData.append('title', title);
     formData.append('intro', intro);
     formData.append('category', category);
-    formData.append('published', published);
     formData.append('mainImage', mainImage);
 
     const sectionData = sections.map(({ title, description }) => ({ title, description }));
@@ -244,16 +242,6 @@ const CreateBlog = ({ setComponents }) => {
             >
               + Add Section
             </button>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="published"
-              checked={published}
-              onChange={() => setPublished(!published)}
-            />
-            <label htmlFor="published" className="text-sm">Publish this blog immediately</label>
           </div>
 
           <div className="pt-4 text-center">

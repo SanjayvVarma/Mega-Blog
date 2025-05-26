@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     blogData: [],
     status: "idle",
-    error: null,
-    pages: 1
+    pages: 1,
+    refreshBlogs: false,
 }
 
 const blogSlice = createSlice({
@@ -37,17 +37,13 @@ const blogSlice = createSlice({
             ))
         },
 
-        setLoading: (state, action) => {
-            state.status = "loading";
+        triggerRefreshBlogs(state) {
+            state.refreshBlogs = !state.refreshBlogs;
         },
 
-        setError: (state, action) => {
-            state.status = "failed";
-            state.error = action.payload;
-        }
     }
 });
 
-export const { setPages, setBlogs, addBlog, updateBlog, deleteBlogs, setLoading, setError } = blogSlice.actions;
+export const { setPages, setBlogs, addBlog, updateBlog, deleteBlogs, triggerRefreshBlogs } = blogSlice.actions;
 
 export default blogSlice.reducer;

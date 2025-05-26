@@ -34,6 +34,7 @@ function App() {
 
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const refreshBlogs = useSelector(state => state.blogs.refreshBlogs);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -86,7 +87,7 @@ function App() {
     } else {
       dispatch(setBlogs(null));
     }
-  }, [isAuth, dispatch, page]);
+  }, [isAuth, dispatch, page, refreshBlogs]);
 
   return (
     <>
