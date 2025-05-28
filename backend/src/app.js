@@ -25,6 +25,7 @@ app.get('/', (req, res) => {
 
 // routes
 
+import otpRouter from "./routes/otp.routes.js";
 import userRouter from "./routes/user.routes.js";
 import blogRouter from "./routes/blog.routes.js";
 import reviewRouter from "./routes/review.routes.js";
@@ -32,8 +33,9 @@ import commentRouter from "./routes/comment.routes.js";
 import subscribeRouter from "./routes/subscribe.routes.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
 
-app.use("/api/v1/users", userRouter);
+app.use("/api/v1/otp", otpRouter);
 app.use("/api/v1/blog", blogRouter);
+app.use("/api/v1/users", userRouter);
 app.use("/api/v1/review", reviewRouter);
 app.use("/api/v1/comment", commentRouter);
 app.use("/api/v1/subscribe", subscribeRouter);
