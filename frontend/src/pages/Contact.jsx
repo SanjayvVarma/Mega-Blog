@@ -4,7 +4,7 @@ import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaTwitter, FaInstagram, FaLinkedin
 
 const Contact = () => {
   return (
-    <div className="bg-gray-700 py-4 px-15">
+    <div className="bg-gray-700 py-4 px-4">
       <div className="bg-gray-900 rounded-2xl text-white min-h-screen flex flex-col items-center p-5">
         <h1 className="text-4xl md:text-5xl font-extrabold text-blue-400 mb-4">Get in Touch</h1>
 
