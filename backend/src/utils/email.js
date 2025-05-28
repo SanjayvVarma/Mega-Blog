@@ -1,8 +1,7 @@
 import { config } from "dotenv";
 import nodemailer from "nodemailer";
-import asyncHandler from "./asyncHandler.js";
 
-config({ path: '../../.env' });
+config();
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -12,7 +11,32 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const sendVerificationLink = asyncHandler(async (fullName, email, token) => {
+
+const sendVerificationCode = async (email, verificationCode) => {
+
+    const mailOptions = {
+        from: `"MEGA SKBLOG" ${process.env.MAIL_USER}`,
+        to: email,
+        subject: "✅ Mega SKBlog: Your OTP for Email Verification",
+        html: `
+            <div style="font-family: Arial, sans-serif; color: #333;">
+                <h2>🔐 Email Verification - Mega SKBlog</h2>
+                <p>Hi there,</p>
+                <p>We received a request to register your email on <strong>Mega SKBlog</strong>.</p>
+                <p>Please use the following OTP to verify your email address:</p>
+                <h1 style="letter-spacing: 5px; color: #2e86de;">${verificationCode}</h1>
+                <p>This OTP is valid for the next <strong>5 minutes</strong>. Do not share it with anyone.</p>
+                <p>If you did not initiate this request, please ignore this email.</p>
+                <br />
+                <p>Thank you,<br/>Team Mega SKBlog</p>
+            </div>
+            `
+    }
+
+    await transporter.sendMail(mailOptions);
+};
+
+const sendVerificationLink = async (fullName, email, token) => {
 
     const url = `${process.env.CORS_ORIGIN}/verify?token=${token}`;
 
@@ -28,11 +52,9 @@ const sendVerificationLink = asyncHandler(async (fullName, email, token) => {
              `,
     }
 
-    const mailInfo = await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions);
 
-    return mailInfo;
-
-});
+};
 
 const sendConfirmationEmail = async (fullName, email) => {
 
@@ -102,4 +124,4 @@ const sendBlogEmail = async (email, title, intro, blogLink) => {
     await transporter.sendMail(mailOptions);
 };
 
-export { sendVerificationLink, sendConfirmationEmail, sendBlogEmail };
+export { sendWelcomeEmail, sendVerificationCode, sendVerificationLink, sendConfirmationEmail, sendBlogEmail };
