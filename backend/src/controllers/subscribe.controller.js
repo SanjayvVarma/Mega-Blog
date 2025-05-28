@@ -23,7 +23,7 @@ const createSubscription = asyncHandler(async (req, res) => {
         { expiresIn: "1h" }
     );
 
-    sendVerificationLink(fullName, email, token);
+   await sendVerificationLink(fullName, email, token);
 
     return res.status(200).json(
         new ApiResponse(200, null, true, "Verification email sent. Please check your inbox.")
