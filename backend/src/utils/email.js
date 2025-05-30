@@ -124,4 +124,4 @@ const sendBlogEmail = async (email, title, intro, blogLink) => {
     await transporter.sendMail(mailOptions);
 };
 
-export { sendWelcomeEmail, sendVerificationCode, sendVerificationLink, sendConfirmationEmail, sendBlogEmail };
+export { sendVerificationCode, sendVerificationLink, sendConfirmationEmail, sendBlogEmail };
