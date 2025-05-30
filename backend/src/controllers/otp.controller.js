@@ -61,7 +61,9 @@ const verifyOtp = asyncHandler(async (req, res) => {
     existingOtp.verified = true;
     await existingOtp.save();
 
-    return res.status(200).json(new ApiResponse(200, null, true, "OTP verified successfully"));
+    return res.status(200).json(
+        new ApiResponse(200, null, true, "OTP verified successfully")
+    );
 });
 
-export { sendOtp, verifyOtp }
+export { sendOtp, verifyOtp };
