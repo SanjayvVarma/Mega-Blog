@@ -4,8 +4,9 @@ import { toast } from 'react-toastify';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaCheckCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import defaultAvatar from '../assets/defaultAvatar.avif';
+import LoaderSpin from '../components/LoaderSpin';
 
 const Register = () => {
 
@@ -25,13 +26,16 @@ const Register = () => {
   const [education, setEducation] = useState('');
   const [role, setRole] = useState('');
   const [avatar, setAvatar] = useState(null);
+  const [otp, setOtp] = useState('')
   const [preview, setPreview] = useState(defaultAvatar);
   const [isLoading, setIsLoading] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+  const [otpInputBox, setOtpInputBox] = useState(false);
 
   const loadingBar = useRef(null);
   const navigate = useNavigate();
 
-  const isFormValid = fullName && email && phone && answer && password && comPassword && education && role && password === comPassword;
+  const isFormValid = fullName && email && phone && answer && password && comPassword && education && role && isVerified && password === comPassword;
 
   const handlePasswordValidateErr = (e) => {
     const newPassword = e.target.value;
@@ -79,6 +83,52 @@ const Register = () => {
 
     } else {
       setComPassword('')
+    }
+  };
+
+  const sendOtp = async (e) => {
+    setIsLoading(true)
+
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/otp/send-otp`,
+        { email },
+        { withCredentials: true }
+      )
+
+      setIsLoading(false)
+
+      if (res.data.success) {
+        toast.success(res.data.message || "Otp Send Successfully")
+        setOtpInputBox(true)
+      }
+
+    } catch (error) {
+      toast.error(error.response?.data?.message || "something went wrong");
+      setIsLoading(false)
+    }
+  };
+
+  const verifyOtp = async (e) => {
+    setIsLoading(true)
+
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/otp/verify-otp`,
+        { email, otp },
+        { withCredentials: true }
+      )
+
+      setIsLoading(false)
+
+      if (res.data.success) {
+        toast.success(res.data.message || "otp verified successfully")
+        setOtpInputBox(false)
+        setIsVerified(true)
+      }
+
+    } catch (error) {
+      toast.error(error.response?.data?.message || "something went wrong");
+      setIsLoading(false)
+      setIsVerified(false)
     }
   };
 
@@ -146,14 +196,10 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-700">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#5c2a87] via-[#0f0f1c] to-[#860c9c]">
       <LoadingBar color="#3b82f6" ref={loadingBar} height={4} />
 
-      {isLoading && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-black/10 z-40 flex items-center justify-center">
-          <div className="w-12 h-12 border-4 border-white border-t-blue-500 rounded-full animate-spin"></div>
-        </div>
-      )}
+      {isLoading && <LoaderSpin />}
 
       <div className="bg-gray-900 shadow-lg rounded-lg flex flex-col w-full max-w-4xl overflow-hidden py-8 px-6 m-5">
 
@@ -194,17 +240,74 @@ const Register = () => {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium">Email</label>
-                  <input
-                    type='email'
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="w-full p-3 mt-1 border border-gray-600 rounded-md bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
-                  />
-                </div>
+                {otpInputBox ? (
+                  <div>
+                    <div className='flex gap-16'>
+                      <label className="block text-sm font-medium mb-1">OTP Verification</label>
+                      <p className="text-sm text-gray-400">
+                        Didn’t get it?
+                        <button
+                          type="button"
+                          onClick={sendOtp}
+                          className="ml-1 text-blue-400 hover:underline"
+                        >
+                          Resend OTP
+                        </button>
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        placeholder="Enter OTP"
+                        required
+                        className="flex-1 p-3 border border-gray-600 rounded-md bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={verifyOtp}
+                        className="px-4 bg-green-600 hover:bg-green-700 text-white rounded-md"
+                      >
+                        Verify
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300">
+                      Email
+                    </label>
+                    <div className="flex items-center gap-3">
+                      <div className="relative flex-1">
+                        <input
+                          type="email"
+                          placeholder="Enter your email"
+                          value={email}
+                          required
+                          className="w-full p-3 mt-1 border border-gray-600 rounded-md bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            setIsVerified(false);
+                          }}
+                        />
+                        {isVerified && (
+                          <FaCheckCircle className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 text-xl" />
+                        )}
+                      </div>
+                      {!isVerified && (
+                        <button
+                          type="button"
+                          onClick={sendOtp}
+                          className="p-3 mt-1 bg-blue-600 hover:bg-blue-800 text-white rounded-md transition-all duration-200"
+                        >
+                          Send OTP
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                )}
 
                 <div>
                   <label className="block text-sm font-medium">Phone</label>
