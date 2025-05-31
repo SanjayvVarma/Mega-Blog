@@ -4,9 +4,9 @@ import { toast } from 'react-toastify';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
-import { FaCheckCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
-import defaultAvatar from '../assets/defaultAvatar.avif';
 import LoaderSpin from '../components/LoaderSpin';
+import defaultAvatar from '../assets/defaultAvatar.avif';
+import { FaCheckCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Register = () => {
 
