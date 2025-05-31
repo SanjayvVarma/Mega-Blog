@@ -29,7 +29,7 @@ const sendOtp = asyncHandler(async (req, res) => {
 
     await OTP.findOneAndUpdate(
         { email },
-        { otp, expiresAt: otpExpiry },
+        { otp, expiresAt: otpExpiry, isVerify: false },
         { upsert: true, new: true }
     );
 
@@ -58,7 +58,9 @@ const verifyOtp = asyncHandler(async (req, res) => {
         throw new ApiError(400, "OTP expired");
     }
 
-    await OTP.deleteOne({ email });
+    existingOtp.isVerify = true
+
+    await existingOtp.save()
 
     return res.status(200).json(
         new ApiResponse(200, null, true, "OTP verified successfully")
