@@ -20,6 +20,11 @@ const otpSchema = new mongoose.Schema(
             required: true
 
         },
+
+        isVerify: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         timestamps: true
