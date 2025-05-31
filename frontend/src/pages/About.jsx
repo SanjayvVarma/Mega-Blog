@@ -5,7 +5,7 @@ import aboutImg2 from '../assets/about-2.jpg';
 
 const About = () => {
     return (
-        <div className="bg-gray-700 text-white flex items-center justify-center p-5">
+        <div className="bg-gradient-to-br from-[#5c2a87] via-[#0f0f1c] to-[#860c9c] text-white flex items-center justify-center p-5">
             <div className="bg-gray-900 text-white flex flex-col items-center p-7 rounded-2xl max-w-7xl w-full">
                 <div className="text-center w-full max-w-5xl mb-5">
                     <motion.h1
