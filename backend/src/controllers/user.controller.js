@@ -1,14 +1,22 @@
+import OTP from "../models/OTP.model.js";
 import User from "../models/user.model.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import { sendWelcomeEmail } from "../utils/email.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
 import { generateAccessAndRefreshToken } from "../middlewares/auth.meddleware.js";
 import { deleteFromCloudinary, getPublicIdFromUrl } from "../utils/deleteFiles.js";
 
 const userRegister = asyncHandler(async (req, res) => {
 
-    const { fullName, email, password, phone, about, answer, education, role } = req.body
+    const { fullName, email, password, phone, about, answer, education, role } = req.body;
+
+    const isVerified = await OTP.findOne({ email })
+
+    if (!isVerified || !isVerified.isVerify) {
+        throw new ApiError(400, "Please verify email");
+    }
 
     if (!fullName || !email || !password || !phone || !answer || !education || !role) {
         throw new ApiError(400, 'All fields required')
@@ -55,6 +63,10 @@ const userRegister = asyncHandler(async (req, res) => {
     if (!createdUser) {
         throw new ApiError(500, "Something went wrong while creating user")
     }
+
+    await sendWelcomeEmail(email, fullName)
+
+    await OTP.deleteOne({ email });
 
     return res.status(201).json(
         new ApiResponse(201, createdUser, true, "User registered Successfully")
