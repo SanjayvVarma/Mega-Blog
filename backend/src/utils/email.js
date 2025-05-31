@@ -11,6 +11,55 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+const sendWelcomeEmail = async (email, fullName) => {
+
+    const mailOptions = {
+        from: `"MEGA SKBLOG" <${process.env.MAIL_USER}>`,
+        to: email,
+        subject: `Welcome to Mega SKBlog, ${fullName}! 🎉`,
+        html: `
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f2f4f8; padding: 50px 20px;">
+              <div style="max-width: 650px; margin: auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);">
+                
+                <div style="background: linear-gradient(135deg, #007bff, #6f42c1); color: #ffffff; padding: 35px 40px;">
+                <h1 style="margin: 0; font-size: 30px; letter-spacing: 0.5px;">Welcome to <span style="color: #ffc107;">MEGA SKBLOG</span>!</h1>
+                <p style="margin-top: 10px; font-size: 16px;">Where ideas take flight ✨</p>
+                </div>
+
+                <div style="padding: 30px 35px; line-height: 1.6; color: #333;">
+                <p style="font-size: 16px;">Hi <strong style="color: #007bff;">${fullName}</strong>,</p>
+                <p style="font-size: 15px;">
+                    We're absolutely thrilled to have you onboard! You've officially joined a growing community of developers, creators, and thinkers who love to share their knowledge and stories.
+                </p>
+                <p style="font-size: 15px;">
+                    At <strong>MEGA SKBLOG</strong>, you can publish your thoughts, explore insightful blogs, and connect with like-minded individuals.
+                </p>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="https://mega-blog-seven-lovat.vercel.app/login" target="_blank" style="padding: 12px 30px; background-color: #007bff; color: white; font-size: 15px; font-weight: bold; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    🚀 Get Started
+                    </a>
+                </div>
+
+                <p style="font-size: 14px; color: #666;">
+                    Need help or have any questions? Our support team is just an email away — we’re here for you.
+                </p>
+
+                <p style="margin-top: 30px; font-size: 15px;">Happy blogging,</p>
+                <p style="font-size: 15px; font-weight: bold;">The MEGA SKBLOG Team</p>
+                </div>
+
+                <div style="background-color: #f8f9fa; text-align: center; padding: 15px 40px; font-size: 12px; color: #999;">
+                &copy; ${new Date().toLocaleString("en-US", { month: "long" })} ${new Date().getFullYear()} MEGA SKBLOG. All rights reserved.
+                </div>
+             </div>
+            </div>
+        `,
+    };
+
+
+    await transporter.sendMail(mailOptions)
+};
 
 const sendVerificationCode = async (email, verificationCode) => {
 
@@ -124,4 +173,4 @@ const sendBlogEmail = async (email, title, intro, blogLink) => {
     await transporter.sendMail(mailOptions);
 };
 
-export { sendVerificationCode, sendVerificationLink, sendConfirmationEmail, sendBlogEmail };
+export { sendWelcomeEmail, sendVerificationCode, sendVerificationLink, sendConfirmationEmail, sendBlogEmail };
