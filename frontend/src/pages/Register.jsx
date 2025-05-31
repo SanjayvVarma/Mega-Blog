@@ -199,7 +199,7 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#5c2a87] via-[#0f0f1c] to-[#860c9c]">
       <LoadingBar color="#3b82f6" ref={loadingBar} height={4} />
 
-      {isLoading && <LoaderSpin />}
+      {isLoading && <LoaderSpin text='Verifying' message='Please wait while we complete your registration...'/>}
 
       <div className="bg-gray-900 shadow-lg rounded-lg flex flex-col w-full max-w-4xl overflow-hidden py-8 px-6 m-5">
 
