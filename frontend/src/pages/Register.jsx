@@ -7,6 +7,7 @@ import LoadingBar from 'react-top-loading-bar';
 import LoaderSpin from '../components/LoaderSpin';
 import defaultAvatar from '../assets/defaultAvatar.avif';
 import { FaCheckCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { checkPasswordMatch, validatePassword } from '../utils/passwordValidation';
 
 const Register = () => {
 
@@ -14,8 +15,8 @@ const Register = () => {
 
   const [showPass, setShowPass] = useState(false);
   const [showComPass, setShowComPass] = useState(false);
-  const [passMess, setPassMess] = useState('');
-  const [passValidateErr, setpassValidateErr] = useState('');
+  const [passMessage, setPassMessage] = useState('');
+  const [passValidator, setPassValidator] = useState('');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -37,23 +38,20 @@ const Register = () => {
 
   const isFormValid = fullName && email && phone && answer && password && comPassword && education && role && isVerified && password === comPassword;
 
-  const handlePasswordValidateErr = (e) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword)
+  const passwordValidator = (e) => {
+    const password = e.target.value;
+    setPassword(password);
 
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    const validationResult = validatePassword(password);
+    setPassValidator(validationResult);
+  };
 
-    if (!passwordRegex.test(newPassword)) {
-      setpassValidateErr("Must include A-Z, a-z, 0-9 & special char");
-    } else {
-      setpassValidateErr('')
-    }
+  const passwordMatch = (e) => {
+    const confirmPassword = e.target.value;
+    setComPassword(confirmPassword)
 
-    if (newPassword.length < 6) {
-      setpassValidateErr("❌ Password must be at least 6 characters long");
-      return;
-    }
-
+    const matchResult = checkPasswordMatch(password, confirmPassword)
+    setPassMessage(matchResult)
   };
 
   const handleAvatarChange = (e) => {
@@ -67,22 +65,6 @@ const Register = () => {
         setAvatar(file)
       }
       reader.readAsDataURL(file)
-    }
-  };
-
-  const handlePassMatch = (e) => {
-    const comfirmPassword = e.target.value;
-    setComPassword(comfirmPassword)
-
-    if (password && comfirmPassword) {
-      if (password === comfirmPassword) {
-        setPassMess("✅ Passwords match!");
-      } else {
-        setPassMess("❌ Passwords do not match!");
-      }
-
-    } else {
-      setComPassword('')
     }
   };
 
@@ -199,7 +181,7 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#5c2a87] via-[#0f0f1c] to-[#860c9c]">
       <LoadingBar color="#3b82f6" ref={loadingBar} height={4} />
 
-      {isLoading && <LoaderSpin text='Verifying' message='Please wait while we complete your registration...'/>}
+      {isLoading && <LoaderSpin text='Verifying' message='Please wait while we complete your registration...' />}
 
       <div className="bg-gray-900 shadow-lg rounded-lg flex flex-col w-full max-w-4xl overflow-hidden py-8 px-6 m-5">
 
@@ -306,7 +288,6 @@ const Register = () => {
                       )}
                     </div>
                   </div>
-
                 )}
 
                 <div>
@@ -369,11 +350,11 @@ const Register = () => {
                     type={showPass ? 'text' : 'password'}
                     placeholder="Enter your password"
                     value={password}
-                    onChange={handlePasswordValidateErr}
+                    onChange={passwordValidator}
                     required
                     className="w-full p-3 mt-1 border border-gray-600 rounded-md bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
                   />
-                  {passValidateErr && <p className='text-red-500 text-sm mt-0.5'>{passValidateErr}</p>}
+                  {passValidator && <p className='text-red-500 text-sm mt-0.5'>{passValidator}</p>}
                   <button
                     type="button"
                     onClick={() => setShowPass(!showPass)}
@@ -389,11 +370,11 @@ const Register = () => {
                     type={showComPass ? 'text' : 'password'}
                     placeholder="Confirm your password"
                     value={comPassword}
-                    onChange={handlePassMatch}
+                    onChange={passwordMatch}
                     required
                     className="w-full p-3 mt-1 border border-gray-600 rounded-md bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
                   />
-                  {passMess && <p className={`mt-0.5 text-sm ${password === comPassword ? "text-green-500" : "text-red-500"}`}>{passMess}</p>}
+                  {passMessage && <p className={`mt-0.5 text-sm ${password === comPassword ? "text-green-500" : "text-red-500"}`}>{passMessage}</p>}
                   <button
                     type="button"
                     className="absolute top-9 right-3 text-gray-400"
