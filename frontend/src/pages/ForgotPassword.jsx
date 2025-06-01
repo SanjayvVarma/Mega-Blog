@@ -1,89 +1,12 @@
-import axios from 'axios';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import forgotPasswordImg from '../assets/SanjayImgFP.png';
+import ViaEmailOtp from '../components/forgotPassword/ViaEmailOtp';
+import SecurityAnswer from '../components/forgotPassword/SecurityAnswer';
 
 const ForgotPassword = () => {
 
-    const [showPassword, setShowPassword] = useState(false);
-    const [showComPassword, setShowComPassword] = useState(false);
-    const [passValidator, setPassValidator] = useState('');
-    const [passMatch, setPassMatch] = useState('');
-    const [username, setUsername] = useState('');
-    const [answer, setAnswer] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [comNewPassword, setComNewPassword] = useState('');
-
-    const navigate = useNavigate();
-    const isFormValid = username && answer && newPassword && comNewPassword && newPassword === comNewPassword
-
-    const passwordValidator = (e) => {
-        const password = e.target.value;
-        setNewPassword(password)
-
-        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-
-        if (!passwordRegex.test(password)) {
-            setPassValidator("Must include A-Z, a-z, 0-9 & special char")
-        } else {
-            setPassValidator('')
-        }
-
-        if (password.length < 6) {
-            setPassValidator("❌ Password must be at least 6 characters long");
-            return;
-        }
-    };
-
-    const passwordMatch = (e) => {
-        const password = e.target.value;
-        setComNewPassword(password)
-
-        if (newPassword && password) {
-            if (newPassword === password) {
-                setPassMatch("✅ Passwords match!");
-            } else {
-                setPassMatch("❌ Passwords do not match!");
-            }
-        } else {
-            setComNewPassword('')
-        }
-    };
-
-    const handleForgotPassword = async (e) => {
-        e.preventDefault()
-
-        const formData = { answer, newPassword }
-
-        if (username.includes('@')) {
-            formData.email = username
-        } else {
-            formData.phone = username
-        }
-
-        try {
-            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/forgot-password`,
-                formData,
-                {
-                    headers: { "Content-Type": "application/json", },
-                    withCredentials: true,
-                }
-            )
-
-            if (response.data.success) {
-                toast.success(response.data.message || "Password reset successful!");
-                navigate('/login')
-                setUsername('');
-                setAnswer('');
-                setNewPassword('');
-                setComNewPassword('');
-            }
-
-        } catch (error) {
-            toast.error(error?.response?.data.message || "Something went wrong !");
-        }
-    };
+    const [resetMethod, setResetMethod] = useState('securityAnswer');
 
     return (
         <div className="flex items-center justify-center bg-gradient-to-br from-[#5c2a87] via-[#0f0f1c] to-[#860c9c]">
@@ -91,91 +14,41 @@ const ForgotPassword = () => {
 
                 <div className="hidden md:block w-1/2">
                     <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuV_oZ2ZEdQGDzDbc2WcBAODVOP_xNFnz7A&s"
+                        src={`${forgotPasswordImg}`}
                         alt="Forgot Password"
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-fit"
                     />
                 </div>
 
                 <div className="w-full md:w-1/2 p-6 bg-[#04152D] text-white">
                     <h2 className="text-2xl font-bold text-center mb-5 text-blue-400">Forgot Password</h2>
-
-                    <form onSubmit={handleForgotPassword}>
-
-                        <div className="mb-3">
-                            <label className="block text-sm font-medium">Email or Phone</label>
+                    <div className='flex flex-wrap gap-10 mb-3'>
+                        <div className='flex justify-center items-center'>
                             <input
-                                type="text"
-                                placeholder="Enter your email or phone"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                required
-                                className="w-full p-2.5 mt-1 border border-gray-500 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+                                type="radio"
+                                id="securityAnswer"
+                                value="securityAnswer"
+                                checked={resetMethod === 'securityAnswer'}
+                                onChange={() => setResetMethod('securityAnswer')}
+                                className="w-4 h-4 accent-blue-500 cursor-pointer"
                             />
+                            <label htmlFor="securityAnswer" className="ml-2 cursor-pointer">With Security Answer</label>
                         </div>
-
-                        <div className="mb-3">
-                            <label className="block text-sm font-medium">Security Answer</label>
+                        <div className='flex justify-center items-center'>
                             <input
-                                type="text"
-                                placeholder="Enter your security answer (e.g., your pet’s name)"
-                                value={answer}
-                                onChange={(e) => setAnswer(e.target.value)}
-                                required
-                                className="w-full p-2.5 mt-1 border border-gray-500 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+                                type="radio"
+                                id="emailOtp"
+                                value="emailOtp"
+                                checked={resetMethod === 'emailOtp'}
+                                onChange={() => setResetMethod('emailOtp')}
+                                className="w-4 h-4 accent-blue-500 cursor-pointer"
                             />
+                            <label htmlFor="emailOtp" className="ml-2 cursor-pointer">With Email OTP</label>
                         </div>
+                    </div>
 
-                        <div className="mb-3 relative">
-                            <label className="block text-sm font-medium">New Password</label>
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                placeholder="Enter your new password"
-                                value={newPassword}
-                                onChange={passwordValidator}
-                                required
-                                className="w-full p-2.5 mt-1 border border-gray-500 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-white pr-10"
-                            />
-                            {passValidator && <p className='text-red-500 text-sm mt-0.5'>{passValidator}</p>}
-                            <button
-                                type="button"
-                                className="absolute top-9 right-3 text-gray-400"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                {showPassword ? <FaEye size={24} /> : <FaEyeSlash size={24} />}
-                            </button>
-                        </div>
-
-                        <div className="mb-3 relative">
-                            <label className="block text-sm font-medium">Confirm New Password</label>
-                            <input
-                                type={showComPassword ? "text" : "password"}
-                                placeholder="confirm new password"
-                                value={comNewPassword}
-                                onChange={passwordMatch}
-                                required
-                                className="w-full p-2.5 mt-1 border border-gray-500 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 text-white pr-10"
-                            />
-                            {passMatch && <p className={`mt-0.5 text-sm ${newPassword === comNewPassword ? "text-green-500" : "text-red-500"}`}>{passMatch}</p>}
-
-                            <button
-                                type="button"
-                                className="absolute top-9 right-3 text-gray-400"
-                                onClick={() => setShowComPassword(!showComPassword)}
-                            >
-                                {showComPassword ? <FaEye size={24} /> : <FaEyeSlash size={24} />}
-                            </button>
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={!isFormValid}
-                            className={`w-full py-3 text-white font-semibold rounded-md transition duration-200 ${isFormValid ? 'bg-blue-600 hover:bg-blue-700' : "bg-gray-500 cursor-not-allowed"}`}
-                        >
-                            Reset Password
-                        </button>
-
-                    </form>
+                    {resetMethod === 'securityAnswer' && < SecurityAnswer />}
+                    {resetMethod === 'emailOtp' && <ViaEmailOtp />}
 
                     <div className="mt-4 text-center">
                         <Link to="/login" className="text-blue-400 text-sm hover:underline">
