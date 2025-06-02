@@ -14,50 +14,60 @@ const ForgotPassword = () => {
 
                 <div className="hidden md:block w-1/2">
                     <img
-                        src={`${forgotPasswordImg}`}
+                        src={forgotPasswordImg}
                         alt="Forgot Password"
-                        className="h-full w-full object-fit"
+                        className="h-full w-full object-cover"
                     />
                 </div>
 
-                <div className="w-full md:w-1/2 p-6 bg-[#04152D] text-white">
-                    <h2 className="text-2xl font-bold text-center mb-5 text-blue-400">Forgot Password</h2>
-                    <div className='flex flex-wrap gap-4 md:gap-10 mb-3'>
-                        <div className='flex justify-center items-center'>
-                            <input
-                                type="radio"
-                                id="securityAnswer"
-                                value="securityAnswer"
-                                checked={resetMethod === 'securityAnswer'}
-                                onChange={() => setResetMethod('securityAnswer')}
-                                className="w-4 h-4 accent-blue-500 cursor-pointer"
-                            />
-                            <label htmlFor="securityAnswer" className="ml-2 cursor-pointer">With Security Answer</label>
-                        </div>
-                        <div className='flex justify-center items-center'>
-                            <input
-                                type="radio"
-                                id="emailOtp"
-                                value="emailOtp"
-                                checked={resetMethod === 'emailOtp'}
-                                onChange={() => setResetMethod('emailOtp')}
-                                className="w-4 h-4 accent-blue-500 cursor-pointer"
-                            />
-                            <label htmlFor="emailOtp" className="ml-2 cursor-pointer">With Email OTP</label>
-                        </div>
-                    </div>
+                <div className="relative w-full md:w-1/2 p-6 text-white overflow-hidden bg-[#04152D]">
 
-                    {resetMethod === 'securityAnswer' && < SecurityAnswer />}
-                    {resetMethod === 'emailOtp' && <ViaEmailOtp />}
+                    <div
+                        className="absolute inset-0 bg-cover bg-center blur-sm opacity-50 md:hidden"
+                        style={{ backgroundImage: `url(${forgotPasswordImg})` }}
+                    ></div>
+                    
+                    <div className="relative z-10">
+                        <h2 className="text-2xl font-bold text-center mb-5 text-blue-400">Forgot Password</h2>
 
-                    <div className="mt-4 text-center">
-                        <Link to="/login" className="text-blue-400 text-sm hover:underline">
-                            Back to Login
-                        </Link>
+                        <div className='flex flex-wrap gap-4 md:gap-10 mb-3'>
+                            <div className='flex justify-center items-center'>
+                                <input
+                                    type="radio"
+                                    id="securityAnswer"
+                                    value="securityAnswer"
+                                    checked={resetMethod === 'securityAnswer'}
+                                    onChange={() => setResetMethod('securityAnswer')}
+                                    className="w-4 h-4 accent-blue-500 cursor-pointer"
+                                />
+                                <label htmlFor="securityAnswer" className="ml-2 cursor-pointer">With Security Answer</label>
+                            </div>
+                            <div className='flex justify-center items-center'>
+                                <input
+                                    type="radio"
+                                    id="emailOtp"
+                                    value="emailOtp"
+                                    checked={resetMethod === 'emailOtp'}
+                                    onChange={() => setResetMethod('emailOtp')}
+                                    className="w-4 h-4 accent-blue-500 cursor-pointer"
+                                />
+                                <label htmlFor="emailOtp" className="ml-2 cursor-pointer">With Email OTP</label>
+                            </div>
+                        </div>
+
+                        {resetMethod === 'securityAnswer' && <SecurityAnswer />}
+                        {resetMethod === 'emailOtp' && <ViaEmailOtp />}
+
+                        <div className="mt-4 text-center">
+                            <Link to="/login" className="text-blue-400 text-sm hover:underline">
+                                Back to Login
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     );
 };
 
