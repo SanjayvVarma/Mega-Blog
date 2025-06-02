@@ -23,10 +23,10 @@ const ForgotPassword = () => {
                 <div className="relative w-full md:w-1/2 p-6 text-white overflow-hidden bg-[#04152D]">
 
                     <div
-                        className="absolute inset-0 bg-cover bg-center blur-sm opacity-50 md:hidden"
+                        className="absolute inset-0 bg-cover bg-center blur-sm opacity-60 md:hidden"
                         style={{ backgroundImage: `url(${forgotPasswordImg})` }}
                     ></div>
-                    
+
                     <div className="relative z-10">
                         <h2 className="text-2xl font-bold text-center mb-5 text-blue-400">Forgot Password</h2>
 
