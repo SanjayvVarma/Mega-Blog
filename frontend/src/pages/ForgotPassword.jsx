@@ -22,7 +22,7 @@ const ForgotPassword = () => {
 
                 <div className="w-full md:w-1/2 p-6 bg-[#04152D] text-white">
                     <h2 className="text-2xl font-bold text-center mb-5 text-blue-400">Forgot Password</h2>
-                    <div className='flex flex-wrap gap-10 mb-3'>
+                    <div className='flex flex-wrap gap-4 md:gap-10 mb-3'>
                         <div className='flex justify-center items-center'>
                             <input
                                 type="radio"
