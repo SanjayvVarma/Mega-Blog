@@ -222,6 +222,36 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
 });
 
+const resetPasswordViaEmailOtp = asyncHandler(async (req, res) => {
+    const { email, newPassword } = req.body;
+
+    if (!email || !newPassword) {
+        throw new ApiError(400, "Email and new password are required");
+    }
+
+    const user = await User.findOne({ email })
+
+    if (!user) {
+        throw new ApiError(404, 'You are not registered with us');
+    }
+
+    const isVerified = await OTP.findOne({ email })
+
+    if (!isVerified || !isVerified.isVerify) {
+        throw new ApiError(400, "Please verify your email with OTP first");
+    }
+
+    user.password = newPassword
+
+    await user.save({ validateBeforeSave: false })
+
+    await OTP.deleteOne({ email })
+
+    return res.status(200).json(
+        new ApiResponse(200, {}, true, "Password reset successfully")
+    )
+});
+
 const deleteUser = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
@@ -360,4 +390,4 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
 });
 
-export { userRegister, userLogin, userLogout, getCurrentUser, getAllusers, forgotPassword, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAdmin };
+export { userRegister, userLogin, userLogout, getCurrentUser, getAllusers, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAdmin };
