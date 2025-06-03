@@ -18,7 +18,7 @@ const SecurityAnswer = () => {
 
     const navigate = useNavigate();
     const isFormValid = username && answer && newPassword && comNewPassword && newPassword === comNewPassword
-    
+
     const passwordValidator = (e) => {
         const password = e.target.value;
         setNewPassword(password);
