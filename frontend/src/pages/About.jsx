@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import aboutImg1 from '../assets/about-1.jpg';
-import aboutImg2 from '../assets/about-2.jpg';
+import aboutImg2 from '../assets/about-2.png';
 
 const About = () => {
     return (
@@ -60,13 +60,13 @@ const About = () => {
 
                     <div className="md:w-1/2 flex flex-col items-center mt-2 max-w-5xl space-y-6">
                         <img
-                            src={`${aboutImg1}`}
-                            alt="Creative Blogging"
+                            src={`${aboutImg2}`}
+                            alt="Tech and Learning"
                             className="w-72 md:w-80 rounded-lg shadow-2xl transition transform hover:scale-105"
                         />
                         <img
-                            src={`${aboutImg2}`}
-                            alt="Tech and Learning"
+                            src={`${aboutImg1}`}
+                            alt="Creative Blogging"
                             className="w-72 md:w-80 rounded-lg shadow-2xl transition transform hover:scale-105"
                         />
                     </div>
