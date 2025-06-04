@@ -8,7 +8,7 @@ import LoadingBar from 'react-top-loading-bar';
 import { setUser } from '../features/userSlice';
 import LoaderSpin from '../components/LoaderSpin';
 import loginImg from '../assets/loginSideImg.webp';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaSyncAlt } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 
 const LogIn = () => {
@@ -133,6 +133,22 @@ const LogIn = () => {
                 <option className="bg-[#04152D] text-white" value="Admin">Admin</option>
                 <option className="bg-[#04152D] text-white" value="Reader">Reader</option>
               </select>
+            </div>
+
+            <div className='mb-3 text-center'>
+              <div>
+                <strong className='bg-gray-700 text-2xl tracking-wider px-2 rounded-md'>AGErM</strong>
+                <button type="button" className='ml-3 text-sm bg-blue-700 p-1 rounded-full'>
+                  <FaSyncAlt />
+                </button>
+              </div>
+              <div className='mt-1'>
+                <input
+                  type="text"
+                  placeholder='Verify captcha'
+                  className='mt-1 p-2.5 bg-transparent rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                />
+              </div>
             </div>
 
             <button
