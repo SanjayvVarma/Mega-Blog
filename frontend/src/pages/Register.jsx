@@ -72,7 +72,7 @@ const Register = () => {
     setIsLoading(true)
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/otp/send-otp`,
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/otp/send-otp-register`,
         { email },
         { withCredentials: true }
       )
