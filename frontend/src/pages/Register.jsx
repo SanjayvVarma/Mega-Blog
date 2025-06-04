@@ -68,7 +68,7 @@ const Register = () => {
     }
   };
 
-  const sendOtp = async (e) => {
+  const sendOtp = async () => {
     setIsLoading(true)
 
     try {
@@ -90,7 +90,7 @@ const Register = () => {
     }
   };
 
-  const verifyOtp = async (e) => {
+  const verifyOtp = async () => {
     setIsLoading(true)
 
     try {
