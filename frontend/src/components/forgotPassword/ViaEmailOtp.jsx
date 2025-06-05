@@ -71,6 +71,13 @@ const ViaEmailOtp = () => {
     }
   };
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value)
+    setShowPasswordInput(false)
+    setIsOtpSent(false)
+    setIsVerified(false)
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -113,7 +120,7 @@ const ViaEmailOtp = () => {
             type="email"
             placeholder="Enter your Registered Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             className="w-full mt-1 p-2.5 border border-gray-500 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
           />
           {isVerified && <FaCheckCircle className="absolute right-3 top-9 text-green-500 text-xl" />}
