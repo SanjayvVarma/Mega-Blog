@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 import loginBg from '../assets/loginBg.avif';
 import { login } from '../features/authSlice';
-import LoadingBar from 'react-top-loading-bar';
 import { setUser } from '../features/userSlice';
 import LoaderSpin from '../components/LoaderSpin';
 import loginImg from '../assets/loginSideImg.webp';
@@ -21,12 +20,11 @@ const LogIn = () => {
   const [captchaInput, setCaptchaInput] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const loadingBar = useRef();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const isFormValid = username && password && role && captchaInput === captcha;
+  const isFormValid = username && password && role && captchaInput;
 
   useEffect(() => {
     setCaptcha(generateCaptcha())
@@ -38,8 +36,15 @@ const LogIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    loadingBar.current.continuousStart()
     setIsLoading(true)
+
+    if (captcha !== captchaInput) {
+      toast.error("CAPTCHA did not match. Try again.")
+      setCaptchaInput('')
+      setCaptcha(generateCaptcha())
+      setIsLoading(false)
+      return
+    }
 
     const loginData = { password, role };
 
@@ -58,7 +63,6 @@ const LogIn = () => {
         }
       );
 
-      loadingBar.current.complete();
       setIsLoading(false);
 
       if (response.data.success) {
@@ -74,7 +78,6 @@ const LogIn = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed!");
       setIsLoading(false);
-      loadingBar.current.complete();
     }
   };
 
@@ -83,7 +86,6 @@ const LogIn = () => {
       className="flex items-center justify-center bg-gray-700 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${loginBg})` }}
     >
-      <LoadingBar color="#3b82f6" ref={loadingBar} height={4} />
 
       {isLoading && <LoaderSpin text="Logging In" message="Verifying credentials, please wait..." />}
 
