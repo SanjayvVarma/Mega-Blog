@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import loginBg from '../assets/loginBg.avif';
 import { login } from '../features/authSlice';
@@ -8,14 +8,17 @@ import LoadingBar from 'react-top-loading-bar';
 import { setUser } from '../features/userSlice';
 import LoaderSpin from '../components/LoaderSpin';
 import loginImg from '../assets/loginSideImg.webp';
-import { FaEye, FaEyeSlash, FaSyncAlt } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import generateCaptcha from '../utils/generateCaptcha';
+import { FaEye, FaEyeSlash, FaSyncAlt } from 'react-icons/fa';
 
 const LogIn = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
+  const [captcha, setCaptcha] = useState('');
+  const [captchaInput, setCaptchaInput] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const loadingBar = useRef();
@@ -23,7 +26,15 @@ const LogIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const isFormValid = username && password && role;
+  const isFormValid = username && password && role && captchaInput === captcha;
+
+  useEffect(() => {
+    setCaptcha(generateCaptcha())
+  }, []);
+
+  const refreshCaptcha = () => {
+    setCaptcha(generateCaptcha())
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -137,15 +148,21 @@ const LogIn = () => {
 
             <div className='mb-3 text-center'>
               <div>
-                <strong className='bg-gray-700 text-2xl tracking-wider px-2 rounded-md'>AGErM</strong>
-                <button type="button" className='ml-3 text-sm bg-blue-700 p-1 rounded-full'>
+                <strong className='bg-gray-700 text-2xl tracking-wider px-2 rounded-md'>{captcha}</strong>
+                <button
+                  type="button"
+                  onClick={refreshCaptcha}
+                  className='ml-3 text-sm bg-blue-700 p-1 rounded-full'
+                >
                   <FaSyncAlt />
                 </button>
               </div>
               <div className='mt-1'>
                 <input
                   type="text"
-                  placeholder='Verify captcha'
+                  placeholder='Verify captcha...'
+                  value={captchaInput}
+                  onChange={(e) => setCaptchaInput(e.target.value)}
                   className='mt-1 p-2.5 bg-transparent rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'
                 />
               </div>
