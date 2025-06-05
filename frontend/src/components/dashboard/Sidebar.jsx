@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from "../../features/authSlice";
 import { clearUser } from "../../features/userSlice";
 import { useDispatch, useSelector } from 'react-redux';
-import { FaUser, FaPenFancy, FaBlog, FaStar, FaKey, FaSignOutAlt, FaTrash, FaUsers } from 'react-icons/fa';
+import { FaUser, FaPenFancy, FaBlog, FaStar, FaKey, FaSignOutAlt, FaTrash, FaUsers, FaEnvelope } from 'react-icons/fa';
 
 const Sidebar = ({ components, setComponents }) => {
 
@@ -109,6 +109,7 @@ const Sidebar = ({ components, setComponents }) => {
     { label: 'Create Blog', value: 'CreateBlog', icon: <FaPenFancy />, bgColor: 'bg-green-600' },
     { label: 'Reviews', value: 'Reviews', icon: <FaStar />, bgColor: 'bg-pink-600' },
     { label: 'Subscriber', value: 'Subscriber', icon: <FaUsers />, bgColor: 'bg-yellow-600' },
+    { label: 'Message', value: 'Message', icon: <FaEnvelope />, bgColor: 'bg-cyan-700' },
     { label: 'Change Password', value: 'ChangePassword', icon: <FaKey />, bgColor: 'bg-red-600' }
   ];
 
