@@ -79,7 +79,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.comparePassword = async function (enterPassword) {
     return await bcrypt.compare(enterPassword, this.password)
-}
+};
 
 userSchema.methods.generateAccessToken = function () {
     return jwt.sign(
@@ -93,7 +93,7 @@ userSchema.methods.generateAccessToken = function () {
             expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         }
     )
-}
+};
 
 userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
@@ -105,7 +105,7 @@ userSchema.methods.generateRefreshToken = function () {
             expiresIn: process.env.REFRESH_TOKEN_EXPIRY
         }
     )
-}
+};
 
 const User = mongoose.model('User', userSchema);
 
