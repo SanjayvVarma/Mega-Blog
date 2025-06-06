@@ -36,5 +36,16 @@ const sendMessage = asyncHandler(async (req, res) => {
     )
 });
 
+const getAllMessages = asyncHandler(async (req, res) => {
+    const allMessages = await Message.find().sort({ createdAt: -1 });
 
-export { sendMessage,  };
+    if (!allMessages || allMessages.length === 0) {
+        throw new ApiError(404, "No messages found");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, allMessages, true, "All messages fetched successfully")
+    );
+});
+
+export { sendMessage, getAllMessages };
