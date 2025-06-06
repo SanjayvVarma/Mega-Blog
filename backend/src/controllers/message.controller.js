@@ -2,6 +2,7 @@ import ApiError from "../utils/ApiError.js";
 import Message from "../models/message.model.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import { sendMessageReply } from "../utils/email.js";
 
 const sendMessage = asyncHandler(async (req, res) => {
     const { fullName, email, message } = req.body;
@@ -48,4 +49,31 @@ const getAllMessages = asyncHandler(async (req, res) => {
     );
 });
 
-export { sendMessage, getAllMessages };
+const replyToMessage = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { reply } = req.body;
+
+    if (!id || !reply) {
+        throw new ApiError(400, "Message ID and Reply are required!");
+    }
+
+    const messageDoc = await Message.findById(id);
+
+    if (!messageDoc) {
+        throw new ApiError(404, "Message not found with this ID");
+    }
+
+    const email = messageDoc.email;
+
+    try {
+        await sendMessageReply(email, reply);
+    } catch (error) {
+        throw new ApiError(500, "Email send failed!");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, null, true, "Reply Send Successfully")
+    )
+});
+
+export { sendMessage, getAllMessages, replyToMessage };
