@@ -191,7 +191,7 @@ const sendMessageReply = async (email, message) => {
                 <div style="margin-top: 40px; text-align: center; font-size: 14px; color: #888;">
                     Cheers,<br />
                     <strong>MEGA SKBLOG Team</strong><br />
-                    <a href="https://megaskblog.com" target="_blank" style="color: #1e90ff; text-decoration: none;">megaskblog.com</a>
+                    <a href="https://mega-blog-seven-lovat.vercel.app" target="_blank" style="color: #1e90ff; text-decoration: none;">megaskblog.com</a>
                 </div>
 
                 <footer style="margin-top: 40px; font-size: 12px; color: #aaa; text-align: center;">
