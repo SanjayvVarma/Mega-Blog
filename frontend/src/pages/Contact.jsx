@@ -32,7 +32,7 @@ const Contact = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Failed to send message');
     }
-  }
+  };
 
   return (
     <div className="bg-gray-700 py-4 px-4">
