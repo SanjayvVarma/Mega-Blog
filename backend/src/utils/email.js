@@ -173,4 +173,35 @@ const sendBlogEmail = async (email, title, intro, blogLink) => {
     await transporter.sendMail(mailOptions);
 };
 
-export { sendWelcomeEmail, sendVerificationCode, sendVerificationLink, sendConfirmationEmail, sendBlogEmail };
+const sendMessageReply = async (email, message) => {
+
+    const mailOptions = {
+        from: `"MEGA SKBLOG Team" <${process.env.MAIL_USER}>`,
+        to: email,
+        subject: `Reply Your Message By Mega SKBlog`,
+        html: `
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; padding: 20px; background: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;">
+                <h2 style="color: #333; text-align: center;">Reply from MEGA SKBLOG Team</h2>
+                <hr style="border: none; height: 1px; background: #ddd; margin: 20px 0;">
+                
+                <p style="font-size: 16px; color: #555; line-height: 1.6;">
+                    ${message}
+                </p>
+
+                <div style="margin-top: 40px; text-align: center; font-size: 14px; color: #888;">
+                    Cheers,<br />
+                    <strong>MEGA SKBLOG Team</strong><br />
+                    <a href="https://megaskblog.com" target="_blank" style="color: #1e90ff; text-decoration: none;">megaskblog.com</a>
+                </div>
+
+                <footer style="margin-top: 40px; font-size: 12px; color: #aaa; text-align: center;">
+                    You received this email because you contacted MEGA SKBLOG. If you did not, please ignore this email.
+                </footer>
+            </div>
+        `
+    }
+
+    await transporter.sendMail(mailOptions);
+}
+
+export { sendWelcomeEmail, sendVerificationCode, sendVerificationLink, sendConfirmationEmail, sendBlogEmail, sendMessageReply };
