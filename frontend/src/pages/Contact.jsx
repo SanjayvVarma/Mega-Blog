@@ -1,8 +1,39 @@
+import axios from 'axios';
+import { useState } from "react";
+import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import { TfiEmail } from "react-icons/tfi";
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaTwitter, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Contact = () => {
+
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const isFormValid = fullName && email && message;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/message/send-message`,
+        { fullName, email, message },
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        toast.success(res.data.message || "Message Send Successfully")
+        setFullName('')
+        setEmail('')
+        setMessage('')
+      }
+
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Failed to send message');
+    }
+  }
+
   return (
     <div className="bg-gray-700 py-4 px-4">
       <div className="bg-gradient-to-br from-[#5c2a87] via-[#0f0f1c] to-[#860c9c] rounded-2xl text-white min-h-screen flex flex-col items-center p-5">
@@ -65,7 +96,7 @@ const Contact = () => {
           </div>
 
           <div className="md:w-1/2 bg-gray-700 p-8 rounded-2xl shadow-lg">
-            <form>
+            <form onSubmit={handleSubmit}>
 
               <div className="mb-4 flex flex-col md:flex-row gap-4">
                 <div className="w-full">
@@ -74,6 +105,8 @@ const Contact = () => {
                     type="text"
                     className="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     placeholder="Your Name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
                   />
                 </div>
                 <div className="w-full">
@@ -82,6 +115,8 @@ const Contact = () => {
                     type="email"
                     className="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     placeholder="Your Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -91,13 +126,16 @@ const Contact = () => {
                 <textarea
                   rows="4"
                   className="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  placeholder="Your Message"
+                  placeholder="Your Message......"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition transform hover:scale-105 shadow-lg"
+                disabled={!isFormValid}
+                className={`w-full py-3 text-white rounded-lg shadow-lg ${isFormValid ? "bg-blue-600 hover:bg-blue-700" : "bg-indigo-400 cursor-not-allowed"}`}
               >
                 Send Message
               </button>
