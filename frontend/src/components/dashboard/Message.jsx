@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useState } from "react";
 import { toast } from "react-toastify";
 import LoaderSpin from '../LoaderSpin';
 import { MdSend } from "react-icons/md";
+import { useEffect, useState } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { getTimeAgo } from "../../utils/timeDate";
 import formatCount from "../../utils/formatCount";
@@ -10,30 +10,11 @@ import formatCount from "../../utils/formatCount";
 const Message = () => {
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isSendLoading, setIsSendLoading] = useState(false);
   const [totalMessage, setTotalMessage] = useState(0);
   const [messages, setMessages] = useState([]);
   const [reply, setReply] = useState('');
   const [replyActiveId, setReplyActiveId] = useState(null);
-
-  const sendReply = async (id) => {
-
-    try {
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/message//send-reply/${id}`,
-        { reply },
-        { withCredentials: true }
-      )
-
-      if (res.data.success) {
-        toast.success(res.data.message || "Reply Send Successfully")
-        fetchMessage()
-        setReply('')
-        setReplyActiveId(null)
-      }
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Failed to send message reply");
-    }
-
-  };
 
   const fetchMessage = async () => {
     setIsLoading(true)
@@ -47,7 +28,6 @@ const Message = () => {
       setIsLoading(false)
 
       if (res.data.success) {
-        toast.success(res.data.message || "Message Fetched Successfully")
         setTotalMessage(res.data.data.length)
         setMessages(res.data.data)
       }
@@ -58,9 +38,34 @@ const Message = () => {
     }
   };
 
-  useState(() => {
+  const sendReply = async (id) => {
+    setIsSendLoading(true)
+
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/message//send-reply/${id}`,
+        { reply },
+        { withCredentials: true }
+      )
+
+      setIsSendLoading(false)
+
+      if (res.data.success) {
+        toast.success(res.data.message || "Reply Send Successfully")
+        setReply('')
+        setReplyActiveId(null)
+        fetchMessage()
+      }
+
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to send message reply");
+      setIsSendLoading(false)
+    }
+
+  };
+
+  useEffect(() => {
     fetchMessage()
-  }, [])
+  }, []);
 
   return (
     <div>
@@ -93,7 +98,10 @@ const Message = () => {
                     <div className="flex flex-col gap-1">
 
                       <button
-                        onClick={() => setReplyActiveId(replyActiveId === message._id ? null : message._id)}
+                        onClick={() => {
+                          setReplyActiveId(replyActiveId === message._id ? null : message._id);
+                          setReply('');
+                        }}
                         className=" py-0.5 bg-blue-600 hover:bg-blue-700 rounded-md"
                       >
                         Reply
@@ -135,7 +143,12 @@ const Message = () => {
                         disabled={!reply}
                         className={`mt-1 p-2 rounded-full shadow-md transition duration-200 ${reply ? "bg-green-500 hover:bg-green-600" : "bg-gray-400 cursor-not-allowed"}`}
                       >
-                        <MdSend className="w-5 h-5 text-white" />
+                        {isSendLoading ? (
+                          <div className="w-6 h-6 border-4 border-white border-t-green-700 rounded-full animate-spin"></div>
+                        ) : (
+                          <MdSend className="w-5 h-5 text-white" />
+                        )}
+
                       </button>
                     </div>
                   )}
