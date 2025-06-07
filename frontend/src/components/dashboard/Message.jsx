@@ -1,11 +1,156 @@
-import React from 'react'
+import axios from "axios";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import LoaderSpin from '../LoaderSpin';
+import { MdSend } from "react-icons/md";
+import { FaCalendarAlt } from "react-icons/fa";
+import { getTimeAgo } from "../../utils/timeDate";
+import formatCount from "../../utils/formatCount";
 
 const Message = () => {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [totalMessage, setTotalMessage] = useState(0);
+  const [messages, setMessages] = useState([]);
+  const [reply, setReply] = useState('');
+  const [replyActiveId, setReplyActiveId] = useState(null);
+
+  const sendReply = async (id) => {
+
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/message//send-reply/${id}`,
+        { reply },
+        { withCredentials: true }
+      )
+
+      if (res.data.success) {
+        toast.success(res.data.message || "Reply Send Successfully")
+        fetchMessage()
+        setReply('')
+        setReplyActiveId(null)
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to send message reply");
+    }
+
+  };
+
+  const fetchMessage = async () => {
+    setIsLoading(true)
+
+    try {
+
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/message/all-message`,
+        { withCredentials: true }
+      );
+
+      setIsLoading(false)
+
+      if (res.data.success) {
+        toast.success(res.data.message || "Message Fetched Successfully")
+        setTotalMessage(res.data.data.length)
+        setMessages(res.data.data)
+      }
+
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to message reviews");
+      setIsLoading(false)
+    }
+  };
+
+  useState(() => {
+    fetchMessage()
+  }, [])
+
   return (
     <div>
-        <h1 className='text-2xl text-center'>COMMING SOON</h1>
+      <div className="flex-1 bg-gray-950 p-8 rounded-2xl shadow-xl">
+        <h3 className="text-2xl font-bold text-white mb-4">Users Message</h3>
+        {isLoading && (
+          <LoaderSpin text="Fetching User Messages" message="Please wait while we load user messages." />
+        )}
+
+        {totalMessage > 0 && (
+          <div className="flex items-center justify-center bg-gradient-to-br from-[#3232c0] via-[#1a1a2e] to-[#1313e7] text-white mb-2 p-5 rounded-xl shadow-md">
+            <span className="text-xl"> Total Users Message : - {formatCount(totalMessage)}</span>
+          </div>
+        )}
+
+        <div className="overflow-y-auto max-h-[600px] scrollbar-hide p-2">
+          {messages && messages.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {messages.map((message) => (
+                <div key={message._id} className="relative group bg-gradient-to-br from-[#252555] via-[#252548] to-[#171731] border border-gray-700 rounded-2xl p-6 text-white flex flex-col justify-between min-h-[280px] shadow-xl transition-transform duration-300 transform hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)]" >
+                  <div className="absolute -inset-[1px] rounded-2xl border border-transparent group-hover:border-indigo-500 transition-all duration-300 pointer-events-none blur-[1px]"></div>
+
+                  <div className="flex flex-wrap gap-2 justify-between items-start">
+
+                    <div>
+                      <p className="text-lg font-semibold tracking-wide">{message.fullName}</p>
+                      <p className="text-sm text-gray-400">{message.email}</p>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+
+                      <button
+                        onClick={() => setReplyActiveId(replyActiveId === message._id ? null : message._id)}
+                        className=" py-0.5 bg-blue-600 hover:bg-blue-700 rounded-md"
+                      >
+                        Reply
+                      </button>
+
+                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <FaCalendarAlt className="text-indigo-400" />
+                        <span>{getTimeAgo(message.createdAt)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="w-full border-b border-gray-400 my-2"></div>
+
+                  <div className="text-gray-300 text-base mt-4 leading-relaxed tracking-wide flex-1">
+                    <ul className="list-decimal list-inside space-y-1 pl-4">
+                      {message?.message?.map((val, idx) => (
+                        <li key={idx} className="text-gray-200">
+                          {val}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+
+                  <div className="w-full border-b border-gray-400 my-2"></div>
+
+                  {replyActiveId === message._id && (
+                    <div className="flex gap-2 items-start">
+                      <input
+                        type="text"
+                        placeholder="Type your reply..."
+                        value={reply}
+                        onChange={(e) => setReply(e.target.value)}
+                        className="w-full px-4 py-2.5 border border-gray-400 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                      />
+                      <button
+                        onClick={() => sendReply(message._id)}
+                        disabled={!reply}
+                        className={`mt-1 p-2 rounded-full shadow-md transition duration-200 ${reply ? "bg-green-500 hover:bg-green-600" : "bg-gray-400 cursor-not-allowed"}`}
+                      >
+                        <MdSend className="w-5 h-5 text-white" />
+                      </button>
+                    </div>
+                  )}
+
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-400 text-center">No message yet.</p>
+          )}
+
+        </div>
+      </div>
     </div>
   )
 }
 
-export default Message
+export default Message;
