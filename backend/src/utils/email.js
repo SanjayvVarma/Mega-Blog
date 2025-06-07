@@ -186,8 +186,8 @@ const sendMessageReply = async (email, message) => {
 
             <hr style="border: none; height: 1px; background: #eee; margin: 25px 0;">
 
-            <p style="font-size: 15px; color: #333; line-height: 1.8; white-space: pre-wrap;">
-                ${message}
+            <p style="font-size: 15px; color: #333; line-height: 1.8; text-align: center;">
+                {What Your Problem How Can help you}
             </p>
 
             <div style="margin-top: 35px; text-align: center;">
