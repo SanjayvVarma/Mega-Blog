@@ -180,24 +180,27 @@ const sendMessageReply = async (email, message) => {
         to: email,
         subject: `Reply Your Message By Mega SKBlog`,
         html: `
-            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; padding: 20px; background: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;">
-                <h2 style="color: #333; text-align: center;">Reply from MEGA SKBLOG Team</h2>
-                <hr style="border: none; height: 1px; background: #ddd; margin: 20px 0;">
-                
-                <p style="font-size: 16px; color: #555; line-height: 1.6;">
-                    ${message}
-                </p>
+         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; padding: 30px; background: #ffffff; border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <h2 style="color: #2d2d2d; text-align: center; margin-bottom: 10px;">You've Got a Reply!</h2>
+            <p style="color: #555; font-size: 16px; text-align: center; margin: 0;">from <strong>MEGA SKBLOG Team</strong></p>
 
-                <div style="margin-top: 40px; text-align: center; font-size: 14px; color: #888;">
-                    Cheers,<br />
-                    <strong>MEGA SKBLOG Team</strong><br />
-                    <a href="https://mega-blog-seven-lovat.vercel.app" target="_blank" style="color: #1e90ff; text-decoration: none;">megaskblog.com</a>
-                </div>
+            <hr style="border: none; height: 1px; background: #eee; margin: 25px 0;">
 
-                <footer style="margin-top: 40px; font-size: 12px; color: #aaa; text-align: center;">
-                    You received this email because you contacted MEGA SKBLOG. If you did not, please ignore this email.
-                </footer>
+            <p style="font-size: 15px; color: #333; line-height: 1.8; white-space: pre-wrap;">
+                ${message}
+            </p>
+
+            <div style="margin-top: 35px; text-align: center;">
+                <p style="font-size: 14px; color: #666; margin-bottom: 8px;">Kind Regards,</p>
+                <p style="font-size: 15px; color: #2c3e50; font-weight: bold;">MEGA SKBLOG Team</p>
+                <a href="https://mega-blog-seven-lovat.vercel.app" target="_blank" style="display: inline-block; margin-top: 10px; background-color: #4f46e5; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 6px;">Visit Website</a>
             </div>
+
+            <footer style="margin-top: 40px; font-size: 12px; color: #999; text-align: center; line-height: 1.5;">
+                You received this email because you contacted MEGA SKBLOG.<br />
+                If you didn’t make this request, you can safely ignore this message.
+            </footer>
+        </div>
         `
     }
 
