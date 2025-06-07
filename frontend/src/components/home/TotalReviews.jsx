@@ -3,6 +3,7 @@ import LoaderSpin from '../LoaderSpin';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import formatCount from '../../utils/formatCount';
 import { getTimeAgo } from '../../utils/timeDate';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
@@ -64,13 +65,6 @@ function TotalReviews() {
             else if (rating >= value - 0.5) return <FaStarHalfAlt key={i} />;
             else return <FaRegStar key={i} />;
         });
-    };
-
-    const formatCount = (num) => {
-        if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
-        if (num >= 1_000_000) return (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
-        if (num >= 1_000) return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
-        return num.toString();
     };
 
     return (
