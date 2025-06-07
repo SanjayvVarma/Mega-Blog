@@ -33,12 +33,12 @@ const sendMessage = asyncHandler(async (req, res) => {
     }
 
     return res.status(201).json(
-        new ApiResponse(201, createMessage, true, "Message Send Successfully")
+        new ApiResponse(201, createMessage, true, "Message received. We'll connect soon.")
     )
 });
 
 const getAllMessages = asyncHandler(async (req, res) => {
-    const allMessages = await Message.find().sort({ createdAt: -1 });
+    const allMessages = await Message.find();
 
     if (!allMessages || allMessages.length === 0) {
         throw new ApiError(404, "No messages found");
@@ -70,6 +70,8 @@ const replyToMessage = asyncHandler(async (req, res) => {
     } catch (error) {
         throw new ApiError(500, "Email send failed!");
     }
+
+    await messageDoc.deleteOne();
 
     return res.status(200).json(
         new ApiResponse(200, null, true, "Reply Send Successfully")
