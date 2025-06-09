@@ -69,6 +69,7 @@ const LogIn = () => {
         dispatch(login(response.data.data.accessToken));
         dispatch(setUser(response.data.data.user));
         toast.success(response.data.message || "Login successful!");
+        generateCaptcha();
         navigate('/');
         setUsername('');
         setPassword('');
@@ -78,6 +79,7 @@ const LogIn = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed!");
       setIsLoading(false);
+      generateCaptcha();
     }
   };
 
