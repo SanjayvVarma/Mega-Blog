@@ -91,7 +91,7 @@ const LogIn = () => {
 
       {isLoading && <LoaderSpin text="Logging In" message="Verifying credentials, please wait..." />}
 
-      <div className="bg-gray-900 shadow-lg rounded-lg flex w-full overflow-hidden m-5 max-w-5xl border-2 border-red-600 shadow-lg">
+      <div className="bg-gray-900 shadow-lg rounded-lg flex w-full overflow-hidden m-5 max-w-5xl border-2 border-red-600">
 
         <div className="hidden md:block w-1/2">
           <img
