@@ -18,7 +18,7 @@ const Navbar = () => {
   return (
     <div className="bg-gradient-to-br from-[#2b2b7f] via-[#1b1b32] to-[#591091] text-white shadow-md py-2 px-10 flex justify-between items-center z-10 relative border-b border-blue-600">
 
-      <Link to='/' className="relative flex items-center h-11 rounded-full text-lg font-extrabold bg-gradient-to-r from-blue-900 via-cyan-600 to-blue-900 borderAnimation border-2 font-semibold tracking-wide font-serif">
+      <Link to='/' className="relative flex items-center h-11 rounded-full text-lg font-extrabold bg-gradient-to-r from-blue-900 via-cyan-600 to-blue-900 borderAnimation border-2 tracking-wide font-serif">
         <span className="relative z-10 left-7 bottom-3 text-cyan-300 drop-shadow-md">SK</span>
         <span className="absolute left-1/2 transform -translate-x-1/2 text-4xl heart-animate">💞</span>
         <span className="relative z-10 text-blue-200 right-3 top-2 drop-shadow-md" >BLOG</span>
