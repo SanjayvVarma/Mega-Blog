@@ -8,6 +8,7 @@ import { logout } from "../../features/authSlice";
 import { clearUser } from "../../features/userSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { FaUser, FaPenFancy, FaBlog, FaStar, FaKey, FaSignOutAlt, FaTrash, FaUsers, FaEnvelope } from 'react-icons/fa';
+import logoutUser from '../../utils/logout';
 
 const Sidebar = ({ components, setComponents }) => {
 
@@ -19,45 +20,49 @@ const Sidebar = ({ components, setComponents }) => {
   const user = useSelector((state) => state.user.user);
   const token = useSelector((state) => state.auth.token);
 
-  const handleLogOut = async (e) => {
-    const result = await Swal.fire({
-      title: "Ready to Logout?",
-      text: "You will need to sign in again to continue.",
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#6b7280',
-      confirmButtonText: 'Yes, logout',
-      cancelButtonText: 'Cancel',
-      background: '#1f2937',
-      color: '#fff',
-    });
+  // const handleLogOut = async () => {
+  //   const result = await Swal.fire({
+  //     title: "Ready to Logout?",
+  //     text: "You will need to sign in again to continue.",
+  //     icon: 'question',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#6b7280',
+  //     confirmButtonText: 'Yes, logout',
+  //     cancelButtonText: 'Cancel',
+  //     background: '#1f2937',
+  //     color: '#fff',
+  //   });
 
-    if (result.isConfirmed) {
-      setLoadingAction("logout")
-      setIsLoading(true)
+  //   if (result.isConfirmed) {
+  //     setLoadingAction("logout")
+  //     setIsLoading(true)
 
-      try {
-        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/logout`,
-          {},
-          { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
-        )
+  //     try {
+  //       const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/logout`,
+  //         {},
+  //         { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
+  //       )
 
-        if (response.data.success) {
-          dispatch(logout());
-          dispatch(clearUser());
-          toast.success(response.data.message || "Logged out successfully!");
-          setIsLoading(false)
-          navigate("/");
-          setLoadingAction("")
-        }
+  //       if (response.data.success) {
+  //         dispatch(logout());
+  //         dispatch(clearUser());
+  //         toast.success(response.data.message || "Logged out successfully!");
+  //         setIsLoading(false)
+  //         navigate("/");
+  //         setLoadingAction("")
+  //       }
 
-      } catch (error) {
-        toast.error(error.response?.data?.message || "An error occurred while logging out.");
-        setIsLoading(false)
-        setLoadingAction("")
-      }
-    }
+  //     } catch (error) {
+  //       toast.error(error.response?.data?.message || "An error occurred while logging out.");
+  //       setIsLoading(false)
+  //       setLoadingAction("")
+  //     }
+  //   }
+  // };
+
+  const handleLogOut = () => {
+    logoutUser({dispatch, token, navigate, setIsLoading, setLoadingAction})
   };
 
   const handleDeleteProfile = async () => {
