@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import { useState } from 'react';
 import LoaderSpin from '../LoaderSpin';
 import { toast } from 'react-toastify';
-import logoutUser from '../../utils/logout';
+import useLogout from '../../hooks/useLogout';
 import { useNavigate } from 'react-router-dom';
 import { logout } from "../../features/authSlice";
 import { clearUser } from "../../features/userSlice";
@@ -16,12 +16,12 @@ const Sidebar = ({ components, setComponents }) => {
   const [loadingAction, setLoadingAction] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const logoutUser = useLogout()
 
   const user = useSelector((state) => state.user.user);
-  const token = useSelector((state) => state.auth.token);
-
+  
   const handleLogOut = () => {
-    logoutUser({ dispatch, token, navigate, setIsLoading, setLoadingAction })
+    logoutUser({ setIsLoading, setLoadingAction })
   };
 
   const handleDeleteProfile = async () => {

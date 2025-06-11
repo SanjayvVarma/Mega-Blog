@@ -1,8 +1,8 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 import { logout } from "../features/authSlice";
 import { clearUser } from "../features/userSlice";
-import { toast } from "react-toastify";
 
 
 const logoutUser = async ({ dispatch, token, navigate, setIsLoading, setLoadingAction }) => {
@@ -20,8 +20,8 @@ const logoutUser = async ({ dispatch, token, navigate, setIsLoading, setLoadingA
     });
 
     if (result.isConfirmed) {
-        if (setLoadingAction) setLoadingAction("logout")
-        setIsLoading(true)
+        if (setLoadingAction) setLoadingAction("logout");
+        if (setIsLoading) setIsLoading(true);
 
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/logout`,
@@ -40,6 +40,7 @@ const logoutUser = async ({ dispatch, token, navigate, setIsLoading, setLoadingA
             toast.error(error.response?.data?.message || "An error occurred while logging out.");
         } finally {
             setIsLoading(false);
+            if (setIsLoading) setIsLoading(false);
             if (setLoadingAction) setLoadingAction("");
         }
     }
