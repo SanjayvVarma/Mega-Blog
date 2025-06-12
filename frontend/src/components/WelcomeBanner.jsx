@@ -7,7 +7,7 @@ const WelcomeBanner = () => {
             className="min-h-[70vh] flex items-center justify-center text-center px-6 py-5 bg-gray-700 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${bgUrl})` }}
         >
-            <div className="bg-gray-900 shadow-lg rounded-xl p-8 max-w-2xl border-4 borderAnimation">
+            <div className="bg-gray-900 shadow-lg rounded-xl p-5 max-w-2xl border-4 borderAnimation">
                 <h2 className="text-3xl font-bold text-blue-400 mb-4">🚀 Welcome to Mega <span className='text-green-500'>SK</span><span className='text-blue-500'>BLOG</span>💖 </h2>
                 <p className="text-gray-200 text-lg mb-4">
                     Dive into a world of stories, ideas, and insights from creators around the globe.
