@@ -21,6 +21,7 @@ import PageNotFound from './pages/PageNotFound';
 import LoaderSpin from './components/LoaderSpin';
 import { Routes, Route } from 'react-router-dom';
 import UpdateProfile from './pages/UpdateProfile';
+import PlatformAdmin from './pages/PlatformAdmin';
 import ForgotPassword from './pages/ForgotPassword';
 import { toast, ToastContainer } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
@@ -95,6 +96,7 @@ function App() {
       <Scroll />
       <Routes>
         <Route path="/verify" element={<VerifySubscribe />} />
+        <Route path="/platform" element={<PlatformAdmin />} />
         <Route path="/*" element={
           <div className='relative'>
             <div className="fixed top-0 left-0 w-full bg-gray-900 text-white shadow-md z-50">
