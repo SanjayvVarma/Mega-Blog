@@ -160,7 +160,19 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 });
 
-const getAllusers = asyncHandler(async (req, res) => {
+const getAllUsers = asyncHandler(async (req, res) => {
+    const users = await User.find();
+
+    if (!users || users.length === 0) {
+        throw new ApiError(404, "No users found at the moment")
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, users, true, "All platform users fetched successfully")
+    )
+});
+
+const getAllReader = asyncHandler(async (req, res) => {
 
     const users = await User.find({ role: "Reader" })
 
@@ -390,4 +402,4 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
 });
 
-export { userRegister, userLogin, userLogout, getCurrentUser, getAllusers, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAdmin };
+export { getAllUsers, userRegister, userLogin, userLogout, getCurrentUser, getAllReader, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAdmin };
