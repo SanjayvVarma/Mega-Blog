@@ -27,7 +27,7 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
     } catch (error) {
         throw new ApiError(401, error?.message || 'invalid access token')
     }
-    
+
 });
 
 const generateAccessAndRefreshToken = async (userId) => {
@@ -53,7 +53,7 @@ const verifyRole = (...allowedRoles) => {
 
     return (req, res, next) => {
         if (!req.user || !allowedRoles.includes(req.user.role)) {
-            throw new ApiError(403, `User with role ${req.user.role} not allowed to access this page`)
+            throw new ApiError(403, `Permission denied for role "${req.user.role}".`)
         }
 
         next()
