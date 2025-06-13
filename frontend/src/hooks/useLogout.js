@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 import { logout } from "../features/authSlice";
 import { clearUser } from "../features/userSlice";
+import { useDispatch, useSelector } from 'react-redux';
 
 const useLogout = () => {
     const dispatch = useDispatch();
