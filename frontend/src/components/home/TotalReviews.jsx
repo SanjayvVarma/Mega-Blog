@@ -1,62 +1,17 @@
-import axios from 'axios';
+import { useState } from 'react';
 import LoaderSpin from '../LoaderSpin';
-import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import useReview from '../../hooks/useReview';
 import formatCount from '../../utils/formatCount';
 import { getTimeAgo } from '../../utils/timeDate';
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
 function TotalReviews() {
 
-    const [reviews, setReviews] = useState([]);
-    const [averageRating, setAverageRating] = useState(0);
-    const [totalReviews, setTotalReviews] = useState(0);
     const [viewReview, setViewReview] = useState(false);
-    const [isLoading, setIsLoading] = useState(false)
+    const { reviews, averageRating, totalReviews, isLoading, handleDelete } = useReview();
 
     const user = useSelector((state) => state.user.user);
-
-    const fetchReviews = async () => {
-        try {
-            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/review/all-review`,
-                { withCredentials: true }
-            );
-
-            if (res.data.success) {
-                setReviews(res.data.data.reviews);
-                setAverageRating(res.data.data.averageRating);
-                setTotalReviews(res.data.data.totalReview);
-            }
-
-        } catch (error) {
-            toast.error(error?.response?.data?.message || "Failed to fetch reviews");
-        }
-    };
-
-    const handleDelete = async (id) => {
-        setIsLoading(true)
-        try {
-            const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/review/delete-review/${id}`,
-                { withCredentials: true }
-            );
-
-            setIsLoading(false)
-
-            if (res.data.success) {
-                toast.success(res.data.message || "Review deleted successfully");
-                fetchReviews();
-            }
-
-        } catch (error) {
-            toast.error(error?.response?.data?.message || "Failed to delete review");
-            setIsLoading(false)
-        }
-    };
-
-    useEffect(() => {
-        fetchReviews();
-    }, []);
 
     const renderStars = (rating) => {
         return [...Array(5)].map((_, i) => {
