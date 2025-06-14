@@ -2,13 +2,10 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import MyBlog from '../components/dashboard/MyBlog';
 import Profile from '../components/dashboard/Profile';
-import Reviews from '../components/dashboard/Reviews';
 import Sidebar from '../components/dashboard/Sidebar';
-import CreateBlog from '../components/dashboard/CreateBlog';
-import Subscriber from '../components/dashboard/Subscriber';
-import ChangePassword from '../components/dashboard/ChangePassword';
-import Message from '../components/dashboard/Message';
 import WelcomeBanner from '../components/WelcomeBanner';
+import CreateBlog from '../components/dashboard/CreateBlog';
+import ChangePassword from '../components/dashboard/ChangePassword';
 
 const Dashboard = () => {
 
@@ -31,16 +28,10 @@ const Dashboard = () => {
                   <Profile />
                 ) : components === "CreateBlog" ? (
                   <CreateBlog setComponents={setComponents} />
-                ) : components === "Reviews" ? (
-                  <Reviews />
                 ) : components === "MyBlog" ? (
                   <MyBlog />
                 ) : components === "ChangePassword" ? (
                   <ChangePassword setComponents={setComponents} />
-                ) : components === "Subscriber" ? (
-                  <Subscriber />
-                ) : components === "Message" ? (
-                  <Message />
                 ) : (
                   <div className='text-center text-blue-500 font-semibold text-xl'>
                     <p>Component Not Found</p>
