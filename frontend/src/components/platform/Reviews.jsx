@@ -64,7 +64,7 @@ const Reviews = () => {
                 <div className="w-full border-b border-gray-400 my-2"></div>
                 <div className="flex justify-between items-center mt-6 text-sm text-gray-400">
                   {
-                    isAuth && (user?._id === review.createdBy.toString() || user?.role === "SuparAdmin") ? (
+                    isAuth && (user?._id === review.createdBy.toString() || user?.role === "Admin") ? (
                       <button
                         onClick={() => handleDelete(review._id)}
                         className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded-md flex items-center gap-1 shadow-sm transition-all duration-200"

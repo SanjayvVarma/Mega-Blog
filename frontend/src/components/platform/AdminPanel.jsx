@@ -33,7 +33,7 @@ const AdminPanel = () => {
     fetchUsers()
   }, []);
 
-  const filteredUsers = users.filter((user) => user.role !== "SuparAdmin");
+  const filteredUsers = users.filter((user) => user.role !== "Admin");
   const adminUsers = users.filter((user) => user.role === "Admin");
   const readerUsers = users.filter((user) => user.role === "Reader");
   const blogs = useSelector((state) => state.blogs.blogData);

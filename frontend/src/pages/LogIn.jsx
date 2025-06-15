@@ -69,7 +69,7 @@ const LogIn = () => {
         dispatch(login(response.data.data.accessToken));
         dispatch(setUser(response.data.data.user));
         toast.success(response.data.message || "Login successful!");
-        navigate(role === "SuparAdmin" ? '/platform' : '/')
+        navigate(role === "Admin" ? '/platform' : '/')
         setUsername('');
         setPassword('');
         setRole('');
@@ -144,8 +144,8 @@ const LogIn = () => {
                 onChange={(e) => setRole(e.target.value)}
               >
                 <option value="" className="bg-[#04152D] text-white" disabled>Select Role</option>
-                <option className="bg-[#04152D] text-white" value="SuparAdmin">SuparAdmin</option>
                 <option className="bg-[#04152D] text-white" value="Admin">Admin</option>
+                <option className="bg-[#04152D] text-white" value="Author">Author</option>
                 <option className="bg-[#04152D] text-white" value="Reader">Reader</option>
               </select>
             </div>

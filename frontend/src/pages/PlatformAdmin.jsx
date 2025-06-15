@@ -38,7 +38,7 @@ const PlatformAdmin = () => {
           <PlatformSidebar components={components} setComponents={setComponents} />
 
           <div className="absolute inset-0 border-b md:top-25 md:left-63 top-40 left-0 right-0 text-white">
-            {user.role === "SuparAdmin" && (
+            {user.role === "Admin" && (
               components === 'AdminPanel' ? (
                 <AdminPanel />
               ) : components === "Reviews" ? (

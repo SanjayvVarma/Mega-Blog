@@ -140,11 +140,11 @@ const SingleBlog = () => {
 
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-indigo-500 flex items-center justify-center font-bold uppercase text-white">
-                    {singleBlog.createdBy.fullName.charAt(0)}
+                    {singleBlog.author.fullName.charAt(0)}
                   </div>
                   <div>
-                    <p className="font-semibold text-sm text-white">{singleBlog.createdBy.fullName}</p>
-                    <p className="text-xs text-gray-400">{singleBlog.createdBy.email}</p>
+                    <p className="font-semibold text-sm text-white">{singleBlog.author.fullName}</p>
+                    <p className="text-xs text-gray-400">{singleBlog.author.email}</p>
                   </div>
                 </div>
               </div>

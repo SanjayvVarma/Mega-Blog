@@ -23,7 +23,7 @@ const Dashboard = () => {
 
           <div className="flex-1 bg-[#1a1a1d] overflow-y-auto min-h-[calc(100vh-64px)]">
             {
-              user.role === "Admin" ? (
+              user.role === "Author" ? (
                 components === "Profile" ? (
                   <Profile />
                 ) : components === "CreateBlog" ? (
