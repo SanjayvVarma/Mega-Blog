@@ -13,7 +13,7 @@ router.post("/register", uploadImage, userRegister);
 router.post("/login", userLogin);
 router.post("/logout", verifyJWT, userLogout);
 router.get("/current-user", verifyJWT, getCurrentUser);
-router.get("/all-users", verifyJWT, verifyRole("SuparAdmin"), getAllUsers);
+router.get("/all-users", verifyJWT, verifyRole("Admin"), getAllUsers);
 router.get("/all-readers", getAllReader);
 router.get("/all-admin", getAllAdmin);
 router.post("/forgot-password", forgotPassword);

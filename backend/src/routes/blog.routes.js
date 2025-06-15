@@ -12,10 +12,10 @@ const uploadImages = upload.fields([
     ))
 ])
 
-router.post("/create-blog", verifyJWT, verifyRole("Admin"), uploadImages, createBlog);
-router.patch("/update-blog/:id", verifyJWT, verifyRole("Admin"), uploadImages, updateBlog);
-router.delete("/delete-blog/:id", verifyJWT, verifyRole("Admin"), deleteBlog);
-router.patch("/publish-blog/:id", verifyJWT, verifyRole("Admin"), publishBlog);
+router.post("/create-blog", verifyJWT, verifyRole("Author"), uploadImages, createBlog);
+router.patch("/update-blog/:id", verifyJWT, verifyRole("Author"), uploadImages, updateBlog);
+router.delete("/delete-blog/:id", verifyJWT, verifyRole("Author"), deleteBlog);
+router.patch("/publish-blog/:id", verifyJWT, verifyRole("Author"), publishBlog);
 router.get("/all-blogs", allBlog);
 router.get("/single-blog/:id", singleBlog);
 router.get("/user-blogs", verifyJWT, userBlog);
