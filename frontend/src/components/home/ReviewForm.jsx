@@ -11,7 +11,7 @@ const ReviewForm = ({ user }) => {
   const [message, setMessage] = useState("");
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -30,22 +30,20 @@ const ReviewForm = ({ user }) => {
         { withCredentials: true }
       );
 
-      setIsLoading(false)
-
       if (res.data.success) {
         toast.success(res.data.message || "Review submitted successfully");
-
         if (!user) {
           setFullName("");
           setEmail("");
         }
-
         setMessage("");
         setRating(0);
       }
 
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to submit review");
+    } finally {
+      setIsLoading(false)
     }
   };
 
