@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const useReview = () => {
 
@@ -9,7 +9,7 @@ const useReview = () => {
     const [totalReviews, setTotalReviews] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
-    const fetchReviews = useCallback(async () => {
+    const fetchReviews = async () => {
         setIsLoading(true)
 
         try {
@@ -29,7 +29,7 @@ const useReview = () => {
         } finally {
             setIsLoading(false)
         }
-    });
+    };
 
     const handleDelete = async (id) => {
         setIsLoading(true)
@@ -55,7 +55,7 @@ const useReview = () => {
         fetchReviews();
     }, []);
 
-    return { reviews, averageRating, totalReviews, isLoading, handleDelete };
+    return { reviews, averageRating, totalReviews, isLoading, handleDelete, fetchReviews };
 
 };
 
