@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import LoaderSpin from '../components/LoaderSpin';
 import { FaFacebook, FaGraduationCap, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
-const AllAdmin = () => {
+const AllAuthor = () => {
 
     const [authores, setAuthores] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +15,7 @@ const AllAdmin = () => {
 
         try {
 
-            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-admin`,
+            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-author`,
                 { withCredentials: true }
             )
             setIsLoading(false)
@@ -90,4 +90,4 @@ const AllAdmin = () => {
     );
 };
 
-export default AllAdmin;
+export default AllAuthor;

@@ -184,8 +184,8 @@ const getAllReader = asyncHandler(async (req, res) => {
     )
 });
 
-const getAllAdmin = asyncHandler(async (req, res) => {
-    const admins = await User.find({ role: "Admin" })
+const getAllAuthor = asyncHandler(async (req, res) => {
+    const admins = await User.find({ role: "Author" })
 
     if (!admins || admins.length === 0) {
         throw new ApiError(404, "No Admins Found");
@@ -401,4 +401,4 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
 });
 
-export { getAllUsers, userRegister, userLogin, userLogout, getCurrentUser, getAllReader, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAdmin };
+export { getAllUsers, userRegister, userLogin, userLogout, getCurrentUser, getAllReader, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor };

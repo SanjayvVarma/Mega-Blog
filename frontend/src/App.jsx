@@ -7,10 +7,10 @@ import Blogs from './pages/Blogs';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
 import Register from './pages/Register';
-import AllAdmin from './pages/AllAdmin';
 import Scroll from './components/Scroll';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
+import AllAuthor from './pages/AllAuthors';
 import { useEffect, useState } from 'react';
 import SingleBlog from './pages/SingleBlog';
 import UpdateBlog from './pages/UpdateBlog';
@@ -111,7 +111,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/blogs" element={<Blogs page={page} setPage={setPage} />} />
-                <Route path="/authors" element={<AllAdmin />} />
+                <Route path="/authors" element={<AllAuthor />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/blog/:id" element={<SingleBlog />} />
