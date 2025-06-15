@@ -26,12 +26,6 @@ const blogSchema = new mongoose.Schema(
             }
         ],
 
-        createdBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true
-        },
-
         category: {
             type: String,
             required: true,
