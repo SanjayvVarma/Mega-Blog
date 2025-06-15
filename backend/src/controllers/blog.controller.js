@@ -27,22 +27,22 @@ const createBlog = asyncHandler(async (req, res) => {
         throw new ApiError(500, "main image upload failed");
     }
 
-    const processedSections = []
+    const processedSections = [];
+    const sectionImages = {};
 
-    const sectionImages = [];
     for (let i = 0; i < 10; i++) {
         if (req.files[`sectionImages_${i}`]?.[0]) {
-            sectionImages.push(req.files[`sectionImages_${i}`][0]);
+            sectionImages[i] = req.files[`sectionImages_${i}`][0];
         }
     }
 
-    const parsedSection = JSON.parse(sections || '[]')
+    const parsedSection = JSON.parse(sections || '[]');
 
-    for (let idx = 0; idx < Math.max(parsedSection.length, sectionImages.length); idx++) {
+    for (let idx = 0; idx < parsedSection.length; idx++) {
         let imageUrl = "";
 
         if (sectionImages[idx]) {
-            const sectionImage = await uploadOnCloudinary(sectionImages[idx]?.path);
+            const sectionImage = await uploadOnCloudinary(sectionImages[idx].path);
             imageUrl = sectionImage?.url || "";
         }
 
@@ -60,7 +60,6 @@ const createBlog = asyncHandler(async (req, res) => {
         mainImage: mainImage?.url,
         intro,
         sections: processedSections,
-        createdBy: req.user._id,
         category,
         author: req.user._id,
         published
@@ -83,7 +82,7 @@ const updateBlog = asyncHandler(async (req, res) => {
         throw new ApiError(404, "blog not found")
     }
 
-    if (blog.createdBy.toString() !== req.user._id.toString()) {
+    if (blog.author.toString() !== req.user._id.toString()) {
         throw new ApiError(403, "You can only update your own blog")
     }
 
@@ -184,7 +183,7 @@ const publishBlog = asyncHandler(async (req, res) => {
         throw new ApiError(404, "blog not found")
     }
 
-    if (blog.createdBy.toString() !== req.user._id.toString()) {
+    if (blog.author.toString() !== req.user._id.toString()) {
         throw new ApiError(403, "You can only publish/unpublish your own blog");
     }
 
@@ -216,7 +215,7 @@ const deleteBlog = asyncHandler(async (req, res) => {
         throw new ApiError(404, "blog not found")
     }
 
-    if (req.user._id.toString() !== blog.createdBy.toString()) {
+    if (req.user._id.toString() !== blog.author.toString()) {
         throw new ApiError(400, "you can delete only your own blog")
     }
 
@@ -282,7 +281,7 @@ const singleBlog = asyncHandler(async (req, res) => {
         id,
         { $inc: { views: 1 } },
         { new: true }
-    ).populate("createdBy", "fullName email")
+    ).populate("author", "fullName email")
 
     if (!blog) {
         throw new ApiError(404, "blog not found")
@@ -295,15 +294,15 @@ const singleBlog = asyncHandler(async (req, res) => {
 });
 
 const userBlog = asyncHandler(async (req, res) => {
-    const createdBy = req.user._id
+    const author = req.user._id
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
     const skip = (page - 1) * limit;
 
-    const totalBlogs = await Blog.countDocuments({ createdBy });
+    const totalBlogs = await Blog.countDocuments({ author });
 
-    const userBlogs = await Blog.find({ createdBy })
+    const userBlogs = await Blog.find({ author })
         .skip(skip)
         .limit(limit)
         .sort({ createdAt: -1 });
