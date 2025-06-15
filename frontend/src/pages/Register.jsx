@@ -339,7 +339,7 @@ const Register = () => {
                     className="w-full p-3 mt-1 border border-gray-600 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
                   >
                     <option value="" disabled>Select Role</option>
-                    <option value="Admin">Admin</option>
+                    <option value="Author">Author</option>
                     <option value="Reader">Reader</option>
                   </select>
                 </div>
