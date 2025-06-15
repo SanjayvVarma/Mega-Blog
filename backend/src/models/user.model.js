@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema(
         role: {
             type: String,
             required: true,
-            enum: ["Reader", "Admin"]
+            enum: ["Reader", "Author"]
         },
 
         avatar: {
