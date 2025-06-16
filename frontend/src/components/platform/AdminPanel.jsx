@@ -34,7 +34,7 @@ const AdminPanel = () => {
   }, []);
 
   const filteredUsers = users.filter((user) => user.role !== "Admin");
-  const adminUsers = users.filter((user) => user.role === "Admin");
+  const adminUsers = users.filter((user) => user.role === "Author");
   const readerUsers = users.filter((user) => user.role === "Reader");
   const blogs = useSelector((state) => state.blogs.blogData);
 
@@ -51,7 +51,7 @@ const AdminPanel = () => {
 
   const cards = [
     { title: 'Total Users', icon: <FaUsers />, value: stats.totalUsers },
-    { title: 'Admin Users', icon: <FaUserTie />, value: stats.adminUsers },
+    { title: 'Author Users', icon: <FaUserTie />, value: stats.adminUsers },
     { title: 'Reader Users', icon: <FaUserAlt />, value: stats.readerUsers },
     { title: 'Total Blogs', icon: <FaBlog />, value: stats.totalBlogs },
     { title: 'Subscribers', icon: <FaEnvelopeOpenText />, value: stats.subscribers },
