@@ -12,12 +12,14 @@ import { checkPasswordMatch, validatePassword } from '../utils/passwordValidatio
 const Register = () => {
 
   const educationOptions = ["SSC", "INTERMEDIATE", "GRADUATION", "POST GRADUATION", "PhD", "OTHER"];
+  const titles = ["Mr.", "Mrs.", "Ms.", "Mx."];
 
   const [showPass, setShowPass] = useState(false);
   const [showComPass, setShowComPass] = useState(false);
   const [passMessage, setPassMessage] = useState('');
   const [passValidator, setPassValidator] = useState('');
   const [fullName, setFullName] = useState('');
+  const [title, setTitle] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [about, setAbout] = useState('');
@@ -32,6 +34,8 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [otpInputBox, setOtpInputBox] = useState(false);
+  const [resendAvailable, setResendAvailable] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
 
   const loadingBar = useRef(null);
   const navigate = useNavigate();
@@ -68,6 +72,22 @@ const Register = () => {
     }
   };
 
+  const startResendTimer = () => {
+    setResendAvailable(true);
+    setResendTimer(60);
+
+    let timeLeft = 60;
+    const interval = setInterval(() => {
+      timeLeft -= 1;
+      setResendTimer(timeLeft);
+
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        setResendAvailable(false);
+      }
+    }, 1000);
+  };
+
   const sendOtp = async () => {
     setIsLoading(true)
 
@@ -82,6 +102,7 @@ const Register = () => {
       if (res.data.success) {
         toast.success(res.data.message || "Otp Send Successfully")
         setOtpInputBox(true)
+        startResendTimer()
       }
 
     } catch (error) {
@@ -208,7 +229,97 @@ const Register = () => {
             </div>
 
             <div className="w-full">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              {otpInputBox ? (
+                <div>
+                  <div className='flex justify-between'>
+                    <label className="block text-sm font-medium mb-1">OTP Verification</label>
+                    {resendAvailable ? (
+                      <p className="text-sm text-gray-400 pr-17 md:pr-32">
+                        Didn’t get it?
+                        <span className='text-green-500 pr-2'> Resend in {resendTimer}s</span>
+                      </p>
+                    ) : (
+                      <p className="text-sm text-gray-400 pr-17 md:pr-32">
+                        Didn’t get it?
+                        <button
+                          type="button"
+                          onClick={sendOtp}
+                          className="ml-1 text-blue-400 hover:underline"
+                        >
+                          Resend OTP
+                        </button>
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      placeholder="Enter OTP"
+                      required
+                      className="flex-1 p-3 border border-gray-600 rounded-md bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+                    />
+                    <button
+                      type="button"
+                      onClick={verifyOtp}
+                      className="p-3 md:px-10 bg-green-600 hover:bg-green-700 text-white rounded-md"
+                    >
+                      Verify
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-sm font-medium text-gray-300">
+                    Email
+                  </label>
+                  <div className="flex items-center gap-3">
+                    <div className="relative flex-1">
+                      <input
+                        type="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        required
+                        className="w-full p-3 mt-1 border border-gray-600 rounded-md bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          setIsVerified(false);
+                        }}
+                      />
+                      {isVerified && (
+                        <FaCheckCircle className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 text-xl" />
+                      )}
+                    </div>
+                    {!isVerified && (
+                      <button
+                        type="button"
+                        onClick={sendOtp}
+                        className="p-3 md:px-10 mt-1 bg-blue-600 hover:bg-blue-800 text-white rounded-md transition-all duration-200"
+                      >
+                        Send OTP
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-5">
+
+                <div>
+                  <label className="block text-sm font-medium">Select title</label>
+                  <select
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full p-3 mt-1 border border-gray-600 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                  >
+                    <option value="" disabled>Select Title</option>
+                    {titles.map((item, index) => (
+                      <option key={index} value={item}>{item}</option>
+                    ))}
+                  </select>
+                </div>
 
                 <div>
                   <label className="block text-sm font-medium">Full Name</label>
@@ -221,74 +332,6 @@ const Register = () => {
                     className="w-full p-3 mt-1 border border-gray-600 rounded-md bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
                   />
                 </div>
-
-                {otpInputBox ? (
-                  <div>
-                    <div className='flex gap-16'>
-                      <label className="block text-sm font-medium mb-1">OTP Verification</label>
-                      <p className="text-sm text-gray-400">
-                        Didn’t get it?
-                        <button
-                          type="button"
-                          onClick={sendOtp}
-                          className="ml-1 text-blue-400 hover:underline"
-                        >
-                          Resend OTP
-                        </button>
-                      </p>
-                    </div>
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
-                        placeholder="Enter OTP"
-                        required
-                        className="flex-1 p-3 border border-gray-600 rounded-md bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
-                      />
-                      <button
-                        type="button"
-                        onClick={verifyOtp}
-                        className="px-4 bg-green-600 hover:bg-green-700 text-white rounded-md"
-                      >
-                        Verify
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300">
-                      Email
-                    </label>
-                    <div className="flex items-center gap-3">
-                      <div className="relative flex-1">
-                        <input
-                          type="email"
-                          placeholder="Enter your email"
-                          value={email}
-                          required
-                          className="w-full p-3 mt-1 border border-gray-600 rounded-md bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
-                          onChange={(e) => {
-                            setEmail(e.target.value);
-                            setIsVerified(false);
-                          }}
-                        />
-                        {isVerified && (
-                          <FaCheckCircle className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 text-xl" />
-                        )}
-                      </div>
-                      {!isVerified && (
-                        <button
-                          type="button"
-                          onClick={sendOtp}
-                          className="p-3 mt-1 bg-blue-600 hover:bg-blue-800 text-white rounded-md transition-all duration-200"
-                        >
-                          Send OTP
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                )}
 
                 <div>
                   <label className="block text-sm font-medium">Phone</label>
