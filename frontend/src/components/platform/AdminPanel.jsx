@@ -1,37 +1,16 @@
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
 import useReview from '../../hooks/useReview';
 import useMessage from '../../hooks/useMessage';
+import useAllUser from '../../hooks/useAllUser';
 import useSubscriber from '../../hooks/useSubscriber';
 import { FaUsers, FaUserTie, FaUserAlt, FaEnvelopeOpenText, FaCommentDots, FaChartLine, FaStar, FaBlog, } from 'react-icons/fa';
 
 const AdminPanel = () => {
 
-  const [users, setUsers] = useState([]);
   const { subscribers } = useSubscriber();
   const { totalReviews } = useReview();
-  const { messages } = useMessage()
-
-  const fetchUsers = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-users`,
-        { withCredentials: true }
-      )
-
-      if (res.data.success) {
-        setUsers(res.data.data)
-      }
-
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Something went wrong")
-    }
-  }
-
-  useEffect(() => {
-    fetchUsers()
-  }, []);
+  const { messages } = useMessage();
+  const { users } = useAllUser();
 
   const filteredUsers = users.filter((user) => user.role !== "Admin");
   const adminUsers = users.filter((user) => user.role === "Author");
@@ -61,7 +40,7 @@ const AdminPanel = () => {
   ];
 
   return (
-    <div className="flex-1 p-6">
+    <div className="max-h-[calc(100vh-160px)] overflow-y-auto p-6 scrollbar-hide">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {cards.map((card, index) => (
           <div
