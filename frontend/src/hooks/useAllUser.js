@@ -7,6 +7,8 @@ const useAllUser = () => {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const filteredUsers = users.filter((user) => user.role !== "Admin");
+
     const fetchUsers = async () => {
         setIsLoading(true);
 
@@ -30,7 +32,7 @@ const useAllUser = () => {
         fetchUsers()
     }, []);
 
-    return { users, isLoading }
+    return { users, isLoading, filteredUsers }
 };
 
 export default useAllUser;

@@ -1,9 +1,11 @@
-import React from 'react'
+import Blogs from "../../pages/Blogs"
 
 const AllBlogs = () => {
     return (
-        <div className='text-2xl text-[#94f5e2] text-center'>coming Soon.........</div>
+        <div className="overflow-y-auto md:max-h-[calc(100vh-100px)] max-h-[calc(100vh-250px)] scrollbar-hide">
+            <Blogs />
+        </div>
     )
 }
 
-export default AllBlogs
+export default AllBlogs;

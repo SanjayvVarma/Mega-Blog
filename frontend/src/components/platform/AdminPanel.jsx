@@ -10,9 +10,8 @@ const AdminPanel = () => {
   const { subscribers } = useSubscriber();
   const { totalReviews } = useReview();
   const { messages } = useMessage();
-  const { users } = useAllUser();
+  const { users, filteredUsers } = useAllUser();
 
-  const filteredUsers = users.filter((user) => user.role !== "Admin");
   const adminUsers = users.filter((user) => user.role === "Author");
   const readerUsers = users.filter((user) => user.role === "Reader");
   const blogs = useSelector((state) => state.blogs.blogData);
