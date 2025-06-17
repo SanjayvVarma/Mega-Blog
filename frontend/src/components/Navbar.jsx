@@ -128,7 +128,7 @@ const Navbar = () => {
 
           {isAuth ? (
             <div className="flex gap-4 items-center">
-              <Link to="/dashboard">
+              <Link to={user.role === "Admin" ? "/platform" : "/dashboard"}>
                 <div className="p-0.5 rounded-full borderAnimation border-2">
                   <img
                     src={user.avatar}
