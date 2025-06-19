@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Camera } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
@@ -36,11 +37,12 @@ const Register = () => {
   const [otpInputBox, setOtpInputBox] = useState(false);
   const [resendAvailable, setResendAvailable] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
+  const [termCheck, setTermCheck] = useState(false);
 
   const loadingBar = useRef(null);
   const navigate = useNavigate();
 
-  const isFormValid = fullName && email && phone && answer && password && comPassword && education && role && isVerified && password === comPassword;
+  const isFormValid = fullName && email && phone && answer && password && comPassword && education && role && isVerified && termCheck && password === comPassword;
 
   const passwordValidator = (e) => {
     const password = e.target.value;
@@ -440,6 +442,18 @@ const Register = () => {
                   className="w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none placeholder:text-gray-400"
                 />
                 <small className="text-gray-300">{about.length}/70</small>
+              </div>
+
+              <div className="mt-4 flex items-start gap-2">
+                <input
+                  type="checkbox"
+                  value={termCheck}
+                  onChange={() => setTermCheck(!termCheck)}
+                  className="mt-1 accent-blue-600 w-4 h-4"
+                />
+                <label className="text-xm text-gray-300 cursor-pointer">
+                  I accept the <Link to="/term" className="text-blue-400 hover:underline">Terms and Conditions</Link>.
+                </label>
               </div>
 
               <div className="mt-6 flex justify-center">

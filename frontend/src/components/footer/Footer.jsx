@@ -60,8 +60,9 @@ const Footer = () => {
                             <li><Link to="/" className="hover:text-blue-300 transition">Home</Link></li>
                             <li><Link to="/about" className="hover:text-blue-300 transition">About</Link></li>
                             <li><Link to="/contact" className="hover:text-blue-300 transition">Contact</Link></li>
-                            {isAuth && <li><Link to="/blogs" className="hover:text-blue-300 transition">blogs</Link></li>}
+                            {isAuth && <li><Link to="/blogs" className="hover:text-blue-300 transition">Blogs</Link></li>}
                             <li><Link to="/privacy" className="hover:text-blue-300 transition">privacy</Link></li>
+                            <li><Link to="/term" className="hover:text-blue-300 transition">Terms&Conditions</Link></li>
                         </ul>
                     </div>
 
@@ -73,6 +74,7 @@ const Footer = () => {
                             <li className="cursor-pointer hover:underline hover:font-mono hover:text-red-300 transition">Sports</li>
                             <li className="cursor-pointer hover:underline hover:font-mono hover:text-red-300 transition">Business</li>
                             <li className="cursor-pointer hover:underline hover:font-mono hover:text-red-300 transition">Education</li>
+                            <li className="cursor-pointer hover:underline hover:font-mono hover:text-red-300 transition">Travels</li>
                         </ul>
                     </div>
 

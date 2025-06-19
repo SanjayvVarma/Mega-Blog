@@ -26,6 +26,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import { toast, ToastContainer } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBlogs, setPages } from './features/blogSlice';
+import TermsAndConditions from './components/TermsAndConditions';
 import VerifySubscribe from './components/footer/VerifySubscribe';
 
 function App() {
@@ -117,6 +118,7 @@ function App() {
                 <Route path="/blog/:id" element={<SingleBlog />} />
                 <Route path="/update/:id" element={<UpdateBlog />} />
                 <Route path='/update-profile' element={<UpdateProfile />} />
+                <Route path="/term" element={<TermsAndConditions />} />
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>
