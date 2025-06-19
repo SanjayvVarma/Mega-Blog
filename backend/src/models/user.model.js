@@ -60,6 +60,11 @@ const userSchema = new mongoose.Schema(
             enum: ["Reader", "Author"]
         },
 
+        lastLogin: {
+            type: Date,
+            default: null
+        },
+
         avatar: {
             type: String,
             required: true,
