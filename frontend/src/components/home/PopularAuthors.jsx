@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { FaFacebook, FaGraduationCap, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
-const Authores = () => {
+const PopularAuthors = () => {
 
   const [authores, setAuthores] = useState([])
 
@@ -14,7 +14,7 @@ const Authores = () => {
 
     try {
 
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-admin`,
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/popular-author`,
         { withCredentials: true }
       )
 
@@ -23,7 +23,8 @@ const Authores = () => {
       }
 
     } catch (error) {
-      toast.error(error.res.data.message || "No Admin available")
+      toast.error(error.response?.data?.message || "Failed to fetch popular authors");
+
     }
 
   }
@@ -38,9 +39,9 @@ const Authores = () => {
 
       <div className="flex flex-wrap justify-center gap-6">
         {authores && authores.length > 0 ? (
-          authores.slice(0, 5).map((author) => (
+          authores.map((author) => (
             <div
-              key={author._id}
+              key={author.authorId}
               className="bg-gray-900 rounded-lg shadow-md p-6 w-[260px] hover:shadow-lg transition-transform duration-300 hover:scale-105"
             >
               <div className="flex flex-col items-center">
@@ -83,4 +84,4 @@ const Authores = () => {
   );
 };
 
-export default Authores;
+export default PopularAuthors;

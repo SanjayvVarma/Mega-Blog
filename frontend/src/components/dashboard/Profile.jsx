@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Camera } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { FiClock } from "react-icons/fi";
 import { setUser } from '../../features/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaEnvelope, FaPhoneAlt, FaGraduationCap, FaUserShield, FaUserAlt, FaInfoCircle } from 'react-icons/fa';
@@ -119,6 +120,12 @@ const Profile = () => {
                         Update Avatar
                     </button>
                 )}
+
+                <p className="text-sm text-gray-200 flex items-center gap-1">
+                    <FiClock className="text-blue-300" />
+                    <span className="font-medium text-gray-300">Last Login :</span>
+                    <span>{user?.lastLogin ? new Date(user.lastLogin).toLocaleString() : "First login"}</span>
+                </p>
 
                 {user.about && (
                     <div className="w-full max-w-xl mx-auto bg-white/5 p-4 rounded-md text-white">

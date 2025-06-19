@@ -1,4 +1,5 @@
 import OTP from "../models/OTP.model.js";
+import Blog from "../models/blog.model.js";
 import User from "../models/user.model.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
@@ -404,4 +405,64 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
 });
 
-export { getAllUsers, userRegister, userLogin, userLogout, getCurrentUser, getAllReader, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor };
+const getPopularAuthors = asyncHandler(async (req, res) => {
+    const popularAuthors = await Blog.aggregate([
+        {
+            $group: {
+                _id: "$author",
+                blogCount: { $sum: 1 },
+                totalViews: { $sum: "$views" }
+            }
+        },
+        {
+            $addFields: {
+                popularityScore: {
+                    $add: [
+                        { $multiply: ["$blogCount", 1.5] },
+                        { $divide: ["$totalViews", 200] }
+                    ]
+                }
+            }
+        },
+        {
+            $sort: {
+                popularityScore: -1
+            }
+        },
+        {
+            $limit: 5
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "_id",
+                foreignField: "_id",
+                as: "author"
+            }
+        },
+        {
+            $unwind: "$author"
+        },
+        {
+            $project: {
+                _id: 0,
+                authorId: "$author._id",
+                fullName: "$author.fullName",
+                email: "$author.email",
+                avatar: "$author.avatar",
+                about: "$author.about",
+                education: "$author.education",
+                blogCount: 1,
+                totalViews: 1,
+                popularityScore: 1
+            }
+        }
+    ]);
+
+    return res.status(200).json(
+        new ApiResponse(200, popularAuthors, true, "Popular authors fetched successfully")
+    );
+
+});
+
+export { getPopularAuthors, getAllUsers, userRegister, userLogin, userLogout, getCurrentUser, getAllReader, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor };
