@@ -102,12 +102,16 @@ const userLogin = asyncHandler(async (req, res) => {
         throw new ApiError(401, 'invalid user credentials')
     }
 
+    const previousLoginTime = user.lastLogin;
+
     user.lastLogin = new Date();
     await user.save({ validateBeforeSave: false });
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id)
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken -answer")
+
+    loggedInUser.lastLogin = previousLoginTime || null;
 
     const options = {
         httpOnly: true,
