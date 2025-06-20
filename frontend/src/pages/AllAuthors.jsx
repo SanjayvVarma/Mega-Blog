@@ -81,7 +81,7 @@ const AllAuthor = () => {
                         </div>
                     ))
                 ) : (
-                    <p className="text-white text-center text-lg mt-10">No Admins Available</p>
+                    <p className="text-white text-center text-lg mt-10">No Authors Available</p>
                 )}
 
             </div>

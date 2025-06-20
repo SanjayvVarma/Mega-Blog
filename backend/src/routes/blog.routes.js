@@ -1,7 +1,7 @@
 import { Router } from "express";
 import upload from "../middlewares/multer.middleware.js";
 import { verifyJWT, verifyRole } from "../middlewares/auth.meddleware.js";
-import { createBlog, updateBlog, deleteBlog, allBlog, singleBlog, userBlog, publishBlog } from "../controllers/blog.controller.js";
+import { createBlog, updateBlog, deleteBlog, allBlog, singleBlog, userBlog, publishBlog, trendingBlog } from "../controllers/blog.controller.js";
 
 const router = Router();
 
@@ -17,6 +17,7 @@ router.patch("/update-blog/:id", verifyJWT, verifyRole("Author"), uploadImages, 
 router.delete("/delete-blog/:id", verifyJWT, verifyRole("Author"), deleteBlog);
 router.patch("/publish-blog/:id", verifyJWT, verifyRole("Author"), publishBlog);
 router.get("/all-blogs", allBlog);
+router.get("/trending-blogs", trendingBlog);
 router.get("/single-blog/:id", singleBlog);
 router.get("/user-blogs", verifyJWT, userBlog);
 

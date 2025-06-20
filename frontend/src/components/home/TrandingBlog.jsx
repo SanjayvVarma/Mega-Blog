@@ -1,23 +1,45 @@
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { BeatLoader } from 'react-spinners';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 const TrendingBlog = () => {
 
-    const blogs = useSelector((state) => state.blogs.blogData);;
-    const trendingBlogs = blogs?.slice(0, 7);
+    const [trendingBlogs, setTrendingBlogs] = useState([]);
+    const isAuth = useSelector((state) => state.auth.isAuth);
+
+    const trandingBlog = async () => {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/trending-blogs`,
+                { withCredentials: true }
+            )
+
+            if (res.data.success) {
+                setTrendingBlogs(res.data.data)
+            }
+
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Failed to fetch popular authors");
+        }
+    };
+
+    useEffect(() => {
+        trandingBlog()
+    }, [isAuth])
 
     return (
         <div className="bg-gradient-to-br from-[#387138] via-[#0d1c0f] to-[#268339] py-10 px-5">
             <h2 className="text-3xl font-bold text-blue-400 text-center mb-8">🔥 Trending Blogs</h2>
 
             {
-                trendingBlogs && blogs.length > 0 ? (
+                trendingBlogs && trendingBlogs.length > 0 ? (
                     <Swiper
                         modules={[Navigation, Pagination, Autoplay]}
                         spaceBetween={20}

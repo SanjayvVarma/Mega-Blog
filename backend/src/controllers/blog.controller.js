@@ -322,4 +322,22 @@ const userBlog = asyncHandler(async (req, res) => {
     )
 });
 
-export { createBlog, updateBlog, deleteBlog, allBlog, singleBlog, userBlog, publishBlog };
+const trendingBlog = asyncHandler(async (req, res) => {
+
+    const trendingBlogs = await Blog.find({
+        published: true,
+        createdAt: {
+            $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+        },
+    })
+        .sort({ views: -1 })
+        .limit(7)
+        .populate("author", "fullName avatar")
+        .select("title intro mainImage category createdAt");
+
+    return res.status(200).json(
+        new ApiResponse(200, trendingBlogs, true, "🔥 Trending blogs fetched successfully")
+    );
+});
+
+export { createBlog, updateBlog, deleteBlog, allBlog, singleBlog, userBlog, publishBlog, trendingBlog };
