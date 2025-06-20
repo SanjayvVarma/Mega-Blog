@@ -1,7 +1,7 @@
 import { Router } from "express";
 import upload from "../middlewares/multer.middleware.js";
 import { verifyJWT, verifyRole } from "../middlewares/auth.meddleware.js";
-import { getAllUsers, getCurrentUser, userLogin, userLogout, userRegister, forgotPassword, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor, resetPasswordViaEmailOtp, getAllReader, getPopularAuthors } from "../controllers/user.controller.js";
+import { getAllUsers, getCurrentUser, userLogin, userLogout, userRegister, forgotPassword, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor, resetPasswordViaEmailOtp, getAllReader, getPopularAuthors, blockAndUnblockUser } from "../controllers/user.controller.js";
 
 const router = Router();
 
@@ -23,5 +23,6 @@ router.delete("/delete-user/:id", deleteUser);
 router.patch("/update-details", verifyJWT, updateUserDetails);
 router.patch("/change-password", verifyJWT, changeCurrentPassword);
 router.patch("/update-avatar", verifyJWT, upload.single("avatar"), updateUserAvatar);
+router.patch("/block-unblock/:id", verifyJWT, verifyRole("Admin"), blockAndUnblockUser)
 
 export default router;

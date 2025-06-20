@@ -21,6 +21,10 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
             throw new ApiError(401, "Invalid access token")
         }
 
+        if (user.isBlocked) {
+            throw new ApiError(403, "Access denied. Your account is blocked.");
+        }
+
         req.user = user
         next()
 

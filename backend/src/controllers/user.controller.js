@@ -96,6 +96,10 @@ const userLogin = asyncHandler(async (req, res) => {
         throw new ApiError(403, "Invalid role for this user");
     }
 
+    if (user.isBlocked) {
+        throw new ApiError(403, "Your account is blocked. Please contact support.");
+    }
+
     const isPasswordValid = await user.comparePassword(password)
 
     if (!isPasswordValid) {
@@ -469,4 +473,22 @@ const getPopularAuthors = asyncHandler(async (req, res) => {
 
 });
 
-export { getPopularAuthors, getAllUsers, userRegister, userLogin, userLogout, getCurrentUser, getAllReader, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor };
+const blockAndUnblockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+        throw new ApiError(404, "User Not Found")
+    }
+
+    user.isBlocked = !user.isBlocked
+
+    await user.save({ validateBeforeSave: false })
+
+    return res.status(200).json(
+        new ApiResponse(200, { isBlocked: user.isBlocked }, true, `User has been ${user.isBlocked ? "blocked" : "unblocked"}`)
+    );
+});
+
+export { blockAndUnblockUser, getPopularAuthors, getAllUsers, userRegister, userLogin, userLogout, getCurrentUser, getAllReader, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor };

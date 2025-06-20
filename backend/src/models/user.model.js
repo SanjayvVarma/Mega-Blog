@@ -65,6 +65,11 @@ const userSchema = new mongoose.Schema(
             default: null
         },
 
+        isBlocked: {
+            type: Boolean,
+            default: false
+        },
+
         avatar: {
             type: String,
             required: true,
