@@ -43,7 +43,11 @@ function TotalReviews() {
                     </p>
                 </div>
             )}
-            {isLoading && <LoaderSpin text='Deleting' />}
+
+            {isLoading &&
+                <LoaderSpin text="Retrieving Feedback" message="Please wait while we load user reviews." />
+            }
+
             {viewReview && (
                 <div className="fixed h-screen inset-0 backdrop-blur bg-opacity-60 flex items-center justify-center z-50 m-2">
                     <div className="bg-white/20 p-6 rounded-xl w-full max-w-2xl shadow-lg relative">
