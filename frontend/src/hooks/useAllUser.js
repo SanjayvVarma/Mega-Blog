@@ -32,7 +32,7 @@ const useAllUser = () => {
         fetchUsers()
     }, []);
 
-    return { users, isLoading, filteredUsers }
+    return { users, isLoading, filteredUsers, fetchUsers }
 };
 
 export default useAllUser;

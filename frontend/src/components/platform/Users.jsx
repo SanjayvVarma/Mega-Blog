@@ -1,32 +1,71 @@
+import axios from "axios";
+import { useState } from "react";
+import { toast } from "react-toastify";
 import LoaderSpin from "../LoaderSpin";
-import { FaCalendarAlt } from "react-icons/fa";
 import useAllUser from "../../hooks/useAllUser";
-import formatCount from "../../utils/formatCount";
 import { getTimeAgo } from "../../utils/timeDate";
+import formatCount from "../../utils/formatCount";
+import { FaCalendarAlt, FaLock, FaUnlock } from "react-icons/fa";
 
 const Users = () => {
 
-  const { isLoading, filteredUsers } = useAllUser();
+  const [searchTerm, setSearchTerm] = useState("");
+  const { isLoading, filteredUsers, fetchUsers } = useAllUser();
+
+  const userBlock = async (id) => {
+    try {
+      const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/block-unblock/${id}`,
+        {},
+        { withCredentials: true }
+      )
+
+      if (res.data.success) {
+        toast.success(res.data.message || "User Blocked")
+        fetchUsers()
+      }
+
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "user block failed")
+    }
+  };
+
+  const searchUser = filteredUsers.filter((user) =>
+    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.phone.includes(searchTerm)
+  )
 
   return (
-    <div className="flex-1 p-2">
+    <div className="flex-1 px-2">
       {isLoading && (
         <LoaderSpin text="Fetching All Users" message="Please wait while we load all users." />
       )}
 
-      {filteredUsers.length > 0 && (
-        <div className="sticky top-0 z-10 py-3 text-center border-b border-gray-700 bg-gray-950">
+      {searchUser.length > 0 && (
+        <div className="sticky top-0 z-10 py-2 text-center border-b border-gray-700 bg-gray-950">
           <p className="text-lg font-bold text-white">
             Total Users :-{" "}
-            <span className="text-green-400">{formatCount(filteredUsers.length)}</span>
+            <span className="text-green-400">{formatCount(searchUser.length)}</span>
           </p>
         </div>
       )}
 
-      <div className="overflow-y-auto md:max-h-[calc(100vh-170px)] max-h-[calc(100vh-250px)] pt-2 pr-2 scrollbar-hide">
-        {filteredUsers.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-            {filteredUsers.map((user) => (
+      <div className="sticky top-0 z-10 py-1 border-b border-gray-700">
+        <div className="max-w-md mx-auto">
+          <input
+            type="text"
+            placeholder="Search user by name, email, or phone..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-2 bg-transparent text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+
+      <div className="overflow-y-auto md:max-h-[calc(100vh-200px)] max-h-[calc(100vh-260px)] pt-1 pr-2 scrollbar-hide">
+        {searchUser.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
+            {searchUser.map((user) => (
               <div
                 key={user._id}
                 className="relative group bg-gray-900 border-2 border-gray-700 hover:border-blue-700 rounded-2xl p-4 text-white shadow-lg"
@@ -55,8 +94,21 @@ const Users = () => {
                 <div className="my-3 border-t border-gray-600"></div>
 
                 <div className="flex justify-between items-center">
-                  <button className="bg-red-600 hover:bg-red-700 text-sm px-4 py-1 rounded-full transition-all duration-200">
-                    Block
+                  <button
+                    onClick={() => userBlock(user._id)}
+                    className={`flex items-center gap-2 text-white px-2 py-1 rounded-sm transition-all duration-200 ${user.isBlocked ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"}`}
+                  >
+                    {user.isBlocked ? (
+                      <>
+                        <FaUnlock className="text-sm" />
+                        Unblock
+                      </>
+                    ) : (
+                      <>
+                        <FaLock className="text-sm" />
+                        Block
+                      </>
+                    )}
                   </button>
                   <div className="flex items-center gap-1 text-sm text-gray-500">
                     <FaCalendarAlt className="text-indigo-400" />
@@ -74,4 +126,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default Users;
