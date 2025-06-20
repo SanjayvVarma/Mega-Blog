@@ -10,9 +10,12 @@ import { FaCalendarAlt, FaLock, FaUnlock } from "react-icons/fa";
 const Users = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [isBlocking, setIsBlocking] = useState(false);
   const { isLoading, filteredUsers, fetchUsers } = useAllUser();
 
   const userBlock = async (id) => {
+    setIsBlocking(true);
+
     try {
       const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/block-unblock/${id}`,
         {},
@@ -26,6 +29,8 @@ const Users = () => {
 
     } catch (error) {
       toast.error(error?.response?.data?.message || "user block failed")
+    } finally {
+      setIsBlocking(false);
     }
   };
 
@@ -39,6 +44,10 @@ const Users = () => {
     <div className="flex-1 px-2">
       {isLoading && (
         <LoaderSpin text="Fetching All Users" message="Please wait while we load all users." />
+      )}
+
+      {isBlocking && (
+        <LoaderSpin text="Blocking User" message="Please wait while we update the user status." />
       )}
 
       {searchUser.length > 0 && (
