@@ -26,7 +26,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import { toast, ToastContainer } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBlogs, setPages } from './features/blogSlice';
-import TermsAndConditions from './components/TermsAndConditions';
+import TermsAndConditions from './pages/TermsAndConditions';
 import VerifySubscribe from './components/footer/VerifySubscribe';
 
 function App() {
