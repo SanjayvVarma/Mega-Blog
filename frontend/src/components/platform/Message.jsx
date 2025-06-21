@@ -13,7 +13,7 @@ const Message = () => {
   const [isSendLoading, setIsSendLoading] = useState(false);
   const [reply, setReply] = useState('');
   const [replyActiveId, setReplyActiveId] = useState(null);
-  const { isLoading, messages } = useMessage();
+  const { isLoading, messages, fetchMessage } = useMessage();
 
   const sendReply = async (id) => {
     setIsSendLoading(true)

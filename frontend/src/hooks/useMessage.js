@@ -30,7 +30,7 @@ const useMessage = () => {
         fetchMessage()
     }, []);
 
-    return {isLoading, messages}
+    return { isLoading, messages, fetchMessage }
 
 };
 
