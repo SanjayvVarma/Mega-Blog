@@ -12,7 +12,7 @@ import { checkPasswordMatch, validatePassword } from '../utils/passwordValidatio
 
 const Register = () => {
 
-  const educationOptions = ["SSC", "INTERMEDIATE", "GRADUATION", "POST GRADUATION", "PhD", "OTHER"];
+  const educationOptions = ["BELOW SSC", "SSC", "INTERMEDIATE", "DIPLOMA", "GRADUATION", "POST GRADUATION", "PhD", "OTHER"];
   const titles = ["Mr.", "Mrs.", "Ms.", "Mx."];
 
   const [showPass, setShowPass] = useState(false);
