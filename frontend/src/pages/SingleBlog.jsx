@@ -218,7 +218,7 @@ const SingleBlog = () => {
                     ) : (
                       comments.map((comment) => (
                         <div
-                          key={comment._id}
+                          key={comment?._id}
                           className="bg-gray-900 p-4 rounded-lg text-white shadow-md flex flex-col"
                         >
 
@@ -232,9 +232,9 @@ const SingleBlog = () => {
                               </div>
 
                               {
-                                (comment.user._id === user._id || singleBlog.createdBy._id === user._id) && (
+                                (comment.user?._id === user?._id || singleBlog.createdBy?._id === user?._id) && (
                                   <button
-                                    onClick={() => handleDeleteComment(comment._id)}
+                                    onClick={() => handleDeleteComment(comment?._id)}
                                     className="mt-2 rounded-full p-1.5 bg-red-500 text-white hover:text-blue-300 transition duration-300 flex items-center gap-2 text-sm"
                                   >
 
