@@ -4,9 +4,10 @@ import { MdSend } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getTimeAgo } from '../utils/timeDate';
-import { ClimbingBoxLoader } from 'react-spinners';
+import ReportBlog from '../components/ReportBlog';
 import { Link, useParams } from 'react-router-dom';
-import { FaCalendarAlt, FaCommentDots, FaTrash } from 'react-icons/fa';
+import { ClimbingBoxLoader } from 'react-spinners';
+import { FaCalendarAlt, FaCommentDots, FaFlag, FaTrash } from 'react-icons/fa';
 
 const SingleBlog = () => {
 
@@ -15,6 +16,7 @@ const SingleBlog = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   const isAuth = useSelector((state) => state.auth.isAuth);
   const user = useSelector((state) => state.user.user);
@@ -260,6 +262,33 @@ const SingleBlog = () => {
 
               </div>
             </div>
+
+            {isAuth && (
+              <div className="flex justify-center mt-3">
+                <button
+                  onClick={() => setShowReportModal(true)}
+                  className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-full font-semibold shadow-md transition duration-300 flex items-center gap-2"
+                >
+                  <FaFlag />
+                  Report Blog
+                </button>
+              </div>
+            )}
+
+            {showReportModal && (
+              <div className="fixed h-screen inset-0 backdrop-blur bg-opacity-60 flex items-center justify-center z-50 m-2">
+                <div className="bg-white/20 p-6 rounded-xl w-full max-w-2xl shadow-lg relative">
+                  <button
+                    onClick={() => setShowReportModal(false)}
+                    className="absolute top-4 right-10 text-white text-3xl font-bold hover:text-red-400"
+                  >
+                    &times;
+                  </button>
+                  <h3 className="text-xl font-bold text-white mb-4 text-center"><FaFlag /> Report Blog </h3>
+                  <ReportBlog blogId={id} />
+                </div>
+              </div>
+            )}
 
             <div className="mt-8 text-center">
               <Link to="/">
