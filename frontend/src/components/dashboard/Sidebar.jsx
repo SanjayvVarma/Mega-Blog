@@ -120,7 +120,7 @@ const Sidebar = ({ components, setComponents }) => {
           ))
         }
 
-        {user.role === "Reader" && (
+        {(user.role === "Reader" || user.role === "Author") && (
           <button
             onClick={handleDeleteProfile}
             className="px-3 py-1 text-sm rounded-full whitespace-nowrap transition text-white bg-red-700 hover:bg-red-600"
@@ -160,7 +160,7 @@ const Sidebar = ({ components, setComponents }) => {
             </button>
           ))}
 
-          {user.role === "Reader" && (
+          {(user.role === "Reader" || user.role === "Author") && (
             <button
               onClick={handleDeleteProfile}
               className="flex items-center gap-3 w-full px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 bg-red-700 hover:bg-red-600"

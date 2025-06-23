@@ -278,7 +278,7 @@ const resetPasswordViaEmailOtp = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
-    const user = await User.findOneAndDelete({ _id: id, role: "Reader" })
+    const user = await User.findOneAndDelete({ _id: id })
 
     if (!user) {
         throw new ApiError(404, "Invalid user or user is not a Reader");
