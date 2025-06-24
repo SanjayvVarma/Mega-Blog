@@ -38,12 +38,54 @@ const reportBlog = asyncHandler(async (req, res) => {
     );
 });
 
-const getAllReports = asyncHandler(async (req, res) => {
+const getBlogsReport = asyncHandler(async (req, res) => {
+
+    const blogs = await Blog.find({}).select("title author mainImage").populate("author", "fullName email");
+
+    const reports = await Report.find({}).select("blog reason").lean();
+
+    const totalReportCount = reports.length;
+
+    if (!reports || reports.length === 0) {
+        throw new ApiError(404, "No Report found")
+    }
+
+    const reportMap = {}
+
+    for (const report of reports) {
+        const blogId = report.blog.toString();
+        const reportReasons = report.reason;
+
+        if (!reportMap[blogId]) {
+            reportMap[blogId] = {
+                totalReports: 0,
+                reasons: {}
+            }
+        }
+
+        reportMap[blogId].totalReports += 1;
+        reportMap[blogId].reasons[reportReasons] = (reportMap[blogId].reasons[reportReasons] || 0) + 1
+    }
+
+    const allBlogsReports = blogs.map((blog) => {
+        const reportInfo = reportMap[blog._id.toString()];
+        if (!reportInfo) return null;
+
+        return {
+            blogId: blog._id,
+            title: blog.title,
+            mainImage: blog.mainImage,
+            author: blog.author,
+            totalReports: reportInfo.totalReports,
+            reasonsBreakdown: reportInfo.reasons,
+        };
+
+    }).filter(Boolean);
+
+    return res.status(200).json(
+        new ApiResponse(200, { allBlogsReports, totalReportCount }, true, "All reports fetched successfully")
+    )
 
 });
 
-const getBlogReport = asyncHandler(async (req, res) => {
-
-});
-
-export { reportBlog, getAllReports, getBlogReport };
+export { reportBlog, getBlogsReport };

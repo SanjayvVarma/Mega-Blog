@@ -2,14 +2,16 @@ import { useSelector } from 'react-redux';
 import useReview from '../../hooks/useReview';
 import useMessage from '../../hooks/useMessage';
 import useAllUser from '../../hooks/useAllUser';
+import useReports from '../../hooks/useReports';
 import useSubscriber from '../../hooks/useSubscriber';
-import { FaUsers, FaUserTie, FaUserAlt, FaEnvelopeOpenText, FaCommentDots, FaChartLine, FaStar, FaBlog, } from 'react-icons/fa';
+import { FaUsers, FaUserTie, FaUserAlt, FaEnvelopeOpenText, FaCommentDots, FaChartLine, FaStar, FaBlog, FaFlag, } from 'react-icons/fa';
 
 const AdminPanel = () => {
 
-  const { subscribers } = useSubscriber();
-  const { totalReviews } = useReview();
   const { messages } = useMessage();
+  const { allReports } = useReports();
+  const { totalReviews } = useReview();
+  const { subscribers } = useSubscriber();
   const { users, filteredUsers } = useAllUser();
 
   const adminUsers = users.filter((user) => user.role === "Author");
@@ -24,6 +26,7 @@ const AdminPanel = () => {
     subscribers: subscribers?.length,
     reviews: totalReviews,
     message: messages?.length,
+    reports: allReports,
     totalHits: 13452,
   };
 
@@ -35,6 +38,7 @@ const AdminPanel = () => {
     { title: 'Subscribers', icon: <FaEnvelopeOpenText />, value: stats.subscribers },
     { title: 'Messages', icon: <FaCommentDots />, value: stats.message },
     { title: 'Reviews', icon: <FaStar />, value: stats.reviews },
+    { title: 'Reports', icon: <FaFlag />, value: stats.reports },
     { title: 'Total Hits', icon: <FaChartLine />, value: stats.totalHits },
   ];
 

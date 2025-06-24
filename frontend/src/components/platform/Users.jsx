@@ -35,9 +35,9 @@ const Users = () => {
   };
 
   const searchUser = filteredUsers.filter((user) =>
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.phone.includes(searchTerm)
+    user.email.toLowerCase().includes(searchTerm.toLowerCase().trim()) ||
+    user.fullName.toLowerCase().includes(searchTerm.toLowerCase().trim()) ||
+    user.phone.includes(searchTerm.trim())
   )
 
   return (
