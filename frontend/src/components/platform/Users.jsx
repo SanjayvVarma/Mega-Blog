@@ -6,6 +6,7 @@ import useAllUser from "../../hooks/useAllUser";
 import { getTimeAgo } from "../../utils/timeDate";
 import formatCount from "../../utils/formatCount";
 import { FaCalendarAlt, FaLock, FaUnlock } from "react-icons/fa";
+import { MdAccessTime } from 'react-icons/md';
 
 const Users = () => {
 
@@ -119,9 +120,17 @@ const Users = () => {
                       </>
                     )}
                   </button>
-                  <div className="flex items-center gap-1 text-sm text-gray-500">
-                    <FaCalendarAlt className="text-indigo-400" />
-                    <span>{getTimeAgo(user.createdAt)}</span>
+                  <div>
+                    <div className="flex items-center gap-1.5 text-sm text-gray-500">
+                      <FaCalendarAlt className="text-indigo-400" />
+                      <span>Joined :</span>
+                      <span>{getTimeAgo(user.createdAt)}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-sm text-gray-500">
+                      <MdAccessTime className="text-indigo-400" />
+                      <span>Last login :</span>
+                      <span>{getTimeAgo(user.lastLogin)}</span>
+                    </div>
                   </div>
                 </div>
               </div>
