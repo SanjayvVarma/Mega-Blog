@@ -1,14 +1,39 @@
+import axios from 'axios';
 import { useState } from 'react';
 import LoaderSpin from '../LoaderSpin';
+import { toast } from 'react-toastify';
+import { FaTrash } from 'react-icons/fa';
 import useReports from '../../hooks/useReports';
 import formatCount from '../../utils/formatCount';
+import { getTimeAgo } from '../../utils/timeDate';
 
 const Report = () => {
-  const { isLoading, reports } = useReports();
+  const { isLoading, reports, fetchReports } = useReports();
   const [activeReportId, setActiveReportId] = useState(null);
 
   const openModal = (id) => setActiveReportId(id);
   const closeModal = () => setActiveReportId(null);
+
+  const handleDeleteReport = async (blogId, reason) => {
+    try {
+
+      const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/report/delete-report`,
+        {
+          data: { blogId, reason },
+          withCredentials: true
+        },
+      );
+
+      if (res.data.success) {
+        toast.success(res.data.message || "Reports deleted successfully");
+        fetchReports();
+        closeModal();
+      }
+
+    } catch (error) {
+      toast.error(error.response?.data?.message || "something went wrong");
+    }
+  }
 
   return (
     <div className="p-1">
@@ -63,6 +88,7 @@ const Report = () => {
                 </div>
 
                 <div className="border-b border-gray-500 my-2" />
+                <span className='text-sm text-gray-400'>{getTimeAgo(report.createdAt)}</span>
 
                 {activeReportId === report.blogId && (
                   <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center px-2">
@@ -80,10 +106,20 @@ const Report = () => {
                         {Object.entries(report.reasonsBreakdown).map(([reason, count]) => (
                           <div
                             key={reason}
-                            className="flex justify-between border-b border-gray-700 pb-2"
+                            className="flex justify-between items-center border-b border-gray-700 pb-2"
                           >
-                            <span className="capitalize text-gray-300">{reason}</span>
-                            <span className="font-bold text-white">{count}</span>
+                            <div>
+                              <span className="capitalize text-gray-300">{reason}</span>
+                              <span className="ml-2 text-white font-bold">({count})</span>
+                            </div>
+
+                            <button
+                              onClick={() => handleDeleteReport(report.blogId, reason)}
+                              className="text-red-500 hover:text-red-400"
+                              title={`Delete all "${reason}" reports`}
+                            >
+                              <FaTrash />
+                            </button>
                           </div>
                         ))}
                       </div>

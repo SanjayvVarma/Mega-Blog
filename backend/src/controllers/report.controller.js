@@ -40,7 +40,7 @@ const reportBlog = asyncHandler(async (req, res) => {
 
 const getBlogsReport = asyncHandler(async (req, res) => {
 
-    const blogs = await Blog.find({}).select("title author mainImage").populate("author", "fullName email");
+    const blogs = await Blog.find({}).select("title author mainImage createdAt").populate("author", "fullName email");
 
     const reports = await Report.find({}).select("blog reason").lean();
 
@@ -75,6 +75,7 @@ const getBlogsReport = asyncHandler(async (req, res) => {
             blogId: blog._id,
             title: blog.title,
             mainImage: blog.mainImage,
+            createdAt: blog.createdAt,
             author: blog.author,
             totalReports: reportInfo.totalReports,
             reasonsBreakdown: reportInfo.reasons,
@@ -88,4 +89,18 @@ const getBlogsReport = asyncHandler(async (req, res) => {
 
 });
 
-export { reportBlog, getBlogsReport };
+const deleteReport = asyncHandler(async (req, res) => {
+    const { blogId, reason } = req.body;
+
+    if (!blogId || !reason) {
+        throw new ApiError(400, "Blog ID and reason are required");
+    }
+
+    const result = await Report.deleteMany({ blog: blogId, reason });
+
+    return res.status(200).json(
+        new ApiResponse(200, null, true, `${result.deletedCount} reports deleted`)
+    );
+});
+
+export { reportBlog, getBlogsReport, deleteReport };

@@ -31,7 +31,7 @@ const useReports = () => {
         fetchReports()
     }, [])
 
-    return { isLoading, reports, allReports };
+    return { isLoading, reports, allReports, fetchReports };
 }
 
 export default useReports;
