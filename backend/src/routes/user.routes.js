@@ -1,7 +1,7 @@
 import { Router } from "express";
 import upload from "../middlewares/multer.middleware.js";
 import { verifyJWT, verifyRole } from "../middlewares/auth.meddleware.js";
-import { getAllUsers, getCurrentUser, userLogin, userLogout, userRegister, forgotPassword, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor, resetPasswordViaEmailOtp, getAllReader, getPopularAuthors, blockAndUnblockUser } from "../controllers/user.controller.js";
+import { getAllUsers, getCurrentUser, userLogin, userLogout, userRegister, forgotPassword, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor, resetPasswordViaEmailOtp, getAllReader, getPopularAuthors, blockAndUnblockUser, refreshAccessToken } from "../controllers/user.controller.js";
 
 const router = Router();
 
@@ -11,6 +11,7 @@ const uploadImage = upload.fields([
 
 router.post("/register", uploadImage, userRegister);
 router.post("/login", userLogin);
+router.get("/refresh-token", refreshAccessToken);
 router.post("/logout", verifyJWT, userLogout);
 router.get("/current-user", verifyJWT, getCurrentUser);
 router.get("/all-users", verifyJWT, verifyRole("Admin"), getAllUsers);

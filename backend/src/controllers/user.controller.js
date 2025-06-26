@@ -1,7 +1,9 @@
+import jwt from 'jsonwebtoken';
 import OTP from "../models/OTP.model.js";
 import Blog from "../models/blog.model.js";
 import User from "../models/user.model.js";
 import ApiError from "../utils/ApiError.js";
+import { AUTH_OPTIONS } from "../constants.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { sendWelcomeEmail } from "../utils/email.js";
@@ -117,19 +119,51 @@ const userLogin = asyncHandler(async (req, res) => {
 
     loggedInUser.lastLogin = previousLoginTime || null;
 
-    const options = {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? 'None' : "Lax"
-    }
-
     return res
         .status(200)
-        .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken", refreshToken, options)
+        .cookie("accessToken", accessToken, AUTH_OPTIONS)
+        .cookie("refreshToken", refreshToken, AUTH_OPTIONS)
         .json(
             new ApiResponse(200, { user: loggedInUser, accessToken, refreshToken }, true, `${loggedInUser.fullName}, login successful! Ready to explore?`)
         )
+
+});
+
+const refreshAccessToken = asyncHandler(async (req, res) => {
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+
+    if (!incomingRefreshToken) {
+        throw new ApiError(401, 'Unauthorized request')
+    }
+
+    try {
+        const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET)
+
+        const user = await User.findById(decodedToken?._id)
+
+        if (!user) {
+            throw new ApiError(401, 'Invalid refresh token')
+        }
+
+        if (incomingRefreshToken !== user?.refreshToken) {
+            throw new ApiError(401, 'Refresh token expired or used')
+        }
+
+        const { accessToken, newRefreshToken } = await generateAccessAndRefreshToken(user._id);
+
+        user.refreshToken = newRefreshToken;
+        await user.save({ validateBeforeSave: false });
+
+        return res
+            .status(200)
+            .cookie('accessToken', accessToken, AUTH_OPTIONS)
+            .cookie('refreshToken', newRefreshToken, AUTH_OPTIONS)
+            .json(
+                new ApiResponse(200, { user, accessToken}, true, 'access token refreshed')
+            )
+    } catch (error) {
+        throw new ApiError(401, error?.message || "invalid token")
+    }
 
 });
 
@@ -145,16 +179,10 @@ const userLogout = asyncHandler(async (req, res) => {
         }
     )
 
-    const option = {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? 'None' : "Lax"
-    }
-
     return res
         .status(200)
-        .clearCookie("accessToken", option)
-        .clearCookie("refreshToken", option)
+        .clearCookie("accessToken", AUTH_OPTIONS)
+        .clearCookie("refreshToken", AUTH_OPTIONS)
         .json(
             new ApiResponse(200, null, true, `You have successfully logged out. Have a great day!`)
         )
@@ -491,4 +519,4 @@ const blockAndUnblockUser = asyncHandler(async (req, res) => {
     );
 });
 
-export { blockAndUnblockUser, getPopularAuthors, getAllUsers, userRegister, userLogin, userLogout, getCurrentUser, getAllReader, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor };
+export { blockAndUnblockUser, getPopularAuthors,refreshAccessToken, getAllUsers, userRegister, userLogin, userLogout, getCurrentUser, getAllReader, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor };

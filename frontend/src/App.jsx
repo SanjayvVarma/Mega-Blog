@@ -62,6 +62,24 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/refresh-token`,
+          { withCredentials: true });
+
+        if (res.data.success) {
+          dispatch(login(res.data.data.accessToken));
+          dispatch(setUser(res.data.data.user));
+        }
+      } catch (err) {
+        toast.error(err?.response?.data.message || "User Not Logged In");
+      }
+    };
+
+    verifyToken();
+  }, [])
+
+  useEffect(() => {
 
     const fetchBlogs = async () => {
       setIsLoading(true);

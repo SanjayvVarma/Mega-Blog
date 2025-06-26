@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import loginBg from '../assets/loginBg.avif';
 import { login } from '../features/authSlice';
@@ -8,6 +7,7 @@ import { setUser } from '../features/userSlice';
 import LoaderSpin from '../components/LoaderSpin';
 import loginImg from '../assets/loginSideImg.webp';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import generateCaptcha from '../utils/generateCaptcha';
 import { FaEye, FaEyeSlash, FaSyncAlt } from 'react-icons/fa';
 
@@ -24,7 +24,20 @@ const LogIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const user = useSelector((state) => state.user.user);
+
   const isFormValid = username && password && role && captchaInput;
+
+  useEffect(() => {
+    if (isAuth) {
+      if (user?.role === 'Admin') {
+        navigate('/platform');
+      } else {
+        navigate('/');
+      }
+    }
+  }, [isAuth, user, navigate]);
 
   useEffect(() => {
     setCaptcha(generateCaptcha())
