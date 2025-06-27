@@ -73,7 +73,10 @@ function App() {
           dispatch(setUser(res.data.data.user));
         }
       } catch (err) {
-        toast.error(err?.response?.data.message || "User Not Logged In");
+        if (err?.response?.status !== 401) {
+          toast.error(err?.response?.data.message || "User Not Logged In");
+        }
+
       }
     };
 
