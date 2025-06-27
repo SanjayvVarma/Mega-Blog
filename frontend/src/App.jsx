@@ -76,7 +76,6 @@ function App() {
         if (err?.response?.status !== 401) {
           toast.error(err?.response?.data.message || "User Not Logged In");
         }
-
       }
     };
 
