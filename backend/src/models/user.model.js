@@ -60,6 +60,11 @@ const userSchema = new mongoose.Schema(
             enum: ["Reader", "Author"]
         },
 
+        refreshToken: {
+            type: String,
+            select: false
+        },
+
         lastLogin: {
             type: Date,
             default: null

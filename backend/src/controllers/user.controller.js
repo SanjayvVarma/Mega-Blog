@@ -3,11 +3,11 @@ import OTP from "../models/OTP.model.js";
 import Blog from "../models/blog.model.js";
 import User from "../models/user.model.js";
 import ApiError from "../utils/ApiError.js";
-import { AUTH_OPTIONS } from "../constants.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { sendWelcomeEmail } from "../utils/email.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
+import { ACCESS_OPTIONS, LOGOUT_OPTIONS, REFRESH_OPTIONS } from "../constants.js";
 import { generateAccessAndRefreshToken } from "../middlewares/auth.meddleware.js";
 import { deleteFromCloudinary, getPublicIdFromUrl } from "../utils/deleteFiles.js";
 
@@ -115,56 +115,48 @@ const userLogin = asyncHandler(async (req, res) => {
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id)
 
+    user.refreshToken = refreshToken;
+    await user.save({ validateBeforeSave: false });
+
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken -answer")
 
     loggedInUser.lastLogin = previousLoginTime || null;
 
     return res
         .status(200)
-        .cookie("accessToken", accessToken, AUTH_OPTIONS)
-        .cookie("refreshToken", refreshToken, AUTH_OPTIONS)
+        .cookie("accessToken", accessToken, ACCESS_OPTIONS)
+        .cookie("refreshToken", refreshToken, REFRESH_OPTIONS)
         .json(
             new ApiResponse(200, { user: loggedInUser, accessToken, refreshToken }, true, `${loggedInUser.fullName}, login successful! Ready to explore?`)
         )
-
 });
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
-    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken;
 
     if (!incomingRefreshToken) {
-        throw new ApiError(401, 'Unauthorized request')
+        throw new ApiError(401, "Unauthorized request");
     }
 
     try {
-        const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET)
 
-        const user = await User.findById(decodedToken?._id)
+        const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+        const user = await User.findById(decodedToken?._id).select("+refreshToken");
 
-        if (!user) {
-            throw new ApiError(401, 'Invalid refresh token')
+        if (!user || user.refreshToken !== incomingRefreshToken) {
+            throw new ApiError(401, "Refresh token expired or used");
         }
 
-        if (incomingRefreshToken !== user?.refreshToken) {
-            throw new ApiError(401, 'Refresh token expired or used')
-        }
-
-        const { accessToken, newRefreshToken } = await generateAccessAndRefreshToken(user._id);
-
-        user.refreshToken = newRefreshToken;
-        await user.save({ validateBeforeSave: false });
-
+        const accessToken = user.generateAccessToken();
+        
         return res
             .status(200)
-            .cookie('accessToken', accessToken, AUTH_OPTIONS)
-            .cookie('refreshToken', newRefreshToken, AUTH_OPTIONS)
-            .json(
-                new ApiResponse(200, { user, accessToken}, true, 'access token refreshed')
-            )
-    } catch (error) {
-        throw new ApiError(401, error?.message || "invalid token")
-    }
+            .cookie("accessToken", accessToken, ACCESS_OPTIONS)
+            .json(new ApiResponse(200, { user, accessToken }, true, "Token refreshed"));
 
+    } catch (err) {
+        throw new ApiError(401, err.message || "Invalid refresh token");
+    }
 });
 
 const userLogout = asyncHandler(async (req, res) => {
@@ -181,8 +173,8 @@ const userLogout = asyncHandler(async (req, res) => {
 
     return res
         .status(200)
-        .clearCookie("accessToken", AUTH_OPTIONS)
-        .clearCookie("refreshToken", AUTH_OPTIONS)
+        .clearCookie("accessToken", LOGOUT_OPTIONS)
+        .clearCookie("refreshToken", LOGOUT_OPTIONS)
         .json(
             new ApiResponse(200, null, true, `You have successfully logged out. Have a great day!`)
         )
@@ -519,4 +511,4 @@ const blockAndUnblockUser = asyncHandler(async (req, res) => {
     );
 });
 
-export { blockAndUnblockUser, getPopularAuthors,refreshAccessToken, getAllUsers, userRegister, userLogin, userLogout, getCurrentUser, getAllReader, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor };
+export { blockAndUnblockUser, getPopularAuthors, refreshAccessToken, getAllUsers, userRegister, userLogin, userLogout, getCurrentUser, getAllReader, forgotPassword, resetPasswordViaEmailOtp, deleteUser, updateUserDetails, updateUserAvatar, changeCurrentPassword, getAllAuthor };

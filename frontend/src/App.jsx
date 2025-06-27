@@ -65,7 +65,8 @@ function App() {
     const verifyToken = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/refresh-token`,
-          { withCredentials: true });
+          { withCredentials: true }
+        );
 
         if (res.data.success) {
           dispatch(login(res.data.data.accessToken));
@@ -77,7 +78,7 @@ function App() {
     };
 
     verifyToken();
-  }, [])
+  }, []);
 
   useEffect(() => {
 
