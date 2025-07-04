@@ -75,9 +75,7 @@ function App() {
           dispatch(setUser(res.data.data.user));
         }
       } catch (err) {
-        if (err?.response?.status !== 401) {
-          toast.error(err?.response?.data.message || "User Not Logged In");
-        }
+        toast.error(err?.response?.data.message || "User Not Logged In");
       } finally {
         setIsLoadingLogin(false)
       }
