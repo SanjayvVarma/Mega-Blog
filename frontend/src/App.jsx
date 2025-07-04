@@ -33,6 +33,7 @@ function App() {
 
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingLogin, setIsLoadingLogin] = useState(false)
 
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.isAuth);
@@ -63,6 +64,7 @@ function App() {
 
   useEffect(() => {
     const verifyToken = async () => {
+      setIsLoadingLogin(true)
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/refresh-token`,
           { withCredentials: true }
@@ -76,6 +78,8 @@ function App() {
         if (err?.response?.status !== 401) {
           toast.error(err?.response?.data.message || "User Not Logged In");
         }
+      } finally {
+        setIsLoadingLogin(false)
       }
     };
 
@@ -115,6 +119,7 @@ function App() {
   return (
     <>
       {isLoading && <LoaderSpin text="Blog Loading" message="Please wait while we fetch your blog..." />}
+      {isLoadingLogin && <LoaderSpin text="Logging In" message="Verifying credentials, please wait..." />}
       <Scroll />
       <Routes>
         <Route path="/verify" element={<VerifySubscribe />} />
