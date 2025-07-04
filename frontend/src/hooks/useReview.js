@@ -10,7 +10,6 @@ const useReview = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchReviews = async () => {
-        setIsLoading(true)
 
         try {
 
@@ -26,9 +25,7 @@ const useReview = () => {
 
         } catch (error) {
             toast.error(error?.response?.data?.message || "Failed to fetch reviews");
-        } finally {
-            setIsLoading(false)
-        }
+        } 
     };
 
     const handleDelete = async (id) => {
