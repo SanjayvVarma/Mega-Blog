@@ -26,6 +26,7 @@ app.get('/', (req, res) => {
 // routes
 
 import otpRouter from "./routes/otp.routes.js";
+import hitRouter from "./routes/hit.routes.js";
 import userRouter from "./routes/user.routes.js";
 import blogRouter from "./routes/blog.routes.js";
 import reportRouter from "./routes/report.routes.js";
@@ -36,6 +37,7 @@ import subscribeRouter from "./routes/subscribe.routes.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
 
 app.use("/api/v1/otp", otpRouter);
+app.use("/api/v1/hit", hitRouter);
 app.use("/api/v1/blog", blogRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/review", reviewRouter);

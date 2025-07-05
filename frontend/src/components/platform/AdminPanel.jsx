@@ -1,13 +1,18 @@
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import useReview from '../../hooks/useReview';
 import useMessage from '../../hooks/useMessage';
 import useAllUser from '../../hooks/useAllUser';
 import useReports from '../../hooks/useReports';
+import formatCount from '../../utils/formatCount';
 import useSubscriber from '../../hooks/useSubscriber';
 import { FaUsers, FaUserTie, FaUserAlt, FaEnvelopeOpenText, FaCommentDots, FaChartLine, FaStar, FaBlog, FaFlag, } from 'react-icons/fa';
 
 const AdminPanel = () => {
 
+  const [totalHits, setToatalHits] = useState(0);
   const { messages } = useMessage();
   const { allReports } = useReports();
   const { totalReviews } = useReview();
@@ -18,6 +23,24 @@ const AdminPanel = () => {
   const readerUsers = users.filter((user) => user.role === "Reader");
   const blogs = useSelector((state) => state.blogs.blogData);
 
+  useEffect(() => {
+    const getHits = async () => {
+      try {
+
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/hit/total-hits`)
+
+        if (res.data.success) {
+          setToatalHits(res.data.data.count)
+        }
+
+      } catch (error) {
+        toast.error(error?.response?.data?.message || "Failed to fetch hits");
+      }
+    }
+
+    getHits()
+  }, []);
+
   const stats = {
     totalUsers: filteredUsers?.length,
     adminUsers: adminUsers?.length,
@@ -27,7 +50,7 @@ const AdminPanel = () => {
     reviews: totalReviews,
     message: messages?.length,
     reports: allReports,
-    totalHits: 13452,
+    totalHits: formatCount(totalHits),
   };
 
   const cards = [

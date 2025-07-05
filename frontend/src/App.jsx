@@ -40,6 +40,10 @@ function App() {
   const refreshBlogs = useSelector(state => state.blogs.refreshBlogs);
 
   useEffect(() => {
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/hit/count`)
+  }, []);
+
+  useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/current-user`, {
