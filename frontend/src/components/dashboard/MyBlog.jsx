@@ -139,7 +139,6 @@ const MyBlog = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center text-blue-500">My Blogs</h1>
 
       {isLoading && (<LoaderSpin />)}
 
