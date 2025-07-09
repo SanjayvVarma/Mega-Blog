@@ -78,8 +78,9 @@ function App() {
           dispatch(login(res.data.data.accessToken));
           dispatch(setUser(res.data.data.user));
         }
+        
       } catch (err) {
-        toast.error(err?.response?.data.message || "User Not Logged In");
+        console.log(err?.response?.data.message || "User Not Logged In");
       } finally {
         setIsLoadingLogin(false)
       }
