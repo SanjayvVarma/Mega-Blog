@@ -153,11 +153,16 @@ npm run dev
 
 ### 🏠 Home Page
 
-![Home Page Screenshot](screenshots/home.png)
+![Home Page Screenshot](/frontend/public/homepage.png)
+![Home Page Screenshot](/frontend/public/homepage2.png)
 
 ### 📊 Admin Dashboard
 
-![Admin Dashboard Screenshot](screenshots/admin-dashboard.png)
+![Admin Dashboard Screenshot](/frontend/public/admin%20dashboard.png)
+
+### 📊 Author Dashboard
+
+![Admin Dashboard Screenshot](/frontend/public/author_dashboard.png)
 
 ---
 
