@@ -155,7 +155,7 @@ npm run dev
 
 ![Home Page Screenshot](/frontend/public/homepage.png)
 
-![Home Page Screenshot](/frontend/public/homepage2.png)
+![Home Page Screenshot](/frontend/public/homePage2.png)
 
 ### 📊 Admin Dashboard
 
