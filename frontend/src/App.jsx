@@ -122,7 +122,7 @@ function App() {
   return (
     <>
       {isLoading && <LoaderSpin text="Blog Loading" message="Please wait while we fetch your blog..." />}
-      {isLoadingLogin && <LoaderSpin text="Logging In" message="Verifying credentials, please wait..." />}
+      {!isLoadingLogin && <LoaderSpin text='Welcome Mega SKBlog'/>}
       <Scroll />
       <Routes>
         <Route path="/verify" element={<VerifySubscribe />} />
