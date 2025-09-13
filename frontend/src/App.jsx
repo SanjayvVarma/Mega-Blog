@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import LogIn from './pages/LogIn';
 import Blogs from './pages/Blogs';
+import AskAi from './pages/AskAi';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
 import Register from './pages/Register';
@@ -78,7 +79,7 @@ function App() {
           dispatch(login(res.data.data.accessToken));
           dispatch(setUser(res.data.data.user));
         }
-        
+
       } catch (err) {
         console.log(err?.response?.data.message || "User Not Logged In");
       } finally {
@@ -122,11 +123,12 @@ function App() {
   return (
     <>
       {isLoading && <LoaderSpin text="Blog Loading" message="Please wait while we fetch your blog..." />}
-      {isLoadingLogin && <LoaderSpin text='Welcome Mega SKBlog'/>}
+      {isLoadingLogin && <LoaderSpin text='Welcome Mega SKBlog' />}
       <Scroll />
       <Routes>
         <Route path="/verify" element={<VerifySubscribe />} />
         <Route path="/platform" element={<PlatformAdmin />} />
+          <Route path="/ai" element={<AskAi />} />
         <Route path="/*" element={
           <div className='relative'>
             <div className="fixed top-0 left-0 w-full bg-gray-900 text-white shadow-md z-50">
