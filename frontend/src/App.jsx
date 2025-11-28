@@ -41,6 +41,17 @@ function App() {
   const refreshBlogs = useSelector(state => state.blogs.refreshBlogs);
 
   useEffect(() => {
+    const apiCall = async () => {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}`)
+    }
+
+    apiCall()
+    const intervalId = setInterval(apiCall, 600000)
+
+    return () => clearInterval(intervalId);
+  }, [])
+
+  useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/hit/count`)
   }, []);
 
@@ -128,7 +139,7 @@ function App() {
       <Routes>
         <Route path="/verify" element={<VerifySubscribe />} />
         <Route path="/platform" element={<PlatformAdmin />} />
-          <Route path="/ai" element={<AskAi />} />
+        <Route path="/ai" element={<AskAi />} />
         <Route path="/*" element={
           <div className='relative'>
             <div className="fixed top-0 left-0 w-full bg-gray-900 text-white shadow-md z-50">
