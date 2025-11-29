@@ -74,7 +74,7 @@ const sendWelcomeEmail = async (email, fullName) => {
 const sendVerificationCode = async (email, verificationCode) => {
 
     const mailOptions = {
-        from: `"MEGA SKBLOG" ${process.env.MAIL_USER}`,
+        from: `"MEGA SKBLOG" <${process.env.MAIL_USER}>`,
         to: email,
         subject: "✅ Mega SKBlog: Your OTP for Email Verification",
         html: `
@@ -100,7 +100,7 @@ const sendVerificationLink = async (fullName, email, token) => {
     const url = `${process.env.CORS_ORIGIN}/verify?token=${token}`;
 
     const mailOptions = {
-        from: `"MEGA SKBLOG" ${process.env.MAIL_USER}`,
+        from: `"MEGA SKBLOG" <${process.env.MAIL_USER}>`,
         to: email,
         subject: "Please verify your subscription",
         html: `
