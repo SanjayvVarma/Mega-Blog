@@ -71,31 +71,17 @@ const Navbar = () => {
 
           <li className="border-b border-yellow-400 last:border-none md:border-none">
             <NavLink
-              to='/ai'
+              to='/blogs'
               className={({ isActive }) =>
                 `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-500" : "text-white"
                 } hover:text-blue-400 font-bold`
               }
               onClick={handleToggleIcon}
             >
-              Ask AI
+              Blogs
             </NavLink>
           </li>
 
-          {(isAuth && user) && (
-            <li className="border-b border-yellow-400 last:border-none md:border-none">
-              <NavLink
-                to='/blogs'
-                className={({ isActive }) =>
-                  `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-500" : "text-white"
-                  } hover:text-blue-400 font-bold`
-                }
-                onClick={handleToggleIcon}
-              >
-                Blogs
-              </NavLink>
-            </li>
-          )}
           <li className="border-b border-yellow-400 last:border-none md:border-none">
             <NavLink
               to='/authors'
@@ -132,6 +118,19 @@ const Navbar = () => {
               onClick={handleToggleIcon}
             >
               Contact
+            </NavLink>
+          </li>
+
+          <li className="border-b border-yellow-400 last:border-none md:border-none">
+            <NavLink
+              to='/ai'
+              className={({ isActive }) =>
+                `block px-2 py-3 transition-all duration-200 rounded-md ${isActive ? "text-blue-500" : "text-white"
+                } hover:text-blue-400 font-bold`
+              }
+              onClick={handleToggleIcon}
+            >
+              Ask AI
             </NavLink>
           </li>
 

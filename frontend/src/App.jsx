@@ -124,11 +124,8 @@ function App() {
       }
     };
 
-    if (isAuth) {
-      fetchBlogs();
-    } else {
-      dispatch(setBlogs(null));
-    }
+    fetchBlogs();
+    
   }, [isAuth, dispatch, page, refreshBlogs]);
 
   return (
