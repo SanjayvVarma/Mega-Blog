@@ -4,13 +4,13 @@ import nodemailer from "nodemailer";
 
 config();
 
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS
-    }
-});
+// const transporter = nodemailer.createTransport({
+//     service: "gmail",
+//     auth: {
+//         user: process.env.MAIL_USER,
+//         pass: process.env.MAIL_PASS
+//     }
+// });
 
 // const sendWelcomeEmail = async (email, fullName) => {
 
@@ -276,7 +276,7 @@ const sendVerificationCode = async (email, verificationCode) => {
                 <br />
                 <p>Thank you,<br/>Team Mega SKBlog</p>
             </div>
-            `
+         `
     });
 };
 
