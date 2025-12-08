@@ -234,7 +234,7 @@ const SingleBlog = () => {
                               </div>
 
                               {
-                                (comment.user?._id === user?._id || singleBlog.createdBy?._id === user?._id) && (
+                                isAuth && (comment.user?._id === user?._id || singleBlog.createdBy?._id === user?._id) && (
                                   <button
                                     onClick={() => handleDeleteComment(comment?._id)}
                                     className="mt-2 rounded-full p-1.5 bg-red-500 text-white hover:text-blue-300 transition duration-300 flex items-center gap-2 text-sm"
