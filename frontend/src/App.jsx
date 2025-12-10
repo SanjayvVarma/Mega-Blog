@@ -43,10 +43,12 @@ function App() {
   useEffect(() => {
     const apiCall = async () => {
       const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}`)
+      console.log(res.data.message);
+
     }
 
     apiCall()
-    const intervalId = setInterval(apiCall, 600000)
+    const intervalId = setInterval(apiCall, 60000)
 
     return () => clearInterval(intervalId);
   }, [])
@@ -125,7 +127,7 @@ function App() {
     };
 
     fetchBlogs();
-    
+
   }, [isAuth, dispatch, page, refreshBlogs]);
 
   return (
