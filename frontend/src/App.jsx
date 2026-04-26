@@ -30,7 +30,7 @@ import { setBlogs, setPages } from './features/blogSlice';
 import TermsAndConditions from './pages/TermsAndConditions';
 import VerifySubscribe from './components/footer/VerifySubscribe';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 function App() {
   const [page, setPage] = useState(1);
@@ -98,19 +98,17 @@ function App() {
 
   return (
     <>
-      {isAuthLoading && (
+      {isAuthLoading ? (
         <LoaderSpin
           text="Loading your account..."
           message="Verifying session. Server may take ~30 seconds."
         />
-      )}
-
-      {isLoadingBlogs && (
+      ) : isLoadingBlogs ? (
         <LoaderSpin
           text="Loading Blogs..."
           message="Fetching latest content..."
         />
-      )}
+      ) : null}
 
       <Scroll />
 
