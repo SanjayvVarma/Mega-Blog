@@ -133,7 +133,12 @@ function App() {
   return (
     <>
       {isLoading && <LoaderSpin text="Blog Loading" message="Please wait while we fetch your blog..." />}
-      {isLoadingLogin && <LoaderSpin text='Welcome to Mega SKBlog' />}
+      {isLoading && (
+        <LoaderSpin
+          text="Waking up server..."
+          message="This may take up to 30 seconds (first visit after inactivity)"
+        />
+      )}
       <Scroll />
       <Routes>
         <Route path="/verify" element={<VerifySubscribe />} />
