@@ -96,17 +96,15 @@ function App() {
     axios.get(`${BASE_URL}/api/v1/hit/count`).catch(() => { });
   }, []);
 
-  if (isAuthLoading) {
-    return (
-      <LoaderSpin
-        text="Checking login..."
-        message="Please wait while we load your account..."
-      />
-    );
-  }
-
   return (
     <>
+      {isAuthLoading && (
+        <LoaderSpin
+          text="Loading your account..."
+          message="Verifying session. First load may take 30+ seconds due to server startup"
+        />
+      )}
+
       {isLoadingBlogs && (
         <LoaderSpin
           text="Loading Blogs..."
