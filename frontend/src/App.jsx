@@ -30,151 +30,134 @@ import { setBlogs, setPages } from './features/blogSlice';
 import TermsAndConditions from './pages/TermsAndConditions';
 import VerifySubscribe from './components/footer/VerifySubscribe';
 
-function App() {
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
 
+function App() {
   const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false)
-  const [isLoadingLogin, setIsLoadingLogin] = useState(false)
+
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [isLoadingBlogs, setIsLoadingBlogs] = useState(false);
 
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.auth.isAuth);
   const refreshBlogs = useSelector(state => state.blogs.refreshBlogs);
 
   useEffect(() => {
-    const apiCall = async () => {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}`)
-      console.log(res.data.message);
-
-    }
-
-    apiCall()
-    const intervalId = setInterval(apiCall, 60000)
-
-    return () => clearInterval(intervalId);
-  }, [])
-
-  useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/hit/count`)
-  }, []);
-
-  useEffect(() => {
-    const fetchUser = async () => {
+    const initAuth = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/current-user`, {
-          withCredentials: true,
-        });
+        const refreshRes = await axios.get(`${BASE_URL}/api/v1/users/refresh-token`,
+          { withCredentials: true }
+        );
 
-        if (res.data.success) {
-          dispatch(login());
-          dispatch(setUser(res.data.data));
-        } else {
-          toast.error(res.data.message || "Not logged in");
+        if (refreshRes.data.success) {
+          dispatch(login(refreshRes.data.data.accessToken));
+
+          const userRes = await axios.get(`${BASE_URL}/api/v1/users/current-user`,
+            { withCredentials: true }
+          );
+
+          if (userRes.data.success) {
+            dispatch(setUser(userRes.data.data));
+          }
         }
       } catch (err) {
-        if (err?.response?.status !== 401) {
-          toast.error(err?.response?.data.message || "Something went wrong");
-        }
+        console.log("User not logged in");
+      } finally {
+        setIsAuthLoading(false);
       }
     };
 
-    fetchUser();
+    initAuth();
   }, [dispatch]);
 
   useEffect(() => {
-    const verifyToken = async () => {
-      setIsLoadingLogin(true)
-      try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/refresh-token`,
-          { withCredentials: true }
-        );
-
-        if (res.data.success) {
-          dispatch(login(res.data.data.accessToken));
-          dispatch(setUser(res.data.data.user));
-        }
-
-      } catch (err) {
-        console.log(err?.response?.data.message || "User Not Logged In");
-      } finally {
-        setIsLoadingLogin(false)
-      }
-    };
-
-    verifyToken();
-  }, []);
-
-  useEffect(() => {
+    if (isAuthLoading) return;
 
     const fetchBlogs = async () => {
-      setIsLoading(true);
+      setIsLoadingBlogs(true);
 
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/blog/all-blogs?page=${page}&limit=12`,
-          { withCredentials: true }
-        );
-
-        setIsLoading(false)
+        const res = await axios.get(`${BASE_URL}/api/v1/blog/all-blogs?page=${page}&limit=12`);
 
         if (res.data.success) {
           dispatch(setBlogs(res.data.data.blogs));
-          dispatch(setPages(res.data.data.totalPages))
+          dispatch(setPages(res.data.data.totalPages));
         }
-
       } catch (err) {
-        toast.error(err?.response?.data.message || "Something went wrong while fetching blogs");
-        setIsLoading(false);
+        toast.error(err?.response?.data?.message || "Error fetching blogs");
+      } finally {
+        setIsLoadingBlogs(false);
       }
     };
 
     fetchBlogs();
+  }, [page, refreshBlogs, dispatch, isAuthLoading]);
 
-  }, [isAuth, dispatch, page, refreshBlogs]);
+  useEffect(() => {
+    axios.get(`${BASE_URL}/api/v1/hit/count`).catch(() => { });
+  }, []);
+
+  if (isAuthLoading) {
+    return (
+      <LoaderSpin
+        text="Checking login..."
+        message="Please wait while we load your account..."
+      />
+    );
+  }
 
   return (
     <>
-      {isLoading && <LoaderSpin text="Blog Loading" message="Please wait while we fetch your blog..." />}
-      {isLoading && (
+      {isLoadingBlogs && (
         <LoaderSpin
-          text="Waking up server..."
-          message="This may take up to 30 seconds (first visit after inactivity)"
+          text="Loading Blogs..."
+          message="Fetching latest content..."
         />
       )}
+
       <Scroll />
+
       <Routes>
         <Route path="/verify" element={<VerifySubscribe />} />
         <Route path="/platform" element={<PlatformAdmin />} />
         <Route path="/ai" element={<AskAi />} />
-        <Route path="/*" element={
-          <div className='relative'>
-            <div className="fixed top-0 left-0 w-full bg-gray-900 text-white shadow-md z-50">
-              <Navbar />
+
+        <Route
+          path="/*"
+          element={
+            <div className="relative">
+              <div className="fixed top-0 left-0 w-full bg-gray-900 text-white shadow-md z-50">
+                <Navbar />
+              </div>
+
+              <div className="pt-12 md:pt-16">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<LogIn />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/blogs" element={<Blogs page={page} setPage={setPage} />} />
+                  <Route path="/authors" element={<AllAuthor />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/blog/:id" element={<SingleBlog />} />
+                  <Route path="/update/:id" element={<UpdateBlog />} />
+                  <Route path="/update-profile" element={<UpdateProfile />} />
+                  <Route path="/term" element={<TermsAndConditions />} />
+                  <Route path="*" element={<PageNotFound />} />
+                </Routes>
+              </div>
+
+              <Footer />
             </div>
-            <div className="pt-12 md:pt-16">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<LogIn />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/blogs" element={<Blogs page={page} setPage={setPage} />} />
-                <Route path="/authors" element={<AllAuthor />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/blog/:id" element={<SingleBlog />} />
-                <Route path="/update/:id" element={<UpdateBlog />} />
-                <Route path='/update-profile' element={<UpdateProfile />} />
-                <Route path="/term" element={<TermsAndConditions />} />
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
-            </div>
-            <Footer />
-          </div>
-        } />
+          }
+        />
       </Routes>
-      <ToastContainer position="top-center" autoClose='2500' />
+
+      <ToastContainer position="top-center" autoClose={2500} />
     </>
-  )
+  );
 }
 
 export default App;
