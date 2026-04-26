@@ -101,7 +101,7 @@ function App() {
       {isAuthLoading && (
         <LoaderSpin
           text="Loading your account..."
-          message="Verifying session. First load may take 30+ seconds due to server startup"
+          message="Verifying session. Server may take ~30 seconds."
         />
       )}
 
